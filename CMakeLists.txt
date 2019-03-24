@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 project(yircimg)
 if(UNIX)
-    add_definitions(-std=c++0x)
+    add_definitions(-std=c++17)
 endif(UNIX)
 
 find_package(JPEG)
