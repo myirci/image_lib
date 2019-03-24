@@ -28,11 +28,11 @@ void generate_gradient_images();
 
 int main() {
 
-    // generate_blocks_in_rgb();
-    // generate_blocks_in_grayscale();
+    generate_blocks_in_rgb();
+    generate_blocks_in_grayscale();
 
-    // generate_bars_in_grayscale();
-    // generate_bars_in_rgb();
+    generate_bars_in_grayscale();
+    generate_bars_in_rgb();
 
     // generate_grayscale_from_rgb_image();
 
@@ -54,7 +54,7 @@ int main() {
 
     // generate_edge_detected_images();
 
-    generate_gradient_images();
+    // generate_gradient_images();
 
     return 0;
 }
