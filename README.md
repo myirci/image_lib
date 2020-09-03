@@ -1,5 +1,5 @@
 # basic_jpeglib
-A basic image handling library and a small set of image processing algorithms
+An image processing library developed on top of the jped library.
 
 REQUIREMENTS:
   - libjpeg
