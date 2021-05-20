@@ -7,13 +7,15 @@
 #include <string>
 
 template <typename T>
-class Image {
+class Image 
+{
 public:
+
     // iterators and refrences
-    typedef typename std::vector<ImageChannel<T> >::iterator iterator;
-    typedef typename std::vector<ImageChannel<T> >::const_iterator const_iterator;
-    typedef typename std::vector<ImageChannel<T> >::reference reference;
-    typedef typename std::vector<ImageChannel<T> >::const_reference const_reference;
+    using iterator = typename std::vector<ImageChannel<T> >::iterator ;
+    using const_iterator = typename std::vector<ImageChannel<T> >::const_iterator;
+    using reference = typename std::vector<ImageChannel<T> >::reference;
+    using const_reference = typename std::vector<ImageChannel<T> >::const_reference;
 
     // constructors
     Image();
@@ -46,16 +48,17 @@ public:
     void clear();
 
     // loading and saving jpeg files
-    void load_jpeg(std::string filename);               // only jpeg image file format is supported for now
-    void save_jpeg(std::string filename, int quality);  // only jpeg image file format is supported for now
+    void load_jpeg(std::string filename);               
+    void save_jpeg(std::string filename, int quality);
+
 private:
     void read_jpeg_file_and_update_data(std::string filename);
-    int channels;                       // color components for jpeg images
-    int rows;                               // height
-    int columns;                            // width
-    int buffer_size;                        // width * height * channels
-    IMG_COLOR_SPACE color_space;            // for now exactly matches with the jpeg color space
-    std::vector< ImageChannel<T> > image;
+    int channels;                       
+    int rows;                           
+    int columns;                        
+    int buffer_size; // width * height * channels
+    IMG_COLOR_SPACE color_space;  // for now same as the jpeg color space
+    std::vector<ImageChannel<T>> image;
 };
 
 template <typename T>
@@ -68,8 +71,10 @@ inline Image<T>::Image(int r, int c, IMG_COLOR_SPACE cs, int ch, T val) : rows(r
     image(ch, ImageChannel<T>(r, c, val)) { }
 
 template < >
-void Image<JSAMPLE>::read_jpeg_file_and_update_data(std::string filename) {
-    if(!image.empty()) {
+void Image<JSAMPLE>::read_jpeg_file_and_update_data(std::string filename) 
+{
+    if(!image.empty())
+    {
         image.clear();                          // clear the image if not empty
     }
     image_data in_img;
@@ -81,14 +86,18 @@ void Image<JSAMPLE>::read_jpeg_file_and_update_data(std::string filename) {
     color_space = enum_convert<IMG_COLOR_SPACE>(in_img.color_space);
     buffer_size = rows*columns*channels;
 
-    for(int i = 0; i < channels; ++i) {      // create each channel layer
+    for(int i = 0; i < channels; ++i) 
+    {      // create each channel layer
         image.push_back(ImageChannel<JSAMPLE>(rows, columns));
     }
 
     int k = 0;                                  // transfer data from buffer to layers
-    for(int i = 0; i < buffer_size; ++i) {
-        for(int j = 0; j < channels; ++j) {
-            if(i % channels == j) {
+    for(int i = 0; i < buffer_size; ++i)
+    {
+        for(int j = 0; j < channels; ++j)
+        {
+            if(i % channels == j) 
+            {
                 image[j](k) = in_img.buff[i];
                 break;
             }
@@ -99,24 +108,29 @@ void Image<JSAMPLE>::read_jpeg_file_and_update_data(std::string filename) {
 }
 
 template < >
-Image<JSAMPLE>::Image(std::string filename) {
+Image<JSAMPLE>::Image(std::string filename) 
+{
     read_jpeg_file_and_update_data(filename);
 }
 
 template < >
-void Image<JSAMPLE>::load_jpeg(std::string filename) {
+void Image<JSAMPLE>::load_jpeg(std::string filename)
+{
     read_jpeg_file_and_update_data(filename);
 }
 
 template < >
-void Image<JSAMPLE>::save_jpeg(std::string filename, int quality) {
+void Image<JSAMPLE>::save_jpeg(std::string filename, int quality)
+{
     // initialize a buffer for stroing the image data
     image_data out_img(columns, rows, channels, enum_convert<J_COLOR_SPACE>(color_space));
     int k = 0;
     int t = 0;
     // write data to the buffer
-    for(int i = 0; i < buffer_size; i+=channels, k++) {
-        for(int j = 0; j < channels; ++j) {
+    for(int i = 0; i < buffer_size; i+=channels, k++) 
+    {
+        for(int j = 0; j < channels; ++j)
+        {
             out_img.buff[t++] = image[j](k);
         }
     }
@@ -124,88 +138,106 @@ void Image<JSAMPLE>::save_jpeg(std::string filename, int quality) {
 }
 
 template <typename T>
-inline typename Image<T>::reference Image<T>::operator()(int index) {
+inline typename Image<T>::reference Image<T>::operator()(int index)
+{
     return image[index];
 }
 
 template <typename T>
-inline typename Image<T>::const_reference Image<T>::operator()(int index) const{
+inline typename Image<T>::const_reference Image<T>::operator()(int index) const
+{
     return image[index];
 }
 
 template <typename T>
-inline typename Image<T>::iterator Image<T>::begin() {
+inline typename Image<T>::iterator Image<T>::begin() 
+{
     return image.begin();
 }
 
 template <typename T>
-inline typename Image<T>::const_iterator Image<T>::begin() const {
+inline typename Image<T>::const_iterator Image<T>::begin() const 
+{
     return image.begin();
 }
 
 template <typename T>
-inline typename Image<T>::iterator Image<T>::end() {
+inline typename Image<T>::iterator Image<T>::end()
+{
     return image.end();
 }
 
 template <typename T>
-inline typename Image<T>::const_iterator Image<T>::end() const {
+inline typename Image<T>::const_iterator Image<T>::end() const
+{
     return image.end();
 }
 
 template <typename T>
-inline int Image<T>::num_columns() const {
+inline int Image<T>::num_columns() const 
+{
     return columns;
 }
 
 template <typename T>
-inline int Image<T>::num_rows() const {
+inline int Image<T>::num_rows() const 
+{
     return rows;
 }
 
 template <typename T>
-inline int Image<T>::num_channels() const {
+inline int Image<T>::num_channels() const 
+{
     return channels;
 }
 
 template <typename T>
-inline int Image<T>::get_buffer_size() const {
+inline int Image<T>::get_buffer_size() const
+{
     return buffer_size;
 }
 
 template <typename T>
-inline IMG_COLOR_SPACE Image<T>::get_color_space() const {
+inline IMG_COLOR_SPACE Image<T>::get_color_space() const
+{
     return color_space;
 }
 
 template <typename T>
-inline void Image<T>::set_rows(int r) {
+inline void Image<T>::set_rows(int r)
+{
     rows = r;
 }
 
 template <typename T>
-inline void Image<T>::set_columns(int c) {
+inline void Image<T>::set_columns(int c)
+{
     columns = c;
 }
 
 template <typename T>
-inline void Image<T>::set_channels(int ch) {
+inline void Image<T>::set_channels(int ch)
+{
     channels = ch;
 }
 
 template <typename T>
-inline void Image<T>::calculate_buffer_size() {
+inline void Image<T>::calculate_buffer_size() 
+{
     buffer_size = rows * columns * channels;
 }
 
 template <typename T>
-inline void Image<T>::set_color_space(IMG_COLOR_SPACE cs) {
+inline void Image<T>::set_color_space(IMG_COLOR_SPACE cs)
+{
     color_space = cs;
 }
 
 template <typename T>
-inline bool Image<T>::insert_channel(const ImageChannel<T>& ch) {
-    if(ch.num_rows() == rows && ch.num_columns() == columns) {
+inline bool Image<T>::insert_channel(const ImageChannel<T>& ch)
+{
+    if(ch.num_rows() == rows && ch.num_columns() == columns)
+    {
         image.push_back(ch);
         return true;
     }
@@ -213,8 +245,10 @@ inline bool Image<T>::insert_channel(const ImageChannel<T>& ch) {
 }
 
 template <typename T>
-inline void Image<T>::clear() {
-    for(int i = 0; i < channels; ++i) {
+inline void Image<T>::clear() 
+{
+    for(int i = 0; i < channels; ++i) 
+    {
         image[i].clear();
     }
     image.clear();
@@ -223,19 +257,22 @@ inline void Image<T>::clear() {
 // global functions:
 
 template<typename T, template<typename> class colorT>
-inline void set_color(Image<T>& im, const colorT<T>& color) {
+inline void set_color(Image<T>& im, const colorT<T>& color) 
+{
     do_set_color(im, color, typename color_traits<T, colorT>::color_space_category());
 }
 
 template<typename T, template<typename> class colorT>
-inline void do_set_color(Image<T>& im, const colorT<T>& color, color_rgb_tag) {
+inline void do_set_color(Image<T>& im, const colorT<T>& color, color_rgb_tag) 
+{
     im(0) = color.r;
     im(1) = color.g;
     im(2) = color.b;
 }
 
 template<typename T, template<typename> class colorT>
-inline void do_set_color(Image<T>& im, const colorT<T>& color, color_mono_tag) {
+inline void do_set_color(Image<T>& im, const colorT<T>& color, color_mono_tag)
+{
     im(0) = color.v;
 }
 

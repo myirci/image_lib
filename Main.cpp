@@ -26,40 +26,30 @@ void generate_edge_detected_images();
 void generate_averaged_images();
 void generate_gradient_images();
 
-int main() {
-
-    generate_blocks_in_rgb();
+int main() 
+{
     generate_blocks_in_grayscale();
-
-    generate_bars_in_grayscale();
-    generate_bars_in_rgb();
-
+    // generate_blocks_in_rgb();
+    
+    // generate_bars_in_grayscale();
+    // generate_bars_in_rgb();
     // generate_grayscale_from_rgb_image();
-
     // generate_shrinked_image_from_grayscale();
     // generate_shrinked_image_from_rgb();
-
     // generate_increased_contrast_images();
     // generate_decreased_contrast_images();
-
     // generate_inverted_images();
-
     // generate_auto_contrast_images();
-
     // generate_modified_auto_contrast_images();
-
     // test_apply_filter();
-
     // generate_averaged_images();
-
     // generate_edge_detected_images();
-
     // generate_gradient_images();
-
     return 0;
 }
 
-void generate_blocks_in_grayscale() {
+void generate_blocks_in_grayscale() 
+{
     int width_third, top, bottom, left, right;
 
     Image<JSAMPLE> img1(600, 600, GRAYSCALE, 1, 100);
@@ -77,7 +67,8 @@ void generate_blocks_in_grayscale() {
     img2.save_jpeg("13_4_b.jpg",60);
 }
 
-void generate_blocks_in_rgb() {
+void generate_blocks_in_rgb()
+{
     int width_third, top, bottom, left, right;
 
     Image<JSAMPLE> img1(600, 600, RGB, 3);
@@ -99,7 +90,8 @@ void generate_blocks_in_rgb() {
     img2.save_jpeg("13_4_b_rgb.jpg",60);
 }
 
-void generate_bars_in_grayscale() {
+void generate_bars_in_grayscale() 
+{
     Image<JSAMPLE> img(600, 600, GRAYSCALE, 1);
     color_mono<JSAMPLE> first_color(0);
     JSAMPLE increment = 24;
@@ -108,7 +100,8 @@ void generate_bars_in_grayscale() {
     img.save_jpeg("13_5.jpg",60);
 }
 
-void generate_bars_in_rgb() {
+void generate_bars_in_rgb() 
+{
     Image<JSAMPLE> img(600, 600, RGB, 3);
     color_rgb<JSAMPLE> first_color(50,100,150);
     JSAMPLE increment = 20;
@@ -117,7 +110,8 @@ void generate_bars_in_rgb() {
     img.save_jpeg("13_5_rgb.jpg",60);
 }
 
-void generate_grayscale_from_rgb_image() {
+void generate_grayscale_from_rgb_image() 
+{
     Image<JSAMPLE> img1_rgb("img1_rgb.jpg");
     Image<JSAMPLE> img1_grayscale(184, 274, GRAYSCALE, 1);
     convert_rgb_to_grayscale(img1_rgb, img1_grayscale);
@@ -134,7 +128,8 @@ void generate_grayscale_from_rgb_image() {
     img3_grayscale.save_jpeg("earth_grayscale.jpg", 80);
 }
 
-void generate_shrinked_image_from_grayscale() {
+void generate_shrinked_image_from_grayscale() 
+{
     Image<JSAMPLE> img1_grayscale("img1_grayscale.jpg");
     Image<JSAMPLE> img1_grayscale_shrink;
     shrink(img1_grayscale, 2, img1_grayscale_shrink);
@@ -151,7 +146,8 @@ void generate_shrinked_image_from_grayscale() {
     earth_grayscale_shrink.save_jpeg("earth_grayscale_shrink.jpg", 80);
 }
 
-void generate_shrinked_image_from_rgb() {
+void generate_shrinked_image_from_rgb()
+{
     Image<JSAMPLE> img1_rgb("img1_rgb.jpg");
     Image<JSAMPLE> img1_rgb_shrink;
     shrink(img1_rgb, 16, img1_rgb_shrink);
@@ -168,7 +164,8 @@ void generate_shrinked_image_from_rgb() {
     earth_rgb_shrink.save_jpeg("earth_rgb_shrink.jpg", 80);
 }
 
-void generate_increased_contrast_images() {
+void generate_increased_contrast_images() 
+{
     Image<JSAMPLE> img1("img1_grayscale.jpg");
     contrast(img1, 1.5);
     img1.save_jpeg("img1_grayscale_increased_contrast.jpg", 70);
@@ -194,7 +191,8 @@ void generate_increased_contrast_images() {
     img6.save_jpeg("earth_rgb_increased_contrast.jpg", 70);
 }
 
-void generate_decreased_contrast_images() {
+void generate_decreased_contrast_images() 
+{
     Image<JSAMPLE> img1("img1_grayscale.jpg");
     contrast(img1, 0.5);
     img1.save_jpeg("img1_grayscale_decreased_contrast.jpg", 70);
@@ -220,7 +218,8 @@ void generate_decreased_contrast_images() {
     img6.save_jpeg("earth_rgb_decreased_contrast.jpg", 70);
 }
 
-void generate_inverted_images() {
+void generate_inverted_images()
+{
     Image<JSAMPLE> img1("img1_grayscale.jpg");
     invert(img1);
     img1.save_jpeg("img1_grayscale_inverted.jpg", 70);
@@ -246,7 +245,8 @@ void generate_inverted_images() {
     img6.save_jpeg("earth_rgb_inverted.jpg", 70);
 }
 
-void generate_auto_contrast_images() {
+void generate_auto_contrast_images() 
+{
     Image<JSAMPLE> img1("img1_grayscale.jpg");
     if(auto_contrast(img1)) {
         img1.save_jpeg("img1_grayscale_if(auto_contrasted.jpg", 70);
@@ -278,7 +278,8 @@ void generate_auto_contrast_images() {
     }
 }
 
-void generate_modified_auto_contrast_images() {
+void generate_modified_auto_contrast_images() 
+{
     Image<JSAMPLE> img1("img1_grayscale.jpg");
     modified_auto_contrast(img1, 0.005, 0.005);
     img1.save_jpeg("img1_grayscale_modified_auto_contrasted.jpg", 70);
@@ -304,7 +305,8 @@ void generate_modified_auto_contrast_images() {
     img6.save_jpeg("earth_rgb_modified_auto_contrasted.jpg", 70);
 }
 
-void test_apply_filter() {
+void test_apply_filter()
+{
     Image<JSAMPLE> img(6, 5, GRAYSCALE, 1);
     img(0)(0,0) = 7;
     img(0)(0,1) = 4;
@@ -388,7 +390,8 @@ void test_apply_filter() {
 
 }
 
-void generate_averaged_images() {
+void generate_averaged_images()
+{
 
     // filter_kernel kernel(3, 3, 0.111111111, 1);
     // filter_kernel kernel(5, 5, 0.04, 1);
@@ -425,7 +428,8 @@ void generate_averaged_images() {
     img6_.save_jpeg("earth_rgb_averaged.jpg", 70);
 }
 
-void generate_edge_detected_images() {
+void generate_edge_detected_images() 
+{
     filter_kernel kernelx(1, 3, 0.5);
     kernelx(-1,0) = -1;
     kernelx(0,0) = 0;
@@ -515,7 +519,8 @@ void generate_edge_detected_images() {
     img6_.clear();
 }
 
-void generate_gradient_images() {
+void generate_gradient_images()
+{
 
     filter_kernel grad(3, 3, 0.5);
     grad(-1,-1) = 0;
