@@ -1,7 +1,6 @@
-#ifndef BLOCK_HPP
-#define BLOCK_HPP
+#pragma once
 
-#include "../Image.hpp"
+#include "image.hpp"
 
 // draw a rectangle of one color in the image
 
@@ -25,5 +24,3 @@ void do_block(Image<T>& image, int top, int left, int bottom, int right, colorT<
         std::fill(image(0).row_begin(i, left), image(0).row_end(i, right), color.v);
     }
 }
-
-#endif

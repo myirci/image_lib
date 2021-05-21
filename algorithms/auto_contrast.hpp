@@ -1,7 +1,6 @@
-#ifndef AUTOCONTRAST_HPP
-#define AUTOCONTRAST_HPP
+#pragma once
 
-#include "../Image.hpp"
+#include "image.hpp"
 #include <algorithm>
 #include <limits>
 
@@ -37,5 +36,3 @@ bool auto_contrast(Image<T>& image) {
         return true;
     }
 }
-
-#endif // AUTOCONTRAST_HPP

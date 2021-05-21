@@ -1,12 +1,8 @@
-#ifndef SHRINK_HPP
-#define SHRINK_HPP
+#pragma once
 
+#include "image.hpp"
 #include <algorithm>
 #include <numeric>
-
-#include "../Image.hpp"
-
-// shrink a given image
 
 template<typename T>
 void shrink(Image<T>& in_img, int amount, Image<T>& out_img) {
@@ -58,4 +54,3 @@ void shrink(Image<T>& in_img, int amount, Image<T>& out_img) {
         }
     }
 }
-#endif // SHRINK_HPP

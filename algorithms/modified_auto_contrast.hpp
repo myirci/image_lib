@@ -1,7 +1,6 @@
-#ifndef MODIFIEDAUTOCONTRAST_HPP
-#define MODIFIEDAUTOCONTRAST_HPP
+#pragma once
 
-#include "../Image.hpp"
+#include "image.hpp"
 #include <vector>
 #include <algorithm>
 #include <limits>
@@ -67,5 +66,3 @@ void modified_auto_contrast(Image<JSAMPLE>& image, double q_low, double q_high) 
         cumulative_his.resize(std::numeric_limits<JSAMPLE>::max() + 1, 0);
     }
 }
-
-#endif // MODIFIEDAUTOCONTRAST_HPP

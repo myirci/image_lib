@@ -1,32 +1,26 @@
-#ifndef IMAGE_HPP
-#define IMAGE_HPP
+#pragma once
 
-#include "ImageChannel.hpp"
-#include "BasicJpegAdapter.hpp"
-#include "Color.hpp"
+#include "channel.hpp"
+#include "jpeg_adapter.hpp"
+#include "color.hpp"
 #include <string>
 
 template <typename T>
 class Image 
 {
 public:
-
-    // iterators and refrences
     using iterator = typename std::vector<ImageChannel<T> >::iterator ;
     using const_iterator = typename std::vector<ImageChannel<T> >::const_iterator;
     using reference = typename std::vector<ImageChannel<T> >::reference;
     using const_reference = typename std::vector<ImageChannel<T> >::const_reference;
 
-    // constructors
     Image();
     Image(int r, int c, IMG_COLOR_SPACE cs, int ch, T val = 0);
     Image(std::string filename);
 
-    // operator overloadings
     reference operator()(int index);
     const_reference operator()(int index) const;
 
-    // iterator functions
     iterator begin();
     const_iterator begin() const;
     iterator end();
@@ -47,7 +41,6 @@ public:
     bool insert_channel(const ImageChannel<T>& ch);
     void clear();
 
-    // loading and saving jpeg files
     void load_jpeg(std::string filename);               
     void save_jpeg(std::string filename, int quality);
 
@@ -71,14 +64,14 @@ inline Image<T>::Image(int r, int c, IMG_COLOR_SPACE cs, int ch, T val) : rows(r
     image(ch, ImageChannel<T>(r, c, val)) { }
 
 template < >
-void Image<JSAMPLE>::read_jpeg_file_and_update_data(std::string filename) 
+void Image<SimpleJpeg::data_type>::read_jpeg_file_and_update_data(std::string filename)
 {
     if(!image.empty())
     {
         image.clear();                          // clear the image if not empty
     }
-    image_data in_img;
-    read_JPEG_file(filename, in_img);           // read the file in to the in_img structure
+    SimpleJpeg::JpegAdapter in_img;
+    SimpleJpeg::import_from_jpeg(filename, in_img);           // read the file in to the in_img structure
 
     channels = in_img.color_components;      // update the parameters
     rows        = in_img.height;
@@ -88,7 +81,7 @@ void Image<JSAMPLE>::read_jpeg_file_and_update_data(std::string filename)
 
     for(int i = 0; i < channels; ++i) 
     {      // create each channel layer
-        image.push_back(ImageChannel<JSAMPLE>(rows, columns));
+        image.push_back(ImageChannel<SimpleJpeg::data_type>(rows, columns));
     }
 
     int k = 0;                                  // transfer data from buffer to layers
@@ -98,7 +91,7 @@ void Image<JSAMPLE>::read_jpeg_file_and_update_data(std::string filename)
         {
             if(i % channels == j) 
             {
-                image[j](k) = in_img.buff[i];
+                image[j](k) = in_img.buffer[i];
                 break;
             }
         }
@@ -108,22 +101,22 @@ void Image<JSAMPLE>::read_jpeg_file_and_update_data(std::string filename)
 }
 
 template < >
-Image<JSAMPLE>::Image(std::string filename) 
+Image<SimpleJpeg::data_type>::Image(std::string filename)
 {
     read_jpeg_file_and_update_data(filename);
 }
 
 template < >
-void Image<JSAMPLE>::load_jpeg(std::string filename)
+void Image<SimpleJpeg::data_type>::load_jpeg(std::string filename)
 {
     read_jpeg_file_and_update_data(filename);
 }
 
 template < >
-void Image<JSAMPLE>::save_jpeg(std::string filename, int quality)
+void Image<SimpleJpeg::data_type>::save_jpeg(std::string filename, int quality)
 {
     // initialize a buffer for stroing the image data
-    image_data out_img(columns, rows, channels, enum_convert<J_COLOR_SPACE>(color_space));
+    SimpleJpeg::JpegAdapter out_img(columns, rows, channels, enum_convert<J_COLOR_SPACE>(color_space));
     int k = 0;
     int t = 0;
     // write data to the buffer
@@ -131,10 +124,10 @@ void Image<JSAMPLE>::save_jpeg(std::string filename, int quality)
     {
         for(int j = 0; j < channels; ++j)
         {
-            out_img.buff[t++] = image[j](k);
+            out_img.buffer[t++] = image[j](k);
         }
     }
-    write_jpeg_file(filename, quality, out_img);
+    SimpleJpeg::export_to_jpeg(filename, quality, out_img);
 }
 
 template <typename T>
@@ -275,5 +268,3 @@ inline void do_set_color(Image<T>& im, const colorT<T>& color, color_mono_tag)
 {
     im(0) = color.v;
 }
-
-#endif // IMAGE_HPP

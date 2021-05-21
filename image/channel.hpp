@@ -1,5 +1,4 @@
-#ifndef IMAGECHANNEL_HPP
-#define IMAGECHANNEL_HPP
+#pragma once
 
 #include <vector>
 #include <iostream>
@@ -15,20 +14,16 @@ public:
     using reference = typename std::vector<T>::reference;
     using const_reference = typename std::vector<T>::const_reference;
 
-    // default constructor
     ImageChannel();
 
-    // constructor
     ImageChannel(int rows, int columns, T initial_value = T());
 
-    // operator overloadings
     reference operator()(int row, int column);
     reference operator()(int index);
     const_reference operator()(int row, int column) const;
     const_reference operator()(int index) const;
     void operator=(T value);
 
-    // iterator functions
     iterator begin();
     const_iterator begin() const;
     iterator end();
@@ -224,5 +219,3 @@ void ImageChannel<T>::print_channel() const
     }
     std::cout << "-------------------------------------" << std::endl;
 }
-
-#endif

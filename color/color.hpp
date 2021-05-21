@@ -1,7 +1,6 @@
-#ifndef COLOR_HPP
-#define COLOR_HPP
+#pragma once
 
-#include "TraitsClasses.hpp"
+#include "color_traits.hpp"
 #include "jpeglib.h"
 
 typedef enum {
@@ -69,5 +68,3 @@ struct color_mono {                 // for grayscale images
     color_mono(T v_) : v(v_) { }
     T v;
 };
-
-#endif // COLOR_HPP

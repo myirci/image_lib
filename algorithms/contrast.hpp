@@ -1,7 +1,6 @@
-#ifndef CONTRAST_HPP
-#define CONTRAST_HPP
+#pragma once
 
-#include "../Image.hpp"
+#include "image.hpp"
 #include <algorithm>
 #include <limits>
 
@@ -28,5 +27,3 @@ void contrast(Image<T>& image, double val) {
         std::for_each(image(i).begin(), image(i).end(), fobj);
     }
 }
-
-#endif // CONTRAST_HPP

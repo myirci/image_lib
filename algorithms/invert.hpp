@@ -1,7 +1,6 @@
-#ifndef INVERT_HPP
-#define INVERT_HPP
+#pragma once
 
-#include "../Image.hpp"
+#include "image.hpp"
 
 template <typename T>
 struct func_invert {
@@ -17,5 +16,3 @@ void invert(Image<T>& image) {
         std::for_each(image(i).begin(), image(i).end(), fobj);
     }
 }
-
-#endif // INVERT_HPP

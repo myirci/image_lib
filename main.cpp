@@ -1,13 +1,13 @@
-#include "Image.hpp"
-#include "Algorithms/Block.hpp"
-#include "Algorithms/Bars.hpp"
-#include "Algorithms/Convert.hpp"
-#include "Algorithms/Shrink.hpp"
-#include "Algorithms/Contrast.hpp"
-#include "Algorithms/Invert.hpp"
-#include "Algorithms/AutoContrast.hpp"
-#include "Algorithms/ModifiedAutoContrast.hpp"
-#include "Algorithms/Convolve.hpp"
+#include "image.hpp"
+#include "block.hpp"
+#include "bars.hpp"
+#include "convert.hpp"
+#include "shrink.hpp"
+#include "contrast.hpp"
+#include "invert.hpp"
+#include "auto_contrast.hpp"
+#include "modified_auto_contrast.hpp"
+#include "convolve.hpp"
 
 void generate_blocks_in_grayscale();
 void generate_blocks_in_rgb();

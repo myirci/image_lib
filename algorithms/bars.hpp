@@ -1,10 +1,8 @@
-#ifndef BARS_HPP
-#define BARS_HPP
+#pragma once
 
+#include "image.hpp"
 #include <algorithm>
 #include <limits>
-
-#include "../Image.hpp"
 
 // draw vertical bars:
 
@@ -64,5 +62,3 @@ void do_bars(Image<T>& image, colorT<T> first_color, T increment, int bar_width,
         std::copy(image(0).row_begin(0), image(0).row_end(0), image(0).row_begin(i));
     }
 }
-
-#endif // BARS_HPP

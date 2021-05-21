@@ -1,7 +1,4 @@
-#ifndef CONVERT_HPP
-#define CONVERT_HPP
-
-#include "../Image.hpp"
+#include "image.hpp"
 
 template<typename T>
 void convert_rgb_to_grayscale(Image<T>& im_rgb, Image<T>& im_gray) {
@@ -10,4 +7,3 @@ void convert_rgb_to_grayscale(Image<T>& im_rgb, Image<T>& im_gray) {
          im_gray(0)(i) = (im_rgb(0)(i) + im_rgb(1)(i) + im_rgb(2)(i)) / 3;
     }
 }
-#endif // CONVERT_HPP

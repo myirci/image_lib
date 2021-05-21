@@ -1,11 +1,9 @@
-#ifndef CONVOLVE_HPP
-#define CONVOLVE_HPP
+#include "image.hpp"
 
 #include <vector>
 #include <limits>
 #include <iomanip>
 #include <cmath>
-#include "../Image.hpp"
 
 struct filter_kernel {
 public:
@@ -108,5 +106,3 @@ void apply_linear_filter(Image<T>& in_img, const filter_kernel& kernel, Image<T>
         }
     }
 }
-
-#endif // CONVOLVE_HPP
