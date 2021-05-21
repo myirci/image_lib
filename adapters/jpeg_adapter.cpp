@@ -4,25 +4,25 @@ namespace SmpImgLib
 {
     namespace SimpleJpeg
     {
-        JpegAdapter::JpegAdapter() : buffer{ nullptr }, height{ 0 }, width{ 0 }, color_components{ 0 }, color_space{ J_COLOR_SPACE::JCS_UNKNOWN } { }
+        JpegAdapter::JpegAdapter() : m_buffer{ nullptr }, m_height{ 0 }, m_width{ 0 }, m_numChannels{ 0 }, m_colorSpace{ color_space::JCS_UNKNOWN } { }
 
-        JpegAdapter::JpegAdapter(int w, int h, int cc, J_COLOR_SPACE cs) : width{ w }, height{ h }, color_components{ cc }, color_space{ cs }
+        JpegAdapter::JpegAdapter(int w, int h, int cc, color_space cs) : m_width{ w }, m_height{ h }, m_numChannels{ cc }, m_colorSpace{ cs }
         {
             allocate_memory();
         }
 
-        JpegAdapter::JpegAdapter(const JpegAdapter& im_data) : width{ im_data.width }, height{ im_data.height }, color_components{ im_data.color_components }, color_space{ im_data.color_space }
+        JpegAdapter::JpegAdapter(const JpegAdapter& other) : m_width{ other.m_width }, m_height{ other.m_height }, m_numChannels{ other.m_numChannels }, m_colorSpace{ other.m_colorSpace }
         {
             allocate_memory();
-            fill_buffer(im_data.buffer);
+            fill_buffer(other.m_buffer);
         }
 
         JpegAdapter& JpegAdapter::operator=(const JpegAdapter& rhs)
         {
             if (this != &rhs)
             {
-                update(rhs.width, rhs.height, rhs.color_components, rhs.color_space);
-                fill_buffer(rhs.buffer);
+                update(rhs.m_width, rhs.m_height, rhs.m_numChannels, rhs.m_colorSpace);
+                fill_buffer(rhs.m_buffer);
             }
             return *this;
         }
@@ -37,8 +37,8 @@ namespace SmpImgLib
             if (val > 255)
                 val = 255;
 
-            std::raw_storage_iterator<JSAMPLE*, JSAMPLE> raw_it(buffer);
-            for (int i = 0; i < height * width * color_components; ++i, ++raw_it)
+            std::raw_storage_iterator<data_type*, data_type> raw_it(m_buffer);
+            for (int i = 0; i < m_height * m_width * m_numChannels; ++i, ++raw_it)
                 *raw_it = val;
         }
 
@@ -48,8 +48,8 @@ namespace SmpImgLib
             if (g > 255) g = 255;
             if (b > 255) b = 255;
 
-            std::raw_storage_iterator<JSAMPLE*, JSAMPLE> raw_it(buffer);
-            for (int i = 0; i < height * width * color_components; ++i, ++raw_it)
+            std::raw_storage_iterator<data_type*, data_type> raw_it(m_buffer);
+            for (int i = 0; i < m_height * m_width * m_numChannels; ++i, ++raw_it)
             {
                 if (i % 3 == 0) *raw_it = r;
                 else if (i % 3 == 1) *raw_it = g;
@@ -60,49 +60,49 @@ namespace SmpImgLib
         void JpegAdapter::clear() 
         {
             delete_buffer();
-            height = 0;
-            width = 0;
-            color_components = 0;
-            color_space = J_COLOR_SPACE::JCS_UNKNOWN;
+            m_height = 0;
+            m_width = 0;
+            m_numChannels = 0;
+            m_colorSpace = color_space::JCS_UNKNOWN;
         }
 
-        void JpegAdapter::update(int w, int h, int cc, J_COLOR_SPACE cs)
+        void JpegAdapter::update(int w, int h, int cc, color_space cs)
         {
             delete_buffer();
             update_parameters(w, h, cc, cs);
             allocate_memory();
         }
 
-        void JpegAdapter::update_parameters(int w, int h, int cc, J_COLOR_SPACE cs)
+        void JpegAdapter::update_parameters(int w, int h, int cc, color_space cs)
         {
-            width = w;
-            height = h;
-            color_components = cc;
-            color_space = cs;
+            m_width = w;
+            m_height = h;
+            m_numChannels = cc;
+            m_colorSpace = cs;
         }
 
         void JpegAdapter::allocate_memory()
         {
-            buffer = (JSAMPLE*) operator new(sizeof(JSAMPLE) * height * width * color_components, std::nothrow);
-            if (!buffer)
+            m_buffer = (JSAMPLE*) operator new(sizeof(JSAMPLE) * m_height * m_width * m_numChannels, std::nothrow);
+            if (!m_buffer)
             {
                 std::cerr << "Memory allocation error!" << std::endl;
                 exit(1);
             }
         }
 
-        void JpegAdapter::fill_buffer(const JSAMPLE* const _buff)
+        void JpegAdapter::fill_buffer(const data_type* const _buff)
         {
-            for (int i = 0; i < height * width * color_components; ++i)
-                buffer[i] = _buff[i];
+            for (int i = 0; i < m_height * m_width * m_numChannels; ++i)
+                m_buffer[i] = _buff[i];
         }
 
         void JpegAdapter::delete_buffer()
         {
-            if (buffer)
+            if (m_buffer)
             {
-                delete buffer;
-                buffer = nullptr;
+                delete m_buffer;
+                m_buffer = nullptr;
             }
         }
 
@@ -115,10 +115,10 @@ namespace SmpImgLib
             cinfo.err = jpeg_std_error(&jerr);
             jpeg_create_compress(&cinfo);
 
-            cinfo.image_width = im_data.width;
-            cinfo.image_height = im_data.height;
-            cinfo.input_components = im_data.color_components;
-            cinfo.in_color_space = im_data.color_space;
+            cinfo.image_width = im_data.m_width;
+            cinfo.image_height = im_data.m_height;
+            cinfo.input_components = im_data.m_numChannels;
+            cinfo.in_color_space = im_data.m_colorSpace;
             jpeg_set_defaults(&cinfo);  // set default compression parameters.
             jpeg_set_quality(&cinfo, quality, TRUE); // set any non-default parameters you wish to (in this ex: quality)
 
@@ -133,11 +133,11 @@ namespace SmpImgLib
             // start compressor
             jpeg_start_compress(&cinfo, TRUE);
 
-            int row_stride = im_data.width * cinfo.input_components; // physical row width in image buffer
+            int row_stride = im_data.m_width * cinfo.input_components; // physical row width in image buffer
             JSAMPROW row_pointer[1];
             while (cinfo.next_scanline < cinfo.image_height)
             {
-                row_pointer[0] = &(im_data.buffer[cinfo.next_scanline * row_stride]);
+                row_pointer[0] = &(im_data.m_buffer[cinfo.next_scanline * row_stride]);
                 (void)jpeg_write_scanlines(&cinfo, row_pointer, 1);
             }
 
@@ -182,7 +182,7 @@ namespace SmpImgLib
             {
                 (void)jpeg_read_scanlines(&cinfo, buffer, 1);
                 for (int i = 0; i < row_stride; ++i)
-                    im_data.buffer[j++] = buffer[0][i];
+                    im_data.m_buffer[j++] = buffer[0][i];
             }
 
             // finish decompression, release JPEG decompression object and close the file

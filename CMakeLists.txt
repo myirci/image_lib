@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(basic_jpeg_lib)
+project(simple_image_library)
 if(UNIX)
     add_definitions(-std=c++17)
 endif(UNIX)

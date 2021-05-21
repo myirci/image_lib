@@ -73,7 +73,7 @@ namespace SmpImgLib
         out_img.set_rows(in_img.num_rows());
         out_img.set_columns(in_img.num_columns());
         out_img.set_channels(in_img.num_channels());
-        out_img.calculate_buffer_size();
+        out_img.get_buffer_size();
         out_img.set_color_space(in_img.get_color_space());
         for (int i = 0; i < in_img.num_channels(); ++i) {
             out_img.insert_channel(Channel<T>(out_img.num_rows(), out_img.num_columns()));

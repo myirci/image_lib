@@ -10,6 +10,15 @@ namespace SmpImgLib
     template <typename T>
     class Image
     {
+    private:
+        int m_numChannels;
+        int m_height;
+        int m_width;
+        ColorSpace m_colorSpace;
+        std::vector<Channel<T>> m_image;
+
+        void read_jpeg_file_and_update_data(std::string filename);
+
     public:
         using iterator = typename std::vector<Channel<T> >::iterator;
         using const_iterator = typename std::vector<Channel<T> >::const_iterator;
@@ -17,7 +26,7 @@ namespace SmpImgLib
         using const_reference = typename std::vector<Channel<T> >::const_reference;
 
         Image();
-        Image(int r, int c, IMG_COLOR_SPACE cs, int ch, T val = 0);
+        Image(int height, int widrg, ColorSpace colorSpace, int numChannels, T val = 0);
         Image(std::string filename);
 
         reference operator()(int index);
@@ -31,54 +40,41 @@ namespace SmpImgLib
         int num_columns() const;
         int num_rows() const;
         int num_channels() const;
-        int get_buffer_size() const;
-        IMG_COLOR_SPACE get_color_space() const;
+        ColorSpace get_color_space() const;
 
         void set_columns(int c);
         void set_rows(int r);
         void set_channels(int ch);
-        void calculate_buffer_size();
-        void set_color_space(IMG_COLOR_SPACE cs);
+        void set_color_space(ColorSpace cs);
 
+        int get_buffer_size() const;
         bool insert_channel(const Channel<T>& ch);
         void clear();
 
         void load_jpeg(std::string filename);
         void save_jpeg(std::string filename, int quality);
-
-    private:
-        void read_jpeg_file_and_update_data(std::string filename);
-        int channels;
-        int rows;
-        int columns;
-        int buffer_size; // width * height * channels
-        IMG_COLOR_SPACE color_space;  // for now same as the jpeg color space
-        std::vector<Channel<T>> image;
     };
 
     template <typename T>
-    inline Image<T>::Image() : rows(0), columns(0), buffer_size(0), channels(0),
-        color_space(UNSPECIFIED), image(0, Channel<T>(0, 0)) { }
+    inline Image<T>::Image() : m_height{ 0 }, m_width{ 0 }, m_numChannels{ 0 }, m_colorSpace{ ColorSpace::Unspecified }, m_image(0, Channel<T>(0, 0)) { }
 
     template <typename T>
-    inline Image<T>::Image(int r, int c, IMG_COLOR_SPACE cs, int ch, T val) : rows(r), columns(c),
-        color_space(cs), channels(ch), buffer_size(r* c* ch),
-        image(ch, Channel<T>(r, c, val)) { }
+    inline Image<T>::Image(int height, int width, ColorSpace colorSpace, int numChannels, T val) : m_height{ height }, m_width{ width }, m_colorSpace{ colorSpace }, m_numChannels{ numChannels }, m_image(numChannels, Channel<T>(height, width, val)) { }
 
     template < >
     void Image<SimpleJpeg::data_type>::read_jpeg_file_and_update_data(std::string filename)
     {
+        /*
         if (!image.empty())
-        {
-            image.clear();                          // clear the image if not empty
-        }
+            image.clear();                        
+        
         SimpleJpeg::JpegAdapter in_img;
-        SimpleJpeg::import_from_jpeg(filename, in_img);           // read the file in to the in_img structure
+        SimpleJpeg::import_from_jpeg(filename, in_img);
 
-        channels = in_img.color_components;      // update the parameters
+        channels = in_img.color_components;
         rows = in_img.height;
         columns = in_img.width;
-        color_space = enum_convert<IMG_COLOR_SPACE>(in_img.color_space);
+        // color_space = enum_convert<IMG_COLOR_SPACE>(in_img.color_space);
         buffer_size = rows * columns * channels;
 
         for (int i = 0; i < channels; ++i)
@@ -100,6 +96,7 @@ namespace SmpImgLib
             if ((i % channels) == (channels - 1))
                 k++;
         }
+        */
     }
 
     template < >
@@ -117,6 +114,7 @@ namespace SmpImgLib
     template < >
     void Image<SimpleJpeg::data_type>::save_jpeg(std::string filename, int quality)
     {
+        /*
         // initialize a buffer for stroing the image data
         SimpleJpeg::JpegAdapter out_img(columns, rows, channels, enum_convert<J_COLOR_SPACE>(color_space));
         int k = 0;
@@ -130,110 +128,105 @@ namespace SmpImgLib
             }
         }
         SimpleJpeg::export_to_jpeg(filename, quality, out_img);
+        */
     }
 
     template <typename T>
     inline typename Image<T>::reference Image<T>::operator()(int index)
     {
-        return image[index];
+        return m_image[index];
     }
 
     template <typename T>
     inline typename Image<T>::const_reference Image<T>::operator()(int index) const
     {
-        return image[index];
+        return m_image[index];
     }
 
     template <typename T>
     inline typename Image<T>::iterator Image<T>::begin()
     {
-        return image.begin();
+        return m_image.begin();
     }
 
     template <typename T>
     inline typename Image<T>::const_iterator Image<T>::begin() const
     {
-        return image.begin();
+        return m_image.begin();
     }
 
     template <typename T>
     inline typename Image<T>::iterator Image<T>::end()
     {
-        return image.end();
+        return m_image.end();
     }
 
     template <typename T>
     inline typename Image<T>::const_iterator Image<T>::end() const
     {
-        return image.end();
+        return m_image.end();
     }
 
     template <typename T>
     inline int Image<T>::num_columns() const
     {
-        return columns;
+        return m_width;
     }
 
     template <typename T>
     inline int Image<T>::num_rows() const
     {
-        return rows;
+        return m_height;
     }
 
     template <typename T>
     inline int Image<T>::num_channels() const
     {
-        return channels;
+        return m_numChannels;
     }
 
     template <typename T>
-    inline int Image<T>::get_buffer_size() const
+    inline ColorSpace Image<T>::get_color_space() const
     {
-        return buffer_size;
-    }
-
-    template <typename T>
-    inline IMG_COLOR_SPACE Image<T>::get_color_space() const
-    {
-        return color_space;
+        return m_colorSpace;
     }
 
     template <typename T>
     inline void Image<T>::set_rows(int r)
     {
-        rows = r;
+        m_height = r;
     }
 
     template <typename T>
     inline void Image<T>::set_columns(int c)
     {
-        columns = c;
+        m_width = c;
     }
 
     template <typename T>
     inline void Image<T>::set_channels(int ch)
     {
-        channels = ch;
+        m_numChannels = ch;
     }
 
     template <typename T>
-    inline void Image<T>::calculate_buffer_size()
+    inline void Image<T>::set_color_space(ColorSpace cs)
     {
-        buffer_size = rows * columns * channels;
+        m_colorSpace = cs;
     }
 
     template <typename T>
-    inline void Image<T>::set_color_space(IMG_COLOR_SPACE cs)
+    inline int Image<T>::get_buffer_size() const
     {
-        color_space = cs;
+        return m_height * m_width * m_numChannels;
     }
 
     template <typename T>
     inline bool Image<T>::insert_channel(const Channel<T>& ch)
     {
-        if (ch.num_rows() == rows && ch.num_columns() == columns)
+        if (ch.num_rows() == m_height && ch.num_columns() == m_width)
         {
-            image.push_back(ch);
+            m_image.push_back(ch);
             return true;
         }
         return false;
@@ -242,11 +235,11 @@ namespace SmpImgLib
     template <typename T>
     inline void Image<T>::clear()
     {
-        for (int i = 0; i < channels; ++i)
+        for (int i = 0; i < m_numChannels; ++i)
         {
-            image[i].clear();
+            m_image[i].clear();
         }
-        image.clear();
+        m_image.clear();
     }
 
     // global functions:
