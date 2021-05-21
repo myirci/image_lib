@@ -1,9 +1,14 @@
 #pragma once
 
-struct color_rgb_tag {};
-struct color_mono_tag {};
+namespace SmpImgLib
+{
+	struct color_rgb_tag {};
+	struct color_mono_tag {};
 
-template<typename T, template<typename> class colorT>
-struct color_traits {
-    typedef typename colorT<T>::color_space_category color_space_category;
-};
+	template<typename T, template<typename> class colorT>
+	struct color_traits {
+		typedef typename colorT<T>::color_space_category color_space_category;
+	};
+}
+
+

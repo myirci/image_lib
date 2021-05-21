@@ -9,6 +9,8 @@
 #include "modified_auto_contrast.hpp"
 #include "convolve.hpp"
 
+using namespace SmpImgLib;
+
 void generate_blocks_in_grayscale();
 void generate_blocks_in_rgb();
 void generate_bars_in_grayscale();
