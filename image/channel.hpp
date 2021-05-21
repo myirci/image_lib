@@ -9,15 +9,18 @@ namespace SmpImgLib
     template<typename T>
     class Channel
     {
+    private:
+        int m_cols;
+        int m_rows;
+        std::vector<T> m_data;
+
     public:
-        // iterators and refrences
         using iterator = typename std::vector<T>::iterator;
         using const_iterator = typename std::vector<T>::const_iterator;
         using reference = typename std::vector<T>::reference;
         using const_reference = typename std::vector<T>::const_reference;
 
         Channel();
-
         Channel(int rows, int columns, T initial_value = T());
 
         reference operator()(int row, int column);
@@ -52,16 +55,13 @@ namespace SmpImgLib
 
     private:
         typename std::vector<T>::size_type convert(int row, int column) const;
-        int columns;
-        int rows;
-        std::vector<T> m_data;
     };
 
     template <typename T>
-    inline Channel<T>::Channel() : columns{ 0 }, rows{ 0 } { }
+    inline Channel<T>::Channel() : m_cols{ 0 }, m_rows{ 0 } { }
 
     template <typename T>
-    inline Channel<T>::Channel(int r, int c, T initial_value) : rows{ r }, columns{ c }, m_data(rows* columns, initial_value) { }
+    inline Channel<T>::Channel(int r, int c, T initial_value) : m_rows{ r }, m_cols{ c }, m_data(r * c, initial_value) { }
 
     template <typename T>
     inline void Channel<T>::operator=(T value)
@@ -169,20 +169,20 @@ namespace SmpImgLib
     inline void Channel<T>::clear()
     {
         m_data.clear();
-        rows = 0;
-        columns = 0;
+        m_rows = 0;
+        m_cols = 0;
     }
 
     template <typename T>
     inline int Channel<T>::num_columns() const
     {
-        return columns;
+        return m_cols;
     }
 
     template <typename T>
     inline int Channel<T>::num_rows() const
     {
-        return rows;
+        return m_rows;
     }
 
     template <typename T>
@@ -200,22 +200,22 @@ namespace SmpImgLib
     template <typename T>
     void Channel<T>::resize(int the_rows, int the_columns)
     {
-        if (the_rows == rows && the_columns == columns)
+        if (the_rows == m_rows && the_columns == m_cols)
             return;
 
         m_data.clear();
         m_data.resize(the_rows * the_columns);
-        rows = the_rows;
-        columns = the_columns;
+        m_rows = the_rows;
+        m_cols = the_columns;
     }
 
     template <typename T>
     void Channel<T>::print_channel() const
     {
         std::cout << "-------------------------------------" << std::endl;
-        for (int i = 0; i < rows; ++i)
+        for (int i = 0; i < m_rows; ++i)
         {
-            for (int j = 0; j < columns; ++j)
+            for (int j = 0; j < m_cols; ++j)
                 std::cout << std::setw(3) << static_cast<int>(m_data[convert(i, j)]) << " ";
             std::cout << std::endl;
         }
