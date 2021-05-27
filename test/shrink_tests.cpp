@@ -1,4 +1,4 @@
-#include "shrink_test.hpp"
+#include "shrink_tests.hpp"
 #include "shrink.hpp"
 #include "jpeg_adapter.hpp"
 

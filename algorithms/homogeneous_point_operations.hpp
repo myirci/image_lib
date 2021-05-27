@@ -75,7 +75,7 @@ namespace SmpImgLib
 
             // determine upper limit
             T valHigh{ 0 };
-            for (int t = cumulativeHis.size() - 1; t >= 0; --t)
+            for (int t{ static_cast<int>(cumulativeHis.size()) - 1 }; t >= 0; --t)
             {
                 if (cumulativeHis[t] <= upperCount)
                 {
@@ -94,5 +94,12 @@ namespace SmpImgLib
             cumulativeHis.clear();
             cumulativeHis.resize(std::numeric_limits<T>::max() + 1, 0);
         }
+    }
+
+    template <typename T>
+    void invert(Image<T>& image)
+    {
+        for (int i = 0; i < image.get_num_channels(); ++i)
+            std::for_each(image(i).begin(), image(i).end(), [](T& val) { val = std::numeric_limits<T>::max() - val; });
     }
 }
