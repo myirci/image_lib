@@ -19,9 +19,10 @@ int main()
     generate_auto_contrast_images();
     generate_modified_auto_contrast_images();
     generate_inverted_images(); 
-    
-    // generate_averaged_images();
-    // generate_edge_detected_images();
-    // generate_gradient_images();
+
+    generate_averaged_images();
+    generate_edge_detected_images();
+    generate_gradient_images();
+
     return 0;
 }

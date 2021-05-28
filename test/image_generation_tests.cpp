@@ -12,7 +12,7 @@ void generate_blocks_in_grayscale()
     color_mono<JpegAdapter::data_type> boxColor{ 127 };
     
     Image<JpegAdapter::data_type> img(height, width, ColorSpace::GrayScale, 1, 50);
-    block(img, top, left, bottom, right, boxColor);
+    Algorithm::block(img, top, left, bottom, right, boxColor);
     JpegAdapter::export_to_jpeg("block_grayscale.jpg", 60, img);
 }
 
@@ -26,7 +26,7 @@ void generate_blocks_in_rgb()
     Image<JpegAdapter::data_type> img(height, width, ColorSpace::RGB, 3);
     color_rgb<JpegAdapter::data_type> imgColor(100, 0, 0);
     set_color(img, imgColor);
-    block(img, top, left, bottom, right, boxColor);
+    Algorithm::block(img, top, left, bottom, right, boxColor);
     JpegAdapter::export_to_jpeg("block_rgb.jpg", 60, img);
 }
 
@@ -36,7 +36,7 @@ void generate_bars_in_grayscale()
     color_mono<JpegAdapter::data_type> first_color(0);
     unsigned char increment = 24;
     int width = 64;
-    bars(img, first_color, increment, width);
+    Algorithm::bars(img, first_color, increment, width);
     JpegAdapter::export_to_jpeg("bars_grayscale.jpg", 60, img);
 }
 
@@ -46,6 +46,6 @@ void generate_bars_in_rgb()
     color_rgb<JpegAdapter::data_type> first_color(50, 100, 150);
     unsigned char increment = 20;
     int width = 20;
-    bars(img, first_color, increment, width);
+    Algorithm::bars(img, first_color, increment, width);
     JpegAdapter::export_to_jpeg("bars_rgb.jpg", 60, img);
 }
