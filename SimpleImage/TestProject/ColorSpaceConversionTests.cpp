@@ -1,7 +1,7 @@
-#include "color_space_conversion_tests.hpp"
-#include <algorithms/color_space_conversion.hpp>
-#include <adaptors/jpeg_adapter.hpp>
-#include "test_config.hpp"
+#include "ColorSpaceConversionTests.hpp"
+#include <algorithms/ColorSpaceConversion.hpp>
+#include <adaptors/JPEGAdaptor.hpp>
+#include "TestConfig.hpp"
 
 using namespace SmpImgLib;
 

@@ -1,8 +1,8 @@
-#include "convolution_tests.hpp"
-#include <algorithms/convolution.hpp>
-#include <algorithms/homogeneous_point_operations.hpp>
-#include <adaptors/jpeg_adapter.hpp>
-#include "test_config.hpp"
+#include "ConvolutionTests.hpp"
+#include <algorithms/Convolution.hpp>
+#include <algorithms/HomogeneousPointOperations.hpp>
+#include <adaptors/JPEGAdaptor.hpp>
+#include "TestConfig.hpp"
 
 using namespace SmpImgLib;
 

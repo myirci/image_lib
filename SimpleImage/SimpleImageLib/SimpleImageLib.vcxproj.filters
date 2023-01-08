@@ -19,39 +19,39 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="adaptors\jpeg_adapter.cpp">
+    <ClCompile Include="adaptors\JPEGAdaptor.cpp">
       <Filter>Adaptor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="adaptors\jpeg_adapter.hpp">
+    <ClInclude Include="adaptors\JPEGAdaptor.hpp">
       <Filter>Adaptor</Filter>
     </ClInclude>
-    <ClInclude Include="color\color.hpp">
+    <ClInclude Include="color\Color.hpp">
       <Filter>Color</Filter>
     </ClInclude>
-    <ClInclude Include="color\color_traits.hpp">
+    <ClInclude Include="color\ColorTraits.hpp">
       <Filter>Color</Filter>
     </ClInclude>
-    <ClInclude Include="image\channel.hpp">
+    <ClInclude Include="image\Channel.hpp">
       <Filter>Image</Filter>
     </ClInclude>
-    <ClInclude Include="image\image.hpp">
+    <ClInclude Include="image\Image.hpp">
       <Filter>Image</Filter>
     </ClInclude>
-    <ClInclude Include="algorithms\color_space_conversion.hpp">
+    <ClInclude Include="algorithms\ColorSpaceConversion.hpp">
       <Filter>Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="algorithms\convolution.hpp">
+    <ClInclude Include="algorithms\Convolution.hpp">
       <Filter>Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="algorithms\homogeneous_point_operations.hpp">
+    <ClInclude Include="algorithms\HomogeneousPointOperations.hpp">
       <Filter>Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="algorithms\image_generation.hpp">
+    <ClInclude Include="algorithms\ImageGeneration.hpp">
       <Filter>Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="algorithms\shrink.hpp">
+    <ClInclude Include="algorithms\Shrink.hpp">
       <Filter>Algorithms</Filter>
     </ClInclude>
   </ItemGroup>

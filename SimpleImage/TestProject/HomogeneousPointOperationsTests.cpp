@@ -1,7 +1,7 @@
-#include "homogeneous_point_operations_tests.hpp"
-#include <algorithms/homogeneous_point_operations.hpp>
-#include <adaptors/jpeg_adapter.hpp>
-#include "test_config.hpp"
+#include "HomogeneousPointOperationsTests.hpp"
+#include <Algorithms/HomogeneousPointOperations.hpp>
+#include <adaptors/JPEGAdaptor.hpp>
+#include "TestConfig.hpp"
 
 using namespace SmpImgLib;
 

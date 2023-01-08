@@ -15,42 +15,42 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="TestMain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="image_generation_tests.cpp">
+    <ClCompile Include="ImageGenerationTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="color_space_conversion_tests.cpp">
+    <ClCompile Include="ColorSpaceConversionTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="convolution_tests.cpp">
+    <ClCompile Include="ConvolutionTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="homogeneous_point_operations_tests.cpp">
+    <ClCompile Include="HomogeneousPointOperationsTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="shrink_tests.cpp">
+    <ClCompile Include="ShrinkTests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="image_generation_tests.hpp">
+    <ClInclude Include="ImageGenerationTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="color_space_conversion_tests.hpp">
+    <ClInclude Include="ColorSpaceConversionTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="convolution_tests.hpp">
+    <ClInclude Include="ConvolutionTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="homogeneous_point_operations_tests.hpp">
+    <ClInclude Include="HomogeneousPointOperationsTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="shrink_tests.hpp">
+    <ClInclude Include="ShrinkTests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="test_config.hpp">
+    <ClInclude Include="TestConfig.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

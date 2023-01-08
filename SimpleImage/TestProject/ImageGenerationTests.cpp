@@ -1,9 +1,8 @@
-#include "image_generation_tests.hpp"
+#include "ImageGenerationTests.hpp"
 
-#include <algorithms/image_generation.hpp>
-#include <adaptors/jpeg_adapter.hpp>
-
-#include "test_config.hpp"
+#include <algorithms/ImageGeneration.hpp>
+#include <adaptors/JPEGAdaptor.hpp>
+#include "TestConfig.hpp"
 
 using namespace SmpImgLib;
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <algorithm>
-#include <image/image.hpp>
+#include <image/Image.hpp>
 
 namespace SmpImgLib
 {

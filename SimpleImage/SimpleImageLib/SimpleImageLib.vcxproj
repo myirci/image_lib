@@ -129,19 +129,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="adaptors\jpeg_adapter.cpp" />
+    <ClCompile Include="adaptors\JPEGAdaptor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="adaptors\jpeg_adapter.hpp" />
-    <ClInclude Include="algorithms\color_space_conversion.hpp" />
-    <ClInclude Include="algorithms\convolution.hpp" />
-    <ClInclude Include="algorithms\homogeneous_point_operations.hpp" />
-    <ClInclude Include="algorithms\image_generation.hpp" />
-    <ClInclude Include="algorithms\shrink.hpp" />
-    <ClInclude Include="color\color.hpp" />
-    <ClInclude Include="color\color_traits.hpp" />
-    <ClInclude Include="image\channel.hpp" />
-    <ClInclude Include="image\image.hpp" />
+    <ClInclude Include="adaptors\JPEGAdaptor.hpp" />
+    <ClInclude Include="algorithms\ColorSpaceConversion.hpp" />
+    <ClInclude Include="algorithms\Convolution.hpp" />
+    <ClInclude Include="algorithms\HomogeneousPointOperations.hpp" />
+    <ClInclude Include="algorithms\ImageGeneration.hpp" />
+    <ClInclude Include="algorithms\Shrink.hpp" />
+    <ClInclude Include="color\Color.hpp" />
+    <ClInclude Include="color\ColorTraits.hpp" />
+    <ClInclude Include="image\Channel.hpp" />
+    <ClInclude Include="image\Image.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

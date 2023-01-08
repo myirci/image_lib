@@ -7,8 +7,8 @@
 #include <string>
 #include <cstdlib>
 
-#include <image/image.hpp>
-#include <color/color.hpp>
+#include <image/Image.hpp>
+#include <color/Color.hpp>
 #include <jpeglib.h>
 
 #pragma warning( disable : 26812)

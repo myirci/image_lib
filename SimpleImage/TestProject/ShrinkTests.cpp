@@ -1,7 +1,7 @@
-#include "shrink_tests.hpp"
-#include <algorithms/shrink.hpp>
-#include <adaptors/jpeg_adapter.hpp>
-#include "test_config.hpp"
+#include "ShrinkTests.hpp"
+#include <algorithms/Shrink.hpp>
+#include <adaptors/JPEGAdaptor.hpp>
+#include "TestConfig.hpp"
 
 using namespace SmpImgLib;
 

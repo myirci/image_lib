@@ -1,7 +1,7 @@
 #pragma once
 
-#include <image/channel.hpp>
-#include <color/color.hpp>
+#include <image/Channel.hpp>
+#include <color/Color.hpp>
 #include <string>
 
 namespace SmpImgLib

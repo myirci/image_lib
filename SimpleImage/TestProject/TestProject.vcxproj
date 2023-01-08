@@ -129,12 +129,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="color_space_conversion_tests.cpp" />
-    <ClCompile Include="convolution_tests.cpp" />
-    <ClCompile Include="homogeneous_point_operations_tests.cpp" />
-    <ClCompile Include="image_generation_tests.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="shrink_tests.cpp" />
+    <ClCompile Include="ColorSpaceConversionTests.cpp" />
+    <ClCompile Include="ConvolutionTests.cpp" />
+    <ClCompile Include="HomogeneousPointOperationsTests.cpp" />
+    <ClCompile Include="ImageGenerationTests.cpp" />
+    <ClCompile Include="TestMain.cpp" />
+    <ClCompile Include="ShrinkTests.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SimpleImageLib\SimpleImageLib.vcxproj">
@@ -142,12 +142,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="color_space_conversion_tests.hpp" />
-    <ClInclude Include="convolution_tests.hpp" />
-    <ClInclude Include="homogeneous_point_operations_tests.hpp" />
-    <ClInclude Include="image_generation_tests.hpp" />
-    <ClInclude Include="shrink_tests.hpp" />
-    <ClInclude Include="test_config.hpp" />
+    <ClInclude Include="ColorSpaceConversionTests.hpp" />
+    <ClInclude Include="ConvolutionTests.hpp" />
+    <ClInclude Include="HomogeneousPointOperationsTests.hpp" />
+    <ClInclude Include="ImageGenerationTests.hpp" />
+    <ClInclude Include="ShrinkTests.hpp" />
+    <ClInclude Include="TestConfig.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
