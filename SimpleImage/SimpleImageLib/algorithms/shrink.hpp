@@ -1,6 +1,7 @@
 #pragma once
 
-#include "image.hpp"
+#include <image/image.hpp>
+
 #include <iostream>
 #include <algorithm>
 #include <numeric>

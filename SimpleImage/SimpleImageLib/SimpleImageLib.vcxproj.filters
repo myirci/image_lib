@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Image">
+      <UniqueIdentifier>{f4aebb81-8eed-4b42-ba0f-7e7972693257}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Color">
+      <UniqueIdentifier>{a5e1a4b2-ece1-43c8-8e7c-12aff4602ffa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Adaptor">
+      <UniqueIdentifier>{f401be70-5ed4-4908-95d9-c62ab96275ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Algorithms">
+      <UniqueIdentifier>{806f7f36-db0a-4ebb-bd14-2da71b2a0bbb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="adaptors\jpeg_adapter.cpp">
+      <Filter>Adaptor</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="adaptors\jpeg_adapter.hpp">
+      <Filter>Adaptor</Filter>
+    </ClInclude>
+    <ClInclude Include="color\color.hpp">
+      <Filter>Color</Filter>
+    </ClInclude>
+    <ClInclude Include="color\color_traits.hpp">
+      <Filter>Color</Filter>
+    </ClInclude>
+    <ClInclude Include="image\channel.hpp">
+      <Filter>Image</Filter>
+    </ClInclude>
+    <ClInclude Include="image\image.hpp">
+      <Filter>Image</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithms\color_space_conversion.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithms\convolution.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithms\homogeneous_point_operations.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithms\image_generation.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="algorithms\shrink.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

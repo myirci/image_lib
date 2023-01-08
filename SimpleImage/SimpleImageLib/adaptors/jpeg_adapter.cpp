@@ -1,5 +1,4 @@
-#include "jpeg_adapter.hpp"
-#include "image.hpp"
+#include <adaptors/jpeg_adapter.hpp>
 
 namespace SmpImgLib 
 {

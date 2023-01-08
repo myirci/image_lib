@@ -1,4 +1,4 @@
-#include "image.hpp"
+#include <image/image.hpp>
 
 namespace SmpImgLib
 {

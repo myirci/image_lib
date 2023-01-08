@@ -1,19 +1,12 @@
 #pragma once
 
 #include <algorithm>
-#include "image.hpp"
+#include <image/image.hpp>
 
 namespace SmpImgLib
 {
     namespace Algorithm
     {
-        // draw a rectangle on the image with the given color
-        template<typename T, template<typename> class colorT>
-        void block(Image<T>& image, int top, int left, int bottom, int right, colorT<T> color)
-        {
-            do_block(image, top, left, bottom, right, color, typename color_traits<T, colorT>::color_space_category());
-        }
-
         template<typename T, template<typename> class colorT>
         void do_block(Image<T>& image, int top, int left, int bottom, int right, colorT<T> color, color_rgb_tag)
         {
@@ -32,10 +25,11 @@ namespace SmpImgLib
                 std::fill(image(0).row_iterator(i, left), image(0).row_iterator(i, right), color.v);
         }
 
+        // draw a rectangle on the image with the given color
         template<typename T, template<typename> class colorT>
-        void bars(Image<T>& image, colorT<T> firstColor, T increment, int barWidth)
+        void block(Image<T>& image, int top, int left, int bottom, int right, colorT<T> color)
         {
-            do_bars(image, firstColor, increment, barWidth, typename color_traits<T, colorT>::color_space_category());
+            do_block(image, top, left, bottom, right, color, typename color_traits<T, colorT>::color_space_category());
         }
 
         template<typename T, template<typename> class colorT>
@@ -100,6 +94,12 @@ namespace SmpImgLib
                 std::copy(image(1).row_begin(0), image(1).row_end(0), image(1).row_begin(i));
                 std::copy(image(2).row_begin(0), image(2).row_end(0), image(2).row_begin(i));
             }
+        }
+
+        template<typename T, template<typename> class colorT>
+        void bars(Image<T>& image, colorT<T> firstColor, T increment, int barWidth)
+        {
+            do_bars(image, firstColor, increment, barWidth, typename color_traits<T, colorT>::color_space_category());
         }
     }
 }

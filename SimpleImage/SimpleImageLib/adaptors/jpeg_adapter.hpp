@@ -7,11 +7,12 @@
 #include <string>
 #include <cstdlib>
 
-#include "image.hpp"
-#include "color.hpp"
-#include "jpeglib.h"
+#include <image/image.hpp>
+#include <color/color.hpp>
+#include <jpeglib.h>
 
 #pragma warning( disable : 26812)
+#pragma warning (disable : 4996)  
 
 namespace SmpImgLib 
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "color_traits.hpp"
+#include <color/color_traits.hpp>
 
 namespace SmpImgLib
 {

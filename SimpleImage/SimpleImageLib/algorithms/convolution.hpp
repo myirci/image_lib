@@ -1,4 +1,5 @@
-#include "image.hpp"
+#include <image/image.hpp>
+
 #include <vector>
 #include <limits>
 #include <iomanip>

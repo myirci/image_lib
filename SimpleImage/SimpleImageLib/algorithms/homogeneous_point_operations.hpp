@@ -1,6 +1,7 @@
 #pragma once
 
-#include "image.hpp"
+#include <image/image.hpp>
+
 #include <algorithm>
 #include <limits>
 #include <vector>
@@ -51,7 +52,7 @@ namespace SmpImgLib
 
             std::vector<int> histogram(std::numeric_limits<T>::max() + 1, 0);
             std::vector<int> cumulativeHis(std::numeric_limits<T>::max() + 1, 0);
-            Channel<T>::const_iterator it;
+            typename Channel<T>::const_iterator it;
             for (int i{ 0 }; i < img.get_num_channels(); ++i)
             {
                 // histogram

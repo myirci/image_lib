@@ -1,2 +1,5 @@
 build/
 *.txt.user
+data/output/
+x64/
+.vs/
