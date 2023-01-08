@@ -1,4 +1,4 @@
-#include <Image/Image.hpp>
+#include <imglib/image/image.hpp>
 
 #include <vector>
 #include <limits>

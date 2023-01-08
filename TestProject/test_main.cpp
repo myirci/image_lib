@@ -1,9 +1,9 @@
 
-#include "ImageGenerationTests.hpp"
-#include "ColorSpaceConversionTests.hpp"
-#include "ConvolutionTests.hpp"
-#include "HomogeneousPointOperationsTests.hpp"
-#include "ShrinkTests.hpp"
+#include "image_generation_tests.hpp"
+#include "color_space_conversion_tests.hpp"
+#include "convolution_tests.hpp"
+#include "homogeneous_point_operations_tests.hpp"
+#include "shrink_tests.hpp"
 
 
 int main(void) 

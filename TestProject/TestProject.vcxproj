@@ -105,7 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\image_lib\ImageLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\image_lib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -129,25 +129,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ColorSpaceConversionTests.cpp" />
-    <ClCompile Include="ConvolutionTests.cpp" />
-    <ClCompile Include="HomogeneousPointOperationsTests.cpp" />
-    <ClCompile Include="ImageGenerationTests.cpp" />
-    <ClCompile Include="TestMain.cpp" />
-    <ClCompile Include="ShrinkTests.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ColorSpaceConversionTests.hpp" />
-    <ClInclude Include="ConvolutionTests.hpp" />
-    <ClInclude Include="HomogeneousPointOperationsTests.hpp" />
-    <ClInclude Include="ImageGenerationTests.hpp" />
-    <ClInclude Include="ShrinkTests.hpp" />
-    <ClInclude Include="TestConfig.hpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\ImageLib\ImageLib.vcxproj">
       <Project>{8790a087-98e9-4e9b-86b4-8256fdf844a7}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="color_space_conversion_tests.hpp" />
+    <ClInclude Include="convolution_tests.hpp" />
+    <ClInclude Include="homogeneous_point_operations_tests.hpp" />
+    <ClInclude Include="image_generation_tests.hpp" />
+    <ClInclude Include="shrink_tests.hpp" />
+    <ClInclude Include="test_config.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="color_space_conversion_tests.cpp" />
+    <ClCompile Include="convolution_tests.cpp" />
+    <ClCompile Include="homogeneous_point_operations_tests.cpp" />
+    <ClCompile Include="image_generation_tests.cpp" />
+    <ClCompile Include="shrink_tests.cpp" />
+    <ClCompile Include="test_main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

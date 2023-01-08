@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Image/Channel.hpp>
-#include <Color/Color.hpp>
+#include <imglib/image/channel.hpp>
+#include <imglib/color/color.hpp>
 #include <string>
 
 namespace imglib

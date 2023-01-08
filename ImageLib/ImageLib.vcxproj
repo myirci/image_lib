@@ -18,6 +18,21 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\imglib\adaptors\jpeg_adaptor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\imglib\adaptors\jpeg_adaptor.hpp" />
+    <ClInclude Include="..\src\imglib\algorithms\color_space_conversion.hpp" />
+    <ClInclude Include="..\src\imglib\algorithms\convolution.hpp" />
+    <ClInclude Include="..\src\imglib\algorithms\homogeneous_point_operations.hpp" />
+    <ClInclude Include="..\src\imglib\algorithms\image_generation.hpp" />
+    <ClInclude Include="..\src\imglib\algorithms\shrink.hpp" />
+    <ClInclude Include="..\src\imglib\color\color.hpp" />
+    <ClInclude Include="..\src\imglib\color\color_traits.hpp" />
+    <ClInclude Include="..\src\imglib\image\channel.hpp" />
+    <ClInclude Include="..\src\imglib\image\image.hpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -105,7 +120,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\image_lib\ImageLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\image_lib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,21 +143,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="adaptors\JPEGAdaptor.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Adaptors\JPEGAdaptor.hpp" />
-    <ClInclude Include="Algorithms\ColorSpaceConversion.hpp" />
-    <ClInclude Include="Algorithms\Convolution.hpp" />
-    <ClInclude Include="Algorithms\HomogeneousPointOperations.hpp" />
-    <ClInclude Include="Algorithms\ImageGeneration.hpp" />
-    <ClInclude Include="Algorithms\Shrink.hpp" />
-    <ClInclude Include="Color\Color.hpp" />
-    <ClInclude Include="Color\ColorTraits.hpp" />
-    <ClInclude Include="Image\Channel.hpp" />
-    <ClInclude Include="Image\Image.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

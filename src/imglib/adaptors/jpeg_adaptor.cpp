@@ -1,4 +1,4 @@
-#include <Adaptors/JPEGAdaptor.hpp>
+#include <imglib/adaptors/jpeg_adaptor.hpp>
 
 namespace imglib 
 {

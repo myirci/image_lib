@@ -1,7 +1,7 @@
-#include "HomogeneousPointOperationsTests.hpp"
-#include <Algorithms/HomogeneousPointOperations.hpp>
-#include <Adaptors/JPEGAdaptor.hpp>
-#include "TestConfig.hpp"
+#include "homogeneous_point_operations_tests.hpp"
+#include <imglib/algorithms/homogeneous_point_operations.hpp>
+#include <imglib/adaptors/jpeg_adaptor.hpp>
+#include "test_config.hpp"
 
 using namespace imglib;
 

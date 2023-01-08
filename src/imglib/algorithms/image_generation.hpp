@@ -1,7 +1,8 @@
 #pragma once
 
 #include <algorithm>
-#include <Image/Image.hpp>
+#include <imglib/image/image.hpp>
+
 
 namespace imglib
 {
