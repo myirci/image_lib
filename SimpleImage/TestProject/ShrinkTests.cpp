@@ -1,6 +1,6 @@
 #include "ShrinkTests.hpp"
-#include <algorithms/Shrink.hpp>
-#include <adaptors/JPEGAdaptor.hpp>
+#include <Algorithms/Shrink.hpp>
+#include <Adaptors/JPEGAdaptor.hpp>
 #include "TestConfig.hpp"
 
 using namespace imglib;

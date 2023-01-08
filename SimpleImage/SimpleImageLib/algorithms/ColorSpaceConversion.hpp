@@ -1,4 +1,4 @@
-#include <image/Image.hpp>
+#include <Image/Image.hpp>
 
 namespace imglib
 {

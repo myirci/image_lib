@@ -1,7 +1,7 @@
 #include "ImageGenerationTests.hpp"
 
-#include <algorithms/ImageGeneration.hpp>
-#include <adaptors/JPEGAdaptor.hpp>
+#include <Algorithms/ImageGeneration.hpp>
+#include <Adaptors/JPEGAdaptor.hpp>
 #include "TestConfig.hpp"
 
 using namespace imglib;

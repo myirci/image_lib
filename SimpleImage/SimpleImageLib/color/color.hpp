@@ -1,6 +1,6 @@
 #pragma once
 
-#include <color/ColorTraits.hpp>
+#include <Color/ColorTraits.hpp>
 
 namespace imglib
 {

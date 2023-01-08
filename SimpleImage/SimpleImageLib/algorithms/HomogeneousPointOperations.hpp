@@ -1,6 +1,6 @@
 #pragma once
 
-#include <image/Image.hpp>
+#include <Image/Image.hpp>
 
 #include <algorithm>
 #include <limits>

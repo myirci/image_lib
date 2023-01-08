@@ -1,6 +1,6 @@
 #include "ColorSpaceConversionTests.hpp"
-#include <algorithms/ColorSpaceConversion.hpp>
-#include <adaptors/JPEGAdaptor.hpp>
+#include <Algorithms/ColorSpaceConversion.hpp>
+#include <Adaptors/JPEGAdaptor.hpp>
 #include "TestConfig.hpp"
 
 using namespace imglib;

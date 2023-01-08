@@ -1,7 +1,7 @@
 #include "ConvolutionTests.hpp"
-#include <algorithms/Convolution.hpp>
-#include <algorithms/HomogeneousPointOperations.hpp>
-#include <adaptors/JPEGAdaptor.hpp>
+#include <Algorithms/Convolution.hpp>
+#include <Algorithms/HomogeneousPointOperations.hpp>
+#include <Adaptors/JPEGAdaptor.hpp>
 #include "TestConfig.hpp"
 
 using namespace imglib;
