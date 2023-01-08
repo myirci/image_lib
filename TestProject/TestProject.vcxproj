@@ -105,7 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\simple_image_library\SimpleImage\SimpleImageLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\simple_image_library\ImageLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,17 +137,17 @@
     <ClCompile Include="ShrinkTests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SimpleImageLib\SimpleImageLib.vcxproj">
-      <Project>{8790a087-98e9-4e9b-86b4-8256fdf844a7}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="ColorSpaceConversionTests.hpp" />
     <ClInclude Include="ConvolutionTests.hpp" />
     <ClInclude Include="HomogeneousPointOperationsTests.hpp" />
     <ClInclude Include="ImageGenerationTests.hpp" />
     <ClInclude Include="ShrinkTests.hpp" />
     <ClInclude Include="TestConfig.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ImageLib\ImageLib.vcxproj">
+      <Project>{8790a087-98e9-4e9b-86b4-8256fdf844a7}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -22,7 +22,7 @@
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{8790a087-98e9-4e9b-86b4-8256fdf844a7}</ProjectGuid>
-    <RootNamespace>SimpleImageLib</RootNamespace>
+    <RootNamespace>ImageLib</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -105,7 +105,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\simple_image_library\SimpleImage\SimpleImageLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\simple_image_library\ImageLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,16 +132,16 @@
     <ClCompile Include="adaptors\JPEGAdaptor.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="adaptors\JPEGAdaptor.hpp" />
-    <ClInclude Include="algorithms\ColorSpaceConversion.hpp" />
-    <ClInclude Include="algorithms\Convolution.hpp" />
-    <ClInclude Include="algorithms\HomogeneousPointOperations.hpp" />
-    <ClInclude Include="algorithms\ImageGeneration.hpp" />
-    <ClInclude Include="algorithms\Shrink.hpp" />
-    <ClInclude Include="color\Color.hpp" />
-    <ClInclude Include="color\ColorTraits.hpp" />
-    <ClInclude Include="image\Channel.hpp" />
-    <ClInclude Include="image\Image.hpp" />
+    <ClInclude Include="Adaptors\JPEGAdaptor.hpp" />
+    <ClInclude Include="Algorithms\ColorSpaceConversion.hpp" />
+    <ClInclude Include="Algorithms\Convolution.hpp" />
+    <ClInclude Include="Algorithms\HomogeneousPointOperations.hpp" />
+    <ClInclude Include="Algorithms\ImageGeneration.hpp" />
+    <ClInclude Include="Algorithms\Shrink.hpp" />
+    <ClInclude Include="Color\Color.hpp" />
+    <ClInclude Include="Color\ColorTraits.hpp" />
+    <ClInclude Include="Image\Channel.hpp" />
+    <ClInclude Include="Image\Image.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
