@@ -2,7 +2,7 @@
 
 #include <color/ColorTraits.hpp>
 
-namespace SmpImgLib
+namespace imglib
 {
     enum class ColorSpace : unsigned char
     {

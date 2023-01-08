@@ -1,8 +1,8 @@
 #include <adaptors/JPEGAdaptor.hpp>
 
-namespace SmpImgLib 
+namespace imglib 
 {
-    namespace JpegAdapter 
+    namespace jpeg_adaptor 
     {
         color_space convert(ColorSpace cs) 
         {

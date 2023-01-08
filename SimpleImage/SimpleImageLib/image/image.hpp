@@ -4,7 +4,7 @@
 #include <color/Color.hpp>
 #include <string>
 
-namespace SmpImgLib
+namespace imglib
 {
     template <typename T>
     class Image

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <iomanip>
 
-namespace SmpImgLib
+namespace imglib
 {
     template<typename T>
     class Channel

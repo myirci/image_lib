@@ -1,8 +1,8 @@
 #include <image/Image.hpp>
 
-namespace SmpImgLib
+namespace imglib
 {
-    namespace Algorithm
+    namespace algorithm
     {
         template<typename T>
         void convert_rgb_to_grayscale(const Image<T>& img_rgb, Image<T>& img_gray)

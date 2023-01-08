@@ -6,9 +6,9 @@
 #include <algorithm>
 #include <numeric>
 
-namespace SmpImgLib
+namespace imglib
 {
-    namespace Algorithm 
+    namespace algorithm 
     {
         template<typename T>
         Image<T> shrink(const Image<T>& inImg, int amount)

@@ -3,9 +3,9 @@
 #include <algorithm>
 #include <image/Image.hpp>
 
-namespace SmpImgLib
+namespace imglib
 {
-    namespace Algorithm
+    namespace algorithm
     {
         template<typename T, template<typename> class colorT>
         void do_block(Image<T>& image, int top, int left, int bottom, int right, colorT<T> color, color_rgb_tag)

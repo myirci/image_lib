@@ -5,7 +5,7 @@
 #include <iomanip>
 #include <cmath>
 
-namespace SmpImgLib
+namespace imglib
 {
     class Filter
     {

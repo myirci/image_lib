@@ -6,9 +6,9 @@
 #include <limits>
 #include <vector>
 
-namespace SmpImgLib
+namespace imglib
 {
-    namespace Algorithm 
+    namespace algorithm 
     {
         template <typename T>
         void contrast(Image<T>& image, double val)

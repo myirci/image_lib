@@ -4,7 +4,7 @@
 #include <adaptors/JPEGAdaptor.hpp>
 #include "TestConfig.hpp"
 
-using namespace SmpImgLib;
+using namespace imglib;
 
 void generate_averaged_images()
 {
@@ -12,31 +12,31 @@ void generate_averaged_images()
     // filter_kernel kernel(5, 5, 0.04, 1);
     Filter kernel(7, 7, 0.020408163, 1);
 
-    Image<JpegAdapter::data_type> img1;
+    Image<jpeg_adaptor::data_type> img1;
 
     std::string inImgPath1{ input_img_path };
     inImgPath1 += "/petit_prince_grayscale.jpg";
 
-    JpegAdapter::import_from_jpeg(inImgPath1, img1);
-    Image<JpegAdapter::data_type> img1_ = apply_linear_filter(img1, kernel);
+    jpeg_adaptor::import_from_jpeg(inImgPath1, img1);
+    Image<jpeg_adaptor::data_type> img1_ = apply_linear_filter(img1, kernel);
 
     std::string outImgPath1{ output_img_path };
     outImgPath1 += "/petit_prince_grayscale_averaged.jpg";
 
-    JpegAdapter::export_to_jpeg(outImgPath1, 70, img1_);
+    jpeg_adaptor::export_to_jpeg(outImgPath1, 70, img1_);
 
-    Image<JpegAdapter::data_type> img2;
+    Image<jpeg_adaptor::data_type> img2;
 
     std::string inImgPath2{ input_img_path };
     inImgPath2 += "/petit_prince.jpg";
 
-    JpegAdapter::import_from_jpeg(inImgPath2, img2);
-    Image<JpegAdapter::data_type> img2_ = apply_linear_filter(img2, kernel);
+    jpeg_adaptor::import_from_jpeg(inImgPath2, img2);
+    Image<jpeg_adaptor::data_type> img2_ = apply_linear_filter(img2, kernel);
 
     std::string outImgPath2{ output_img_path };
     outImgPath2 += "/petit_prince_averaged.jpg";
 
-    JpegAdapter::export_to_jpeg(outImgPath2, 70, img2_);
+    jpeg_adaptor::export_to_jpeg(outImgPath2, 70, img2_);
 }
 
 void generate_edge_detected_images()
@@ -51,42 +51,42 @@ void generate_edge_detected_images()
     kernely(0, 0) = 0;
     kernely(0, 1) = 1;
 
-    Image<JpegAdapter::data_type> img1;
+    Image<jpeg_adaptor::data_type> img1;
 
     std::string inImgPath1{ input_img_path };
     inImgPath1 += "/petit_prince_grayscale.jpg";
-    JpegAdapter::import_from_jpeg(inImgPath1, img1);
+    jpeg_adaptor::import_from_jpeg(inImgPath1, img1);
     auto img1_ = apply_linear_filter(img1, kernelx);
-    Algorithm::contrast(img1_, 1.5);
-    Algorithm::invert(img1_);
+    algorithm::contrast(img1_, 1.5);
+    algorithm::invert(img1_);
     std::string outImgPath1{ output_img_path };
     outImgPath1 += "/petit_prince_grayscale_dx.jpg";
-    JpegAdapter::export_to_jpeg(outImgPath1, 70, img1_);
+    jpeg_adaptor::export_to_jpeg(outImgPath1, 70, img1_);
     
     auto img1__ = apply_linear_filter(img1, kernely);
-    Algorithm::contrast(img1__, 1.5);
-    Algorithm::invert(img1__);
+    algorithm::contrast(img1__, 1.5);
+    algorithm::invert(img1__);
     std::string outImgPath2{ output_img_path };
     outImgPath2 += "/petit_prince_grayscale_dy.jpg";
-    JpegAdapter::export_to_jpeg(outImgPath2, 70, img1__);
+    jpeg_adaptor::export_to_jpeg(outImgPath2, 70, img1__);
 
-    Image<JpegAdapter::data_type> img2;
+    Image<jpeg_adaptor::data_type> img2;
     std::string inImgPath2{ input_img_path };
     inImgPath2 += "/petit_prince.jpg";
-    JpegAdapter::import_from_jpeg(inImgPath2, img2);
+    jpeg_adaptor::import_from_jpeg(inImgPath2, img2);
     auto img2_ = apply_linear_filter(img2, kernelx);
-    Algorithm::contrast(img2_, 1.5);
-    Algorithm::invert(img2_);
+    algorithm::contrast(img2_, 1.5);
+    algorithm::invert(img2_);
 
     std::string outImgPath3{ output_img_path };
     outImgPath3 += "/petit_prince_dx.jpg";
-    JpegAdapter::export_to_jpeg(outImgPath3, 70, img2_);
+    jpeg_adaptor::export_to_jpeg(outImgPath3, 70, img2_);
     auto img2__ = apply_linear_filter(img2, kernely);
-    Algorithm::contrast(img2__, 1.5);
-    Algorithm::invert(img2__);
+    algorithm::contrast(img2__, 1.5);
+    algorithm::invert(img2__);
     std::string outImgPath4{ output_img_path };
     outImgPath4 += "/petit_prince_dy.jpg";
-    JpegAdapter::export_to_jpeg(outImgPath4, 70, img2__);
+    jpeg_adaptor::export_to_jpeg(outImgPath4, 70, img2__);
 }
 
 void generate_gradient_images()
@@ -116,28 +116,28 @@ void generate_gradient_images()
     std::string inImgPath1{ input_img_path };
     inImgPath1 += "/petit_prince_grayscale.jpg";
 
-    JpegAdapter::import_from_jpeg(inImgPath1, img1);
+    jpeg_adaptor::import_from_jpeg(inImgPath1, img1);
     auto img2 = apply_linear_filter(img1, grad);
-    Algorithm::contrast(img2, 2.5);
-    Algorithm::invert(img2);
+    algorithm::contrast(img2, 2.5);
+    algorithm::invert(img2);
 
     std::string outImgPath1{ output_img_path };
     outImgPath1 += "/petit_prince_grayscale_grad.jpg";
-    JpegAdapter::export_to_jpeg(outImgPath1, 70, img2);
+    jpeg_adaptor::export_to_jpeg(outImgPath1, 70, img2);
     
     auto img3 = apply_linear_filter(img1, kernelx);
-    Algorithm::contrast(img3, 2.5);
-    Algorithm::invert(img3);
+    algorithm::contrast(img3, 2.5);
+    algorithm::invert(img3);
 
     std::string outImgPath2{ output_img_path };
     outImgPath2 += "/petit_prince_grayscale_grad_dx.jpg";
-    JpegAdapter::export_to_jpeg(outImgPath2, 70, img3);
+    jpeg_adaptor::export_to_jpeg(outImgPath2, 70, img3);
 
 
     auto img4 = apply_linear_filter(img1, kernely);
-    Algorithm::contrast(img4, 2.5);
-    Algorithm::invert(img4);
+    algorithm::contrast(img4, 2.5);
+    algorithm::invert(img4);
     std::string outImgPath3{ output_img_path };
     outImgPath3 += "/petit_prince_grayscale_grad_dy.jpg";
-    JpegAdapter::export_to_jpeg(outImgPath3, 70, img4);
+    jpeg_adaptor::export_to_jpeg(outImgPath3, 70, img4);
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace SmpImgLib
+namespace imglib
 {
 	struct color_rgb_tag {};
 	struct color_mono_tag {};

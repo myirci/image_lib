@@ -14,9 +14,9 @@
 #pragma warning( disable : 26812)
 #pragma warning (disable : 4996)  
 
-namespace SmpImgLib 
+namespace imglib
 {
-    namespace JpegAdapter
+    namespace jpeg_adaptor
     {
         using data_type = JSAMPLE;
         using color_space = J_COLOR_SPACE;
