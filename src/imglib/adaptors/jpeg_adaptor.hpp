@@ -12,21 +12,16 @@
 #include <imglib/image/image.hpp>
 #include <imglib/color/color.hpp>
 
-#pragma warning( disable : 26812)
-#pragma warning (disable : 4996)  
+#pragma warning(disable : 26812)
+#pragma warning(disable : 4996)  
 
-namespace imglib
+namespace imglib::jpeg
 {
-    namespace jpeg_adaptor
-    {
-        using data_type = JSAMPLE;
-        using color_space = J_COLOR_SPACE;
-        
-        color_space convert(ColorSpace cs);
-        void export_to_jpeg(const std::string& fileName, int quality, const Image<data_type>& img);
-        void import_from_jpeg(const std::string& fileName, Image<data_type>& img);
+    using data_type = JSAMPLE;
 
-        //  void export_to_binary(std::string filename, const JpegWrapper& im_data);
-        //  void import_to_binary(std::string filename, JpegWrapper& im_data);
-    };
+    // Saves the given image to a jpeg file
+    void Export(const std::string& fileName, int quality, const Image<data_type>& img);
+    
+    // Reads the given jpeg file
+    void Import(const std::string& fileName, Image<data_type>& img);
 }
