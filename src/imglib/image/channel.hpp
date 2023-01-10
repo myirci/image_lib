@@ -66,7 +66,7 @@ namespace imglib
         void resize(int numRows, int numCols);
        
     private:
-        auto to_index(int row, int col) const { return row * m_numCols + col; }
+        int to_index(int row, int col) const { return row * m_numCols + col; }
     };
    
     template <typename T>
