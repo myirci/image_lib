@@ -49,7 +49,7 @@ namespace imglib::jpeg
     
     void Export(const std::string& fileName, int quality, const Image<data_type>& img)
     {
-        // open the file
+        // Open the file
         FILE* outfile;
         if ((outfile = fopen(fileName.c_str(), "wb")) == NULL)
         {
@@ -57,7 +57,7 @@ namespace imglib::jpeg
             exit(1);
         }
 
-        // allocate and initialize JPEG compression object  
+        // Allocate and initialize JPEG compression object  
         struct jpeg_error_mgr jerr;
         struct jpeg_compress_struct cinfo;
         cinfo.err = jpeg_std_error(&jerr);
@@ -83,7 +83,7 @@ namespace imglib::jpeg
 
         jpeg_finish_compress(&cinfo);
 
-        // close the file and release the JPEG compression object
+        // Close the file and release the JPEG compression object
         fclose(outfile);
         jpeg_destroy_compress(&cinfo);
     }

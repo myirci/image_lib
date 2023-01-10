@@ -6,6 +6,7 @@
 #include <memory>
 #include <string>
 #include <cstdlib>
+#include <string_view>
 
 #include <jpeglib.h>
 
