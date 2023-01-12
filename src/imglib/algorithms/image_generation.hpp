@@ -23,7 +23,7 @@ namespace imglib::algorithm
             std::fill(image(0).row_iterator(i, left), image(0).row_iterator(i, right), color.v);
     }
 
-    // draw a rectangle on the image with the given color
+    // Draw a rectangle on the image with the given color
     template<typename T, template<typename> class colorT>
     void block(Image<T>& image, int top, int left, int bottom, int right, colorT<T> color)
     {

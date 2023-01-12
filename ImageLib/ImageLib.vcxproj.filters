@@ -54,5 +54,6 @@
     <ClInclude Include="..\src\imglib\image\image.hpp">
       <Filter>Image</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\imglib\config.hpp" />
   </ItemGroup>
 </Project>

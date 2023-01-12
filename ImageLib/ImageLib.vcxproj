@@ -30,6 +30,7 @@
     <ClInclude Include="..\src\imglib\algorithms\shrink.hpp" />
     <ClInclude Include="..\src\imglib\color\color.hpp" />
     <ClInclude Include="..\src\imglib\color\color_traits.hpp" />
+    <ClInclude Include="..\src\imglib\config.hpp" />
     <ClInclude Include="..\src\imglib\image\channel.hpp" />
     <ClInclude Include="..\src\imglib\image\image.hpp" />
   </ItemGroup>

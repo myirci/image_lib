@@ -3,6 +3,8 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
+#include <memory>
+#include <algorithm>
 
 namespace imglib
 {
@@ -12,6 +14,7 @@ namespace imglib
     private:
         int m_numCols{ 0 };
         int m_numRows{ 0 };
+        // std::unique_ptr<T[]> m_pixels{ nullptr };
         std::vector<T> m_data;
 
     public:
@@ -22,8 +25,12 @@ namespace imglib
         
         Channel(int numRows, int numCols, T val = T()) :
             m_numRows{ numRows }, 
-            m_numCols{ numCols }, 
-            m_data(numRows * numCols, val) { }
+            m_numCols{ numCols },
+            // m_pixels{ std::make_unique<T[]>(numRows * numCols) },
+            m_data(numRows * numCols, val) 
+        {
+            //std::fill(*m_pixels[0])
+        }
 
         T& operator()(int row, int col) { return m_data[to_index(row, col)]; }
         
