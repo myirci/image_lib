@@ -6,8 +6,104 @@
 #include <memory>
 #include <algorithm>
 
+#include <iterator>
+
 namespace imglib
 {
+    template <typename T>
+    class ChannelIterator 
+    {
+    public:
+        
+        using iterator_category = std::contiguous_iterator_tag;
+        using value_type        = T;
+        using pointer           = T*;
+        using reference         = T&;
+        using difference_type   = std::ptrdiff_t;
+
+        // Default constructible -> required by the std::forward_iterator concept
+        ChannelIterator() noexcept = default;
+
+        // Constructor
+        explicit ChannelIterator(T* ptr) noexcept : m_ptr{ ptr } { }
+
+        // Dereferencable -> required by the std::input_or_output_iterator concept 
+        // Note that although the pointee can be modified using the returned reference, the data member of this class is the pointer and this method does not modify it, therefore marked with const specifier. 
+        reference operator*() const { return *m_ptr; }
+
+        // Pre-incrementable -> required by the std::input_or_output_iterator concept 
+        ChannelIterator<T>& operator++() noexcept
+        {
+            ++m_ptr;
+            return *this;
+        }
+        
+        // Post-incrementable -> required by the std::input_or_output_iterator concept 
+        ChannelIterator<T> operator++(int) 
+        {
+            auto copy = *this;
+            ++m_ptr;
+            return copy;
+        }
+
+        // Pre-decrementable -> required by the std::bidirectional_iterator concept 
+        ChannelIterator<T>& operator--() noexcept
+        {
+            --m_ptr;
+            return *this;
+        }
+
+        // Post-decrementable -> required by the std::bidirectional_iterator concept 
+        ChannelIterator<T> operator--(int)
+        {
+            auto copy = *this;
+            --m_ptr;
+            return copy;
+        }
+
+        // Equality -> required by the std::input_iterator concept 
+        bool operator==(const ChannelIterator<T>& other) const noexcept { return m_ptr == other.m_ptr; }
+
+        // Inequality
+        bool operator!=(const ChannelIterator<T>& other) const noexcept { return m_ptr != other.m_ptr; }
+
+        // Compound addition assignment -> required by the std::random_access_iterator concept
+        ChannelIterator<T>& operator+=(const difference_type n) noexcept
+        {
+            m_ptr += n;
+            return *this;
+        }
+
+        // Compound substraction assignment -> required by the std::random_access_iterator concept
+        ChannelIterator<T>& operator-=(const difference_type n) noexcept
+        {
+            m_ptr -= n;
+            return *this;
+        }
+
+        // Addition, substraction -> required by the std::random_access_iterator concept
+        ChannelIterator<T> operator+(const difference_type n) const noexcept { return ChannelIterator<T>(m_ptr + n); }
+        ChannelIterator<T> operator-(const difference_type n) const noexcept { return ChannelIterator<T>(m_ptr - n); }
+
+        friend ChannelIterator<T> operator+(const difference_type n, const ChannelIterator<T>& it) noexcept     { return it + n; }
+        friend difference_type operator-(const ChannelIterator<T>& it1, const ChannelIterator<T>& it2) noexcept { return it1.m_ptr - it2.m_pt2; }
+
+        // Subscripting -> required by the std::random_access_iterator concept
+        reference operator[](const difference_type n) const { return *(m_ptr + n); }
+
+        // Less than, less than or equal to, greather than, greater than or equal to -> required by the std::random_access_iterator concept
+        bool operator<(const ChannelIterator<T>& other) const noexcept  { return m_ptr < other.m_ptr;  }
+        bool operator<=(const ChannelIterator<T>& other) const noexcept { return m_ptr <= other.m_ptr; }
+        bool operator>(const ChannelIterator<T>& other) const noexcept  { return m_ptr > other.m_ptr;  }
+        bool operator>=(const ChannelIterator<T>& other) const noexcept { return m_ptr >= other.m_ptr; }
+
+        // required by the std::contiguous_iterator concept
+        const pointer operator->() const noexcept { return m_ptr; }
+
+    private:
+        pointer m_ptr{ nullptr };
+    };
+
     template<typename T>
     class Channel
     {

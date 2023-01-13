@@ -5,8 +5,15 @@
 #include "homogeneous_point_operations_tests.hpp"
 #include "shrink_tests.hpp"
 
+
+#include <imglib/image/channel.hpp>
+#include <iterator>
+#include <concepts>
+
 int main(void) 
 {
+	static_assert(std::contiguous_iterator<imglib::ChannelIterator<int>>);
+
 	GenerateBlocksInGrayscale();
 	GenerateBlocksInRGB();
 	GenerateBarsInGrayscale();
