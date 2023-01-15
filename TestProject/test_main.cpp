@@ -12,7 +12,7 @@
 
 int main(void) 
 {
-	static_assert(std::contiguous_iterator<imglib::ChannelIterator<int>>);
+	static_assert(std::contiguous_iterator<imglib::ChPxIt<int>>);
 
 	GenerateBarsInGrayscale();
 	GenerateBarsInRGB();

@@ -10,7 +10,7 @@ namespace imglib
     class Image
     {
     public:
-        using iterator = typename std::vector<Channel<T> >::iterator;
+        using iterator       = typename std::vector<Channel<T> >::iterator;
         using const_iterator = typename std::vector<Channel<T> >::const_iterator;
 
         // Default constructor
