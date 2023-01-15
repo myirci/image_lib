@@ -14,15 +14,15 @@ int main(void)
 {
 	static_assert(std::contiguous_iterator<imglib::ChannelIterator<int>>);
 
-	GenerateBlocksInGrayscale();
-	GenerateBlocksInRGB();
 	GenerateBarsInGrayscale();
 	GenerateBarsInRGB();
+	GenerateBlocksInGrayscale();
+	GenerateBlocksInRGB();
 
 	GenerateGrayscaleImageFromRGBImage();
 
-	GenerateEdgeDetectedImages();
 	GenerateAveragedImages();
+	GenerateEdgeDetectedImages();
 	GenerateGradientImages();
 
 	GenerateIncreasedContrastImages();
@@ -30,7 +30,7 @@ int main(void)
 	GenerateAutoContrastImages();
 	GenerateModifiedAutoContrastImages();
 	GenerateInvertedImages();
-
+	
 	GenerateShrinkedImageGrayscale();
 	GenerateShrinkedImageRGB();
 

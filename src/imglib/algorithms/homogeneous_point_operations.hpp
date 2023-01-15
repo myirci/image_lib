@@ -54,7 +54,7 @@ namespace imglib::algorithm
         for (int i{ 0 }; i < img.get_num_channels(); ++i)
         {
             // histogram
-            for (it = img(i).begin(); it != img(i).end(); ++it)
+            for (it = img(i).cbegin(); it != img(i).cend(); ++it)
                 histogram[static_cast<int>(*it)]++;
 
             // cumulative histogram

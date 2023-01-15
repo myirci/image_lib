@@ -86,7 +86,7 @@ namespace imglib
         ChannelIterator<T> operator-(const difference_type n) const noexcept { return ChannelIterator<T>(m_ptr - n); }
 
         friend ChannelIterator<T> operator+(const difference_type n, const ChannelIterator<T>& it) noexcept     { return it + n; }
-        friend difference_type operator-(const ChannelIterator<T>& it1, const ChannelIterator<T>& it2) noexcept { return it1.m_ptr - it2.m_pt2; }
+        friend difference_type operator-(const ChannelIterator<T>& it1, const ChannelIterator<T>& it2) noexcept { return it1.m_ptr - it2.m_ptr; }
 
         // Subscripting -> required by the std::random_access_iterator concept
         reference operator[](const difference_type n) const { return *(m_ptr + n); }
@@ -108,87 +108,129 @@ namespace imglib
     class Channel
     {
     private:
-        int m_numCols{ 0 };
-        int m_numRows{ 0 };
-        // std::unique_ptr<T[]> m_pixels{ nullptr };
-        std::vector<T> m_data;
+        size_t m_numCols{ 0 };
+        size_t m_numRows{ 0 };
+        std::unique_ptr<T[]> m_data{ nullptr };
 
     public:
-        using iterator        = typename std::vector<T>::iterator;
-        using const_iterator  = typename std::vector<T>::const_iterator;
+        using iterator       = typename ChannelIterator<T>;
+        using const_iterator = typename ChannelIterator<const T>;
 
         Channel() { }
         
-        Channel(int numRows, int numCols, T val = T()) :
-            m_numRows{ numRows }, 
-            m_numCols{ numCols },
-            // m_pixels{ std::make_unique<T[]>(numRows * numCols) },
-            m_data(numRows * numCols, val) 
+        Channel(size_t numRows, size_t numCols, T val = T()) : m_numRows{ numRows }, m_numCols{ numCols }, m_data{ std::make_unique<T[]>(numRows * numCols) }
         {
-            //std::fill(*m_pixels[0])
+            std::fill(m_data.get(), m_data.get() + numRows * numCols, val);
         }
 
-        T& operator()(int row, int col) { return m_data[to_index(row, col)]; }
+        Channel(const Channel<T>& other) : m_numRows{ other.m_numRows }, m_numCols{ other.m_numCols }, m_data{ std::make_unique<T[]>(other.size()) }
+        {
+            // std::copy(other.begin(), other.end(), this->begin());
+            memcpy(static_cast<void*>(m_data.get()), static_cast<void*>(other.m_data.get()), other.size() * sizeof(T));
+        }
+
+        Channel(Channel<T>&& other) noexcept
+        {
+            *this = std::move(other);
+        }
+
+        Channel<T>& operator=(const Channel<T>& other) 
+        {
+            Channel<T> temp = other;
+            *this = std::move(temp);
+            return *this;
+        }
+
+        Channel<T>& operator=(Channel<T>&& other) noexcept 
+        {
+            m_numRows = other.m_numRows;
+            m_numCols = other.m_numCols;
+            m_data = std::move(other.m_data);
+            return *this;
+        }
+
+        T& operator()(size_t row, size_t col) { return m_data[to_index(row, col)]; }
         
-        T& operator()(int index) { return m_data[index]; }
+        T& operator()(size_t index) { return m_data[index]; }
         
-        T const& operator()(int row, int col) const { return m_data[to_index(row, col)]; }
+        T const& operator()(size_t row, size_t col) const { return m_data[to_index(row, col)]; }
         
-        T const& operator()(int index) const { return m_data[index]; }
+        T const& operator()(size_t index) const { return m_data[index]; }
         
-        void operator=(T value) { m_data.assign(m_data.size(), value); }
+        void operator=(T value) { std::fill(m_data.get(), m_data.get() + size(), value); }
 
-        iterator begin() { return m_data.begin(); }
+        iterator begin() noexcept { return iterator{ m_data.get() }; }
 
-        const_iterator begin() const { return m_data.begin(); }
+        const_iterator begin() const noexcept { return cbegin(); }
 
-        iterator end() { return m_data.end(); }
+        const_iterator cbegin() const noexcept { return const_iterator{ m_data.get() }; }
 
-        const_iterator end() const { return m_data.end(); }
+        iterator end() noexcept { return iterator{ m_data.get() + size() }; }
 
-        iterator row_begin(int row) { return m_data.begin() + row * m_numCols; }
+        const_iterator end() const noexcept { return cend(); }
 
-        const_iterator row_begin(int row) const { return m_data.begin() + row * m_numCols; }
+        const_iterator cend() const noexcept { return const_iterator{ m_data.get() + size() }; }
 
-        iterator row_end(int row) { return row_begin(row + 1); }
+        iterator row_begin(size_t row) { return iterator{ m_data.get() + row * m_numCols }; }
 
-        const_iterator row_end(int row) const { return row_begin(row + 1); }
+        const_iterator row_begin(size_t row) const { return const_iterator{ m_data.get() + row * m_numCols }; }
 
-        iterator row_iterator(int row, int col) { return row_begin(row) + col; }
+        iterator row_end(size_t row) { return row_begin(row + 1); }
 
-        const_iterator row_iterator(int row, int col) const { return row_begin(row) + col; }
+        const_iterator row_end(size_t row) const { return row_begin(row + 1); }
+
+        iterator row_iterator(size_t row, size_t col) { return iterator{ m_data.get() + to_index(row, col) }; }
+
+        const_iterator row_iterator(size_t row, size_t col) const { return const_iterator{ m_data.get() + to_index(row, col) }; }
 
         void clear();
         
-        bool empty() const { return m_data.empty(); }
+        bool empty() const noexcept { return size() == 0; }
 
-        int num_columns() const noexcept { return m_numCols; }
+        auto num_columns() const noexcept { return m_numCols; }
         
-        int num_rows() const noexcept { return m_numRows; }
+        auto num_rows() const noexcept { return m_numRows; }
 
-        void resize(int numRows, int numCols);
-       
+        auto size() const noexcept { return m_numRows * m_numCols; }
+
+        bool resize(size_t numRows, size_t numCols) noexcept;
+
     private:
-        int to_index(int row, int col) const { return row * m_numCols + col; }
+
+        auto to_index(size_t row, size_t col) const noexcept { return row * m_numCols + col; }
     };
    
     template <typename T>
     void Channel<T>::clear()
     {
-        m_data.clear();
+        m_data.reset();
         m_numRows = 0;
         m_numCols = 0;
     }
 
     template <typename T>
-    void Channel<T>::resize(int numRows, int numCols)
+    bool Channel<T>::resize(size_t numRows, size_t numCols) noexcept
     {
         if (numRows == m_numRows && numCols == m_numCols)
             return;
 
-        m_data.clear();
-        m_data.resize(numRows * numCols);
+        std::unique_ptr<T[]> buffer{ nullptr };
+
+        try 
+        {
+            buffer = std::make_unique<T[]>(numRows * numCols);
+        }
+        catch (...) 
+        {
+            return false;
+        }
+
         m_numRows = numRows;
         m_numCols = numCols;
+
+        m_data.clear();
+        m_data = std::move(buffer);
+
+        return true;
     }
 }

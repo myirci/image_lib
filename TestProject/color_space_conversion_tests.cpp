@@ -9,15 +9,15 @@ void GenerateGrayscaleImageFromRGBImage()
 {
     Image<jpeg::data_type> img_rgb;
 
-    std::string inImgPath{ input_img_path };
-    inImgPath += "/petit_prince.jpg";
+    std::string inimgpath{ input_img_path };
+    inimgpath += "/petit_prince.jpg";
     
-    jpeg::Import(inImgPath, img_rgb);
+    jpeg::Import(inimgpath, img_rgb);
     
     Image<jpeg::data_type> img_grayscale(img_rgb.get_height(), img_rgb.get_width(), ColorSpace::GrayScale, 1);   
     algorithm::convert_rgb_to_grayscale(img_rgb, img_grayscale);
 
-    std::string outImgPath{ output_img_path };
-    outImgPath += "/petit_prince_grayscale.jpg";
-    jpeg::Export(outImgPath, 90, img_grayscale);
+    std::string outimgpath{ output_img_path };
+    outimgpath += "/petit_prince_grayscale.jpg";
+    jpeg::Export(outimgpath, 90, img_grayscale);
 }

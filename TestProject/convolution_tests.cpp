@@ -18,8 +18,9 @@ void GenerateAveragedImages()
     inImgPath1 += "/petit_prince_grayscale.jpg";
 
     jpeg::Import(inImgPath1, img1);
-    Image<jpeg::data_type> img1_ = apply_linear_filter(img1, kernel);
 
+    Image<jpeg::data_type> img1_ = apply_linear_filter(img1, kernel);
+    
     std::string outImgPath1{ output_img_path };
     outImgPath1 += "/petit_prince_grayscale_averaged.jpg";
 

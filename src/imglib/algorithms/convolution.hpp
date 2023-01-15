@@ -111,6 +111,6 @@ namespace imglib
             }
         }
 
-        return std::move(outImg);
+        return outImg;
     }
 }
