@@ -10,9 +10,15 @@
 #include <iterator>
 #include <concepts>
 
+#include <imglib/utility/logger.hpp>
+
 int main(void) 
 {
-	static_assert(std::contiguous_iterator<imglib::ChPxIt<int>>);
+	Logger log("C:/Users/myirc/source/repos/github/image_lib/data/log/log1.txt");
+	log.WriteLine(1, 2);
+	log.WriteLine("Test", "Dost", 34);
+	
+	static_assert(std::contiguous_iterator<imglib::HorizontalValueIterator<int>>);
 
 	GenerateBarsInGrayscale();
 	GenerateBarsInRGB();

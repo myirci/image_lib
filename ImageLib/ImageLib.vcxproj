@@ -33,6 +33,7 @@
     <ClInclude Include="..\src\imglib\config.hpp" />
     <ClInclude Include="..\src\imglib\image\channel.hpp" />
     <ClInclude Include="..\src\imglib\image\image.hpp" />
+    <ClInclude Include="..\src\imglib\utility\logger.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

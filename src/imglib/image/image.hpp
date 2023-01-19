@@ -1,8 +1,10 @@
 #pragma once
 
+#include <vector>
+#include <string>
+
 #include <imglib/image/channel.hpp>
 #include <imglib/color/color.hpp>
-#include <string>
 
 namespace imglib
 {

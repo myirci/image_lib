@@ -10,9 +10,9 @@ namespace imglib::algorithm
     {
         for (int i = top; i <= bottom; ++i)
         {
-            std::fill(image(0).row_iterator(i, left), image(0).row_iterator(i, right + 1), color.r);
-            std::fill(image(1).row_iterator(i, left), image(1).row_iterator(i, right + 1), color.b);
-            std::fill(image(2).row_iterator(i, left), image(2).row_iterator(i, right + 1), color.g);
+            std::fill(image(0).get_iterator(i, left), image(0).get_iterator(i, right + 1), color.r);
+            std::fill(image(1).get_iterator(i, left), image(1).get_iterator(i, right + 1), color.b);
+            std::fill(image(2).get_iterator(i, left), image(2).get_iterator(i, right + 1), color.g);
         }
     }
 
@@ -20,7 +20,7 @@ namespace imglib::algorithm
     void do_block(Image<T>& image, int top, int left, int bottom, int right, colorT<T> color, color_mono_tag)
     {
         for (int i = top; i <= bottom; ++i)
-            std::fill(image(0).row_iterator(i, left), image(0).row_iterator(i, right), color.v);
+            std::fill(image(0).get_iterator(i, left), image(0).get_iterator(i, right), color.v);
     }
 
     // Draw a rectangle on the image with the given color

@@ -17,6 +17,9 @@
     <Filter Include="Algorithms">
       <UniqueIdentifier>{806f7f36-db0a-4ebb-bd14-2da71b2a0bbb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{825d2388-a8b2-4dc0-a540-94d552140db4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\imglib\adaptors\jpeg_adaptor.cpp">
@@ -55,5 +58,8 @@
       <Filter>Image</Filter>
     </ClInclude>
     <ClInclude Include="..\src\imglib\config.hpp" />
+    <ClInclude Include="..\src\imglib\utility\logger.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

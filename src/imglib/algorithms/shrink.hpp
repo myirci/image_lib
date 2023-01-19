@@ -38,7 +38,7 @@ namespace imglib::algorithm
                 {
                     double sum{ 0 };
                     for (int k{ inImgRow }; k < inImgRow + amount; ++k)
-                        sum = std::accumulate(inImg(t).row_iterator(k, inImgCol), inImg(t).row_iterator(k, inImgCol + amount), sum);
+                        sum = std::accumulate(inImg(t).get_iterator(k, inImgCol), inImg(t).get_iterator(k, inImgCol + amount), sum);
 
                     outImg(t)(i, j) = static_cast<T>(sum / divisor);
                 }
