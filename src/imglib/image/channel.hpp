@@ -245,6 +245,9 @@ namespace imglib
 
         Channel<T>& operator=(Channel<T>&& other) noexcept
         {
+            if (this == &other)
+                return *this;
+
             m_numRows = other.m_numRows;
             m_numCols = other.m_numCols;
             m_data = std::move(other.m_data);
