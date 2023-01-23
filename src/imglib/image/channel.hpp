@@ -213,7 +213,7 @@ namespace imglib
         using reverse_column_iterator = typename std::reverse_iterator<column_iterator>;
         using const_reverse_column_iterator = typename std::reverse_iterator<const_column_iterator>;
 
-        Channel() { }
+        Channel() noexcept = default;
 
         Channel(size_t numRows, size_t numCols, T val = T()) : m_numRows{ numRows }, m_numCols{ numCols }, m_data{ std::make_unique<T[]>(numRows * numCols) }
         {
@@ -330,7 +330,7 @@ namespace imglib
             m_numCols = 0;
         }
 
-        T const* get_data() const noexcept { return m_data.get(); }
+        T const* data() const noexcept { return m_data.get(); }
         
         bool empty() const noexcept { return size() == 0 && m_data == nullptr; }
 

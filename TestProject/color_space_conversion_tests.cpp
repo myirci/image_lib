@@ -7,14 +7,12 @@ using namespace imglib;
 
 void GenerateGrayscaleImageFromRGBImage()
 {
-    Image<jpeg::data_type> img_rgb;
-
     std::string inimgpath{ input_img_path };
     inimgpath += "/petit_prince.jpg";
     
-    jpeg::Import(inimgpath, img_rgb);
+    auto img_rgb = jpeg::Import(inimgpath);
     
-    Image<jpeg::data_type> img_grayscale(img_rgb.get_height(), img_rgb.get_width(), ColorSpace::GrayScale, 1);   
+    Image<jpeg::data_type> img_grayscale(img_rgb.height(), img_rgb.width(), ColorSpace::GrayScale, 1);   
     algorithm::convert_rgb_to_grayscale(img_rgb, img_grayscale);
 
     std::string outimgpath{ output_img_path };

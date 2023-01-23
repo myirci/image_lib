@@ -12,12 +12,10 @@ void GenerateAveragedImages()
     // filter_kernel kernel(5, 5, 0.04, 1);
     Filter kernel(7, 7, 0.020408163, 1);
 
-    Image<jpeg::data_type> img1;
-
     std::string inImgPath1{ input_img_path };
     inImgPath1 += "/petit_prince_grayscale.jpg";
 
-    jpeg::Import(inImgPath1, img1);
+    auto img1 = jpeg::Import(inImgPath1);
 
     Image<jpeg::data_type> img1_ = apply_linear_filter(img1, kernel);
     
@@ -26,12 +24,11 @@ void GenerateAveragedImages()
 
     jpeg::Export(outImgPath1, 70, img1_);
 
-    Image<jpeg::data_type> img2;
-
+   
     std::string inImgPath2{ input_img_path };
     inImgPath2 += "/petit_prince.jpg";
 
-    jpeg::Import(inImgPath2, img2);
+    auto img2 = jpeg::Import(inImgPath2);
     Image<jpeg::data_type> img2_ = apply_linear_filter(img2, kernel);
 
     std::string outImgPath2{ output_img_path };
@@ -52,11 +49,9 @@ void GenerateEdgeDetectedImages()
     kernely(0, 0) = 0;
     kernely(0, 1) = 1;
 
-    Image<jpeg::data_type> img1;
-
     std::string inImgPath1{ input_img_path };
     inImgPath1 += "/petit_prince_grayscale.jpg";
-    jpeg::Import(inImgPath1, img1);
+    auto img1 = jpeg::Import(inImgPath1);
     auto img1_ = apply_linear_filter(img1, kernelx);
     algorithm::contrast(img1_, 1.5);
     algorithm::invert(img1_);
@@ -71,10 +66,9 @@ void GenerateEdgeDetectedImages()
     outImgPath2 += "/petit_prince_grayscale_dy.jpg";
     jpeg::Export(outImgPath2, 70, img1__);
 
-    Image<jpeg::data_type> img2;
     std::string inImgPath2{ input_img_path };
     inImgPath2 += "/petit_prince.jpg";
-    jpeg::Import(inImgPath2, img2);
+    auto img2 = jpeg::Import(inImgPath2);
     auto img2_ = apply_linear_filter(img2, kernelx);
     algorithm::contrast(img2_, 1.5);
     algorithm::invert(img2_);
@@ -113,11 +107,10 @@ void GenerateGradientImages()
     kernely(0, 0) = 0;
     kernely(0, 1) = 1;
 
-    Image<unsigned char> img1;
     std::string inImgPath1{ input_img_path };
     inImgPath1 += "/petit_prince_grayscale.jpg";
 
-    jpeg::Import(inImgPath1, img1);
+    auto img1 = jpeg::Import(inImgPath1);
     auto img2 = apply_linear_filter(img1, grad);
     algorithm::contrast(img2, 2.5);
     algorithm::invert(img2);

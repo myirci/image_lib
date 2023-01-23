@@ -17,7 +17,7 @@ namespace imglib
     template <typename T>
     struct color_rgb
     {
-        typedef color_rgb_tag color_space_category;
+        using color_space_category = color_rgb_tag ;
         explicit color_rgb(T r_, T g_, T b_) : r{ r_ }, g{ g_ }, b{ b_ } { }
         T r, g, b;
     };
@@ -25,7 +25,7 @@ namespace imglib
     template <typename T>
     struct color_mono
     {
-        typedef color_mono_tag color_space_category;
+        using color_space_category = color_mono_tag;
         explicit color_mono(T v_) : v{ v_ } { }
         T v;
     };

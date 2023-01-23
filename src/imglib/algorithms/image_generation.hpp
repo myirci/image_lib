@@ -35,7 +35,7 @@ namespace imglib::algorithm
     {
         // compute the first row
         T value = first_color.v - increment;
-        for (int i = 0; i < image.get_width(); ++i)
+        for (int i = 0; i < image.width(); ++i)
         {
             if (i % bar_width == 0)
             {
@@ -48,7 +48,7 @@ namespace imglib::algorithm
             image(0)(0, i) = value;
         }
         // copy the top row into all the others
-        for (int i = 1; i < image.get_height(); ++i)
+        for (int i = 1; i < image.height(); ++i)
         {
             std::copy(image(0).row_begin(0), image(0).row_end(0), image(0).row_begin(i));
         }
@@ -61,7 +61,7 @@ namespace imglib::algorithm
         T value_r = first_color.r - increment;
         T value_g = first_color.g - increment;
         T value_b = first_color.b - increment;
-        for (int i = 0; i < image.get_width(); ++i)
+        for (int i = 0; i < image.width(); ++i)
         {
             if (i % bar_width == 0)
             {
@@ -86,7 +86,7 @@ namespace imglib::algorithm
             image(2)(0, i) = value_b;
         }
         // copy the top row into all the others
-        for (int i = 1; i < image.get_height(); ++i)
+        for (int i = 1; i < image.height(); ++i)
         {
             std::copy(image(0).row_begin(0), image(0).row_end(0), image(0).row_begin(i));
             std::copy(image(1).row_begin(0), image(1).row_end(0), image(1).row_begin(i));

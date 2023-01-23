@@ -1,21 +1,10 @@
 #include "pch.h"
+#include "test_helpers.h"
 
 #include <imglib/image/channel.hpp>
 #include <algorithm>
 
 using namespace imglib;
-
-namespace 
-{
-	template <typename T> 
-	bool AllPixelsEqualTo(T const * data, size_t size, T expectedVal)
-	{
-		for (auto i = 0; i < size; i++)
-			if (data[i] != expectedVal)
-				return false;
-		return true;
-	}
-}
 TEST(ChannelTests, DefaultConstructor)
 {
 	EXPECT_NO_THROW(Channel<uint8_t>{});
@@ -23,18 +12,18 @@ TEST(ChannelTests, DefaultConstructor)
 	EXPECT_EQ(ch.num_rows(), 0);
 	EXPECT_EQ(ch.num_columns(), 0);
 	EXPECT_EQ(ch.size(), 0);
-	EXPECT_EQ(ch.get_data(), nullptr);
+	EXPECT_EQ(ch.data(), nullptr);
 	EXPECT_TRUE(ch.empty());
 }
 
 TEST(ChannelTests, Constructor_test1)
 {
-	auto ch = Channel<uint8_t>{2, 3, 0};
+	auto ch = Channel<uint8_t>{ 2, 3, 0 };
 	EXPECT_EQ(ch.num_rows(), 2);
 	EXPECT_EQ(ch.num_columns(), 3);
 	EXPECT_EQ(ch.size(), 6);
 	EXPECT_FALSE(ch.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<uint8_t>(ch.get_data(), ch.size(), 0));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(ch.data(), ch.size(), 0));
 }
 
 TEST(ChannelTests, Constructor_test2)
@@ -44,7 +33,7 @@ TEST(ChannelTests, Constructor_test2)
 	EXPECT_EQ(ch.num_columns(), 4);
 	EXPECT_EQ(ch.size(), 24);
 	EXPECT_FALSE(ch.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<uint8_t>(ch.get_data(), ch.size(), 123));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(ch.data(), ch.size(), 123));
 }
 
 TEST(ChannelTests, Constructor_test3)
@@ -54,7 +43,7 @@ TEST(ChannelTests, Constructor_test3)
 	EXPECT_EQ(ch.num_columns(), 8);
 	EXPECT_EQ(ch.size(), 56);
 	EXPECT_FALSE(ch.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<float>(ch.get_data(), ch.size(), 0.0f));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch.data(), ch.size(), 0.0f));
 }
 
 TEST(ChannelTests, Constructor_test4)
@@ -64,7 +53,7 @@ TEST(ChannelTests, Constructor_test4)
 	EXPECT_EQ(ch.num_columns(), 4);
 	EXPECT_EQ(ch.size(), 16);
 	EXPECT_FALSE(ch.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<float>(ch.get_data(), ch.size(), 0.21f));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch.data(), ch.size(), 0.21f));
 }
 
 TEST(ChannelTests, Constructor_test5)
@@ -74,7 +63,7 @@ TEST(ChannelTests, Constructor_test5)
 	EXPECT_EQ(ch.num_columns(), 1);
 	EXPECT_EQ(ch.size(), 1);
 	EXPECT_FALSE(ch.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<float>(ch.get_data(), ch.size(), 0.1f));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch.data(), ch.size(), 0.1f));
 }
 
 TEST(ChannelTests, Constructor_test6)
@@ -95,7 +84,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test1)
 	EXPECT_EQ(ch3.num_columns(), 15);
 	EXPECT_EQ(ch3.size(), 180);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<uint8_t>(ch3.get_data(), ch3.size(), 0));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(ch3.data(), ch3.size(), 0));
 
 	// Copy assignment
 	ch3 = ch2;
@@ -103,7 +92,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test1)
 	EXPECT_EQ(ch3.num_columns(), 6);
 	EXPECT_EQ(ch3.size(), 18);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<uint8_t>(ch3.get_data(), ch3.size(), 42));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(ch3.data(), ch3.size(), 42));
 
 	// selft copy assign
 	ch3 = ch3;
@@ -111,7 +100,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test1)
 	EXPECT_EQ(ch3.num_columns(), 6);
 	EXPECT_EQ(ch3.size(), 18);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<uint8_t>(ch3.get_data(), ch3.size(), 42));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(ch3.data(), ch3.size(), 42));
 }
 
 TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test2)
@@ -125,7 +114,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test2)
 	EXPECT_EQ(ch3.num_columns(), 11);
 	EXPECT_EQ(ch3.size(), 121);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<uint8_t>(ch3.get_data(), ch3.size(), 34));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(ch3.data(), ch3.size(), 34));
 
 	// Copy assignment
 	ch3 = ch2;
@@ -133,7 +122,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test2)
 	EXPECT_EQ(ch3.num_columns(), 2);
 	EXPECT_EQ(ch3.size(), 4);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<uint8_t>(ch3.get_data(), ch3.size(), 10));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(ch3.data(), ch3.size(), 10));
 }
 
 TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test3)
@@ -147,7 +136,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test3)
 	EXPECT_EQ(ch3.num_columns(), 15);
 	EXPECT_EQ(ch3.size(), 180);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<uint16_t>(ch3.get_data(), ch3.size(), 2));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint16_t>(ch3.data(), ch3.size(), 2));
 
 	// Copy assignment
 	ch3 = ch2;
@@ -155,7 +144,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test3)
 	EXPECT_EQ(ch3.num_columns(), 4);
 	EXPECT_EQ(ch3.size(), 12);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<uint16_t>(ch3.get_data(), ch3.size(), 99));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint16_t>(ch3.data(), ch3.size(), 99));
 }
 
 TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test4)
@@ -169,7 +158,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test4)
 	EXPECT_EQ(ch3.num_columns(), 3);
 	EXPECT_EQ(ch3.size(), 12);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<int>(ch3.get_data(), ch3.size(), 255));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(ch3.data(), ch3.size(), 255));
 
 	// Copy assignment
 	ch3 = ch2;
@@ -177,7 +166,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test4)
 	EXPECT_EQ(ch3.num_columns(), 4);
 	EXPECT_EQ(ch3.size(), 20);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<int>(ch3.get_data(), ch3.size(), -2));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(ch3.data(), ch3.size(), -2));
 }
 
 TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test5)
@@ -191,7 +180,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test5)
 	EXPECT_EQ(ch3.num_columns(), 2);
 	EXPECT_EQ(ch3.size(), 80);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<float>(ch3.get_data(), ch3.size(), 0.21f));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch3.data(), ch3.size(), 0.21f));
 
 	// Copy assignment
 	ch3 = ch2;
@@ -199,7 +188,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test5)
 	EXPECT_EQ(ch3.num_columns(), 1);
 	EXPECT_EQ(ch3.size(), 1);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<float>(ch3.get_data(), ch3.size(), 34.567f));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch3.data(), ch3.size(), 34.567f));
 }
 
 TEST(ChannelTests, MoveConstructor_and_MoveAssignment_test1) 
@@ -212,24 +201,24 @@ TEST(ChannelTests, MoveConstructor_and_MoveAssignment_test1)
 	EXPECT_EQ(ch3.num_columns(), 3);
 	EXPECT_EQ(ch3.size(), 51);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<double>(ch3.get_data(), ch3.size(), 0.99));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<double>(ch3.data(), ch3.size(), 0.99));
 
 	ch3 = std::move(ch2);
 	EXPECT_EQ(ch3.num_rows(), 23);
 	EXPECT_EQ(ch3.num_columns(), 5);
 	EXPECT_EQ(ch3.size(), 115);
 	EXPECT_FALSE(ch3.empty());
-	EXPECT_TRUE(AllPixelsEqualTo<double>(ch3.get_data(), ch3.size(), -0.23));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<double>(ch3.data(), ch3.size(), -0.23));
 }
 
 TEST(ChannelTests, SetAllPixelValues)
 {
 	auto ch = Channel<char>{ 2, 3, 0 };
-	EXPECT_TRUE(AllPixelsEqualTo<char>(ch.get_data(), ch.size(), 0));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<char>(ch.data(), ch.size(), 0));
 	ch = 27;
-	EXPECT_TRUE(AllPixelsEqualTo<char>(ch.get_data(), ch.size(), 27));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<char>(ch.data(), ch.size(), 27));
 	ch = -12;
-	EXPECT_TRUE(AllPixelsEqualTo<char>(ch.get_data(), ch.size(), -12));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<char>(ch.data(), ch.size(), -12));
 }
 
 TEST(ChannelTests, GetSetPixelValues) 
@@ -378,10 +367,10 @@ TEST(ChannelTests, ColumnIterator)
 TEST(ChannelTests, Resize)
 {
 	auto ch = Channel<int>{ 3, 3, 1 };
-	EXPECT_TRUE(AllPixelsEqualTo<int>(ch.get_data(), ch.size(), 1));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(ch.data(), ch.size(), 1));
 	EXPECT_FALSE(ch.resize(3, 3));
 	EXPECT_TRUE(ch.resize(5, 5));
 	EXPECT_EQ(ch.size(), 25);
 	EXPECT_EQ(ch.end() - ch.begin(), 25);
-	EXPECT_TRUE(AllPixelsEqualTo<int>(ch.get_data(), ch.size(), 0));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(ch.data(), ch.size(), 0));
 }

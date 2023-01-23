@@ -13,8 +13,7 @@
 #include <imglib/image/image.hpp>
 #include <imglib/color/color.hpp>
 
-#pragma warning(disable : 26812)
-#pragma warning(disable : 4996)  
+#pragma warning(disable : 4996) 
 
 namespace imglib::jpeg
 {
@@ -24,5 +23,5 @@ namespace imglib::jpeg
     void Export(const std::string& fileName, int quality, const Image<data_type>& img);
     
     // Reads the given jpeg file
-    void Import(const std::string& fileName, Image<data_type>& img);
+    Image<data_type> Import(const std::string& fileName);
 }

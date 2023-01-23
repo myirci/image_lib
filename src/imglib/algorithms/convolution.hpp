@@ -65,7 +65,7 @@ namespace imglib
             std::cerr << "The number of filter rows and columns must be an odd number" << std::endl;
             exit(1);
         }
-        else if (kernel.rows() > inImg.get_height() || kernel.columns() > inImg.get_width()) 
+        else if (kernel.rows() > inImg.height() || kernel.columns() > inImg.width()) 
         {
             std::cerr << "The filter must be smaller than the image" << std::endl;
             exit(1);
@@ -74,12 +74,12 @@ namespace imglib
         Image<T> outImg(inImg);
 
         int row_start = (kernel.rows() - 1) / 2;
-        int row_end = inImg.get_height() - row_start;
+        int row_end = inImg.height() - row_start;
         int col_start = (kernel.columns() - 1) / 2;
-        int col_end = inImg.get_width() - col_start;
+        int col_end = inImg.width() - col_start;
 
         double sum;
-        for (int t{ 0 }; t < inImg.get_num_channels(); ++t)
+        for (int t{ 0 }; t < inImg.num_channels(); ++t)
         {
             for (int u{ row_start }; u < row_end; ++u)
             {

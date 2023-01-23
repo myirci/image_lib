@@ -11,7 +11,7 @@ namespace imglib::algorithm
     template <typename T>
     void contrast(Image<T>& image, double val)
     {
-        for (int i{ 0 }; i < image.get_num_channels(); ++i)
+        for (int i{ 0 }; i < image.num_channels(); ++i)
             std::for_each(image(i).begin(), image(i).end(), [val](T& intensity)
                 {
                     double newIntensity{ intensity * val };
@@ -24,7 +24,7 @@ namespace imglib::algorithm
     {
         T lowVal, highVal;
         int auto_contrast_count = 0;
-        for (int i{ 0 }; i < image.get_num_channels(); ++i)
+        for (int i{ 0 }; i < image.num_channels(); ++i)
         {
             lowVal = *std::min_element(image(i).begin(), image(i).end());
             highVal = *std::max_element(image(i).begin(), image(i).end());
@@ -38,20 +38,20 @@ namespace imglib::algorithm
                     val = std::numeric_limits<T>::min() + (val - lowVal) * ((std::numeric_limits<T>::max() - std::numeric_limits<T>::min()) / (highVal - lowVal));
                 });
         }
-        return auto_contrast_count != image.get_num_channels();
+        return auto_contrast_count != image.num_channels();
     }
 
     template <typename T>
     void modified_auto_contrast(Image<T>& img, double quantileLow, double quantileHigh)
     {
-        int numPixels = img.get_width() * img.get_height();
+        size_t numPixels = img.width() * img.height();
         int lowerCount = static_cast<int>(numPixels * quantileLow);
         int upperCount = static_cast<int>(numPixels * (1 - quantileHigh));
 
         std::vector<int> histogram(std::numeric_limits<T>::max() + 1, 0);
         std::vector<int> cumulativeHis(std::numeric_limits<T>::max() + 1, 0);
         typename Channel<T>::const_iterator it;
-        for (int i{ 0 }; i < img.get_num_channels(); ++i)
+        for (int i{ 0 }; i < img.num_channels(); ++i)
         {
             // histogram
             for (it = img(i).cbegin(); it != img(i).cend(); ++it)
@@ -99,7 +99,7 @@ namespace imglib::algorithm
     template <typename T>
     void invert(Image<T>& image)
     {
-        for (int i = 0; i < image.get_num_channels(); ++i)
+        for (int i = 0; i < image.num_channels(); ++i)
             std::for_each(image(i).begin(), image(i).end(), [](T& val) { val = std::numeric_limits<T>::max() - val; });
     }
 }

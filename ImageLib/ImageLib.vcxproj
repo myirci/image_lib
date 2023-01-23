@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\imglib\adaptors\jpeg_adaptor.cpp" />
+    <ClCompile Include="..\src\imglib\utility\utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\imglib\adaptors\jpeg_adaptor.hpp" />
@@ -32,8 +33,10 @@
     <ClInclude Include="..\src\imglib\color\color_traits.hpp" />
     <ClInclude Include="..\src\imglib\config.hpp" />
     <ClInclude Include="..\src\imglib\image\channel.hpp" />
+    <ClInclude Include="..\src\imglib\image\cimage.hpp" />
     <ClInclude Include="..\src\imglib\image\image.hpp" />
     <ClInclude Include="..\src\imglib\utility\logger.hpp" />
+    <ClInclude Include="..\src\imglib\utility\utility.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

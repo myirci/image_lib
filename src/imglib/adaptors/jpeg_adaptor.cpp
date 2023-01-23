@@ -66,10 +66,10 @@ namespace imglib::jpeg
             jpeg_error_mgr jerr{};
             cinfo.err = jpeg_std_error(&jerr);
             jpeg_create_compress(&cinfo);
-            cinfo.image_height = img.get_height();
-            cinfo.image_width = img.get_width();
-            cinfo.input_components = img.get_num_channels();
-            cinfo.in_color_space = Convert(img.get_color_space());
+            cinfo.image_height = static_cast<int>(img.height());
+            cinfo.image_width = static_cast<int>(img.width());
+            cinfo.input_components = static_cast<int>(img.num_channels());
+            cinfo.in_color_space = Convert(img.color_space());
 
             jpeg_set_defaults(&cinfo);
             jpeg_set_quality(&cinfo, quality, TRUE);
@@ -78,7 +78,7 @@ namespace imglib::jpeg
 
             int rowStride = cinfo.image_width * cinfo.input_components;
             data_type* rowPointer[1];
-            auto buffer = img.get_buffer();
+            auto buffer = img.data();
             while (cinfo.next_scanline < cinfo.image_height)
             {
                 rowPointer[0] = &(buffer[cinfo.next_scanline * rowStride]);
@@ -108,7 +108,7 @@ namespace imglib::jpeg
         }
     }
 
-    void Import(const std::string& fileName, Image<data_type>& img)
+    Image<data_type> Import(const std::string& fileName)
     {
         // Open the file
         FILE* inFile;
@@ -121,28 +121,31 @@ namespace imglib::jpeg
 
         try 
         {
-            jpeg_error_mgr jerr {};
+            jpeg_error_mgr jerr{};
             cinfo.err = jpeg_std_error(&jerr);
             jpeg_create_decompress(&cinfo);
             jpeg_stdio_src(&cinfo, inFile);
             jpeg_read_header(&cinfo, true);
             jpeg_start_decompress(&cinfo);
 
-            int rowStride = cinfo.output_width * cinfo.output_components;
-            data_type** buffer;
-            buffer = (*cinfo.mem->alloc_sarray) ((j_common_ptr)&cinfo, JPOOL_IMAGE, rowStride, 1);
+            auto rowStride = cinfo.output_width * cinfo.output_components;   
+            data_type** buffer = (*cinfo.mem->alloc_sarray) ((j_common_ptr)&cinfo, JPOOL_IMAGE, rowStride, 1);
 
-            auto size = cinfo.output_height * cinfo.output_width * cinfo.output_components;
-            auto buff = std::make_unique<data_type[]>(size);
-            int j{ 0 };
+            auto img = Image<data_type>(cinfo.output_height, cinfo.output_width, Convert(cinfo.out_color_space), cinfo.output_components);
+            
+            size_t rowNo{ 0 };
             while (cinfo.output_scanline < cinfo.output_height)
             {
                 jpeg_read_scanlines(&cinfo, buffer, 1);
-                for (int i{ 0 }; i < rowStride; ++i)
-                    buff[j++] = buffer[0][i];
-            }
 
-            img.update(cinfo.output_height, cinfo.output_width, cinfo.output_components, Convert(cinfo.out_color_space), buff);
+                for (auto i = 0; i < cinfo.out_color_components; i++) 
+                {
+                    size_t pixel{ cinfo.output_width * rowNo };
+                    for (unsigned int j = i; j < rowStride; j += cinfo.out_color_components)
+                        img(i)(pixel++) = buffer[0][j];
+                }                  
+                rowNo++;
+            }
 
             jpeg_finish_decompress(&cinfo);
             
@@ -151,6 +154,8 @@ namespace imglib::jpeg
 
             jpeg_destroy_decompress(&cinfo);
             success = true;
+
+            return img;
         }
         catch (...) 
         {

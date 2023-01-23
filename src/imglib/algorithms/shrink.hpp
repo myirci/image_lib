@@ -17,7 +17,7 @@ namespace imglib::algorithm
             exit(1);
         }
 
-        if (inImg.get_height() / amount == 0 || inImg.get_width() / amount == 0)
+        if (inImg.height() / amount == 0 || inImg.width() / amount == 0)
         {
             std::cerr << "Shrink amount should not bigger than then the width or height of the image" << std::endl;
             exit(2);
@@ -25,16 +25,16 @@ namespace imglib::algorithm
 
         if (amount == 1) return inImg;
 
-        Image<T> outImg(inImg.get_height() / amount, inImg.get_width() / amount, inImg.get_color_space(), inImg.get_num_channels());
+        Image<T> outImg(inImg.height() / amount, inImg.width() / amount, inImg.color_space(), inImg.num_channels());
         int divisor{ amount * amount };
 
-        for (int t{ 0 }; t < outImg.get_num_channels(); ++t)
+        for (int t{ 0 }; t < outImg.num_channels(); ++t)
         {
             int inImgRow{ 0 };
-            for (int i{ 0 }; i < outImg.get_height(); ++i, inImgRow += amount)
+            for (int i{ 0 }; i < outImg.height(); ++i, inImgRow += amount)
             {
                 int inImgCol{ 0 };
-                for (int j{ 0 }; j < outImg.get_width(); ++j, inImgCol += amount)
+                for (int j{ 0 }; j < outImg.width(); ++j, inImgCol += amount)
                 {
                     double sum{ 0 };
                     for (int k{ inImgRow }; k < inImgRow + amount; ++k)
