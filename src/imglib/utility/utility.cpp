@@ -3,31 +3,21 @@
 
 namespace imglib
 {
-	bool verify(ColorSpace cSpace, size_t numChannels)
+	bool IsValid(ColorSpace cSpace, size_t numChannels)
 	{
-       /* if (numChannels == 0)
-            return false;
-
-        size_t numChannels;
-
         switch (cSpace)
         {
         case imglib::ColorSpace::Unspecified:
-            break;
+            return numChannels > 0;
         case imglib::ColorSpace::GrayScale:
-            break;
+            return numChannels == 1;
         case imglib::ColorSpace::RGB:
-            break;
         case imglib::ColorSpace::YCbCr:
-            break;
         case imglib::ColorSpace::CMYK:
-            break;
         case imglib::ColorSpace::YCCK:
-            break;
+            return numChannels == 3;
         default:
-            break;
-        }*/
-        return false;
-
+            return false;
+        }
 	}
 }

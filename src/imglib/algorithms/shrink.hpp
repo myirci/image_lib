@@ -9,36 +9,28 @@
 namespace imglib::algorithm
 {
     template<typename T>
-    Image<T> shrink(const Image<T>& inImg, int amount)
+    Image<T> Shrink(const Image<T>& img, size_t amount)
     {
-        if (inImg(0).empty())
+        if (img.size() == 0 || amount > img.height() || amount > img.width())
+            throw std::invalid_argument("At least one of the arguments is invalid.");
+       
+        if (amount == 1) 
+            return img;
+
+        Image<T> outImg(img.height() / amount, img.width() / amount, img.color_space(), img.num_channels());
+        size_t divisor{ amount * amount };
+
+        for (size_t t = 0; t < outImg.num_channels(); ++t)
         {
-            std::cerr << "Input image size is 0" << std::endl;
-            exit(1);
-        }
-
-        if (inImg.height() / amount == 0 || inImg.width() / amount == 0)
-        {
-            std::cerr << "Shrink amount should not bigger than then the width or height of the image" << std::endl;
-            exit(2);
-        }
-
-        if (amount == 1) return inImg;
-
-        Image<T> outImg(inImg.height() / amount, inImg.width() / amount, inImg.color_space(), inImg.num_channels());
-        int divisor{ amount * amount };
-
-        for (int t{ 0 }; t < outImg.num_channels(); ++t)
-        {
-            int inImgRow{ 0 };
-            for (int i{ 0 }; i < outImg.height(); ++i, inImgRow += amount)
+            size_t imgRow{ 0 };
+            for (size_t i = 0; i < outImg.height(); ++i, imgRow += amount)
             {
-                int inImgCol{ 0 };
-                for (int j{ 0 }; j < outImg.width(); ++j, inImgCol += amount)
+                size_t imgCol{ 0 };
+                for (size_t j = 0; j < outImg.width(); ++j, imgCol += amount)
                 {
                     double sum{ 0 };
-                    for (int k{ inImgRow }; k < inImgRow + amount; ++k)
-                        sum = std::accumulate(inImg(t).get_iterator(k, inImgCol), inImg(t).get_iterator(k, inImgCol + amount), sum);
+                    for (size_t k = imgRow; k < imgRow + amount; ++k)
+                        sum = std::accumulate(img(t).get_iterator(k, imgCol), img(t).get_iterator(k, imgCol + amount), sum);
 
                     outImg(t)(i, j) = static_cast<T>(sum / divisor);
                 }

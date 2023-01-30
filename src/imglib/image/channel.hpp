@@ -251,6 +251,7 @@ namespace imglib
             m_numRows = other.m_numRows;
             m_numCols = other.m_numCols;
             m_data = std::move(other.m_data);
+            other.clear();
             return *this;
         }
 
@@ -363,6 +364,14 @@ namespace imglib
             m_data = std::move(buffer);
 
             return true;
+        }
+
+        void copy(const Channel<T>& other)
+        {
+            if (m_numRows != other.m_numRows || m_numCols != other.m_numCols)
+                throw std::invalid_argument("Size mismatch.");
+
+            memcpy(static_cast<void*>(m_data.get()), static_cast<void*>(other.m_data.get()), other.size() * sizeof(T));
         }
 
     private:

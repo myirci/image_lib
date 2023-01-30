@@ -4,5 +4,5 @@
 
 namespace imglib 
 {
-	bool verify(ColorSpace cSpace, size_t numChannels);
+	bool IsValid(ColorSpace cSpace, size_t numChannels);
 }

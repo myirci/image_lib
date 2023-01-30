@@ -11,5 +11,3 @@ namespace imglib
 		typedef typename colorT<T>::color_space_category color_space_category;
 	};
 }
-
-

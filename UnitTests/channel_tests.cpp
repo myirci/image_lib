@@ -94,7 +94,7 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test1)
 	EXPECT_FALSE(ch3.empty());
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(ch3.data(), ch3.size(), 42));
 
-	// selft copy assign
+	// Self copy assignment
 	ch3 = ch3;
 	EXPECT_EQ(ch3.num_rows(), 3);
 	EXPECT_EQ(ch3.num_columns(), 6);
@@ -191,24 +191,47 @@ TEST(ChannelTests, CopyConstructor_and_CopyAssignment_test5)
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch3.data(), ch3.size(), 34.567f));
 }
 
-TEST(ChannelTests, MoveConstructor_and_MoveAssignment_test1) 
+TEST(ChannelTests, MoveConstructor_and_MoveAssignment) 
 {
 	auto ch1 = Channel<double>{ 17, 3, 0.99 };
 	auto ch2 = Channel<double>{ 23, 5, -0.23 };
 
+	// Move constructor
 	Channel<double> ch3 = std::move(ch1);
 	EXPECT_EQ(ch3.num_rows(), 17);
 	EXPECT_EQ(ch3.num_columns(), 3);
 	EXPECT_EQ(ch3.size(), 51);
 	EXPECT_FALSE(ch3.empty());
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<double>(ch3.data(), ch3.size(), 0.99));
+	
+	EXPECT_EQ(ch1.num_rows(), 0);
+	EXPECT_EQ(ch1.num_columns(), 0);
+	EXPECT_EQ(ch1.size(), 0);
+	EXPECT_EQ(ch1.data(), nullptr);
+	EXPECT_TRUE(ch1.empty());
 
+	// Move assignment
 	ch3 = std::move(ch2);
 	EXPECT_EQ(ch3.num_rows(), 23);
 	EXPECT_EQ(ch3.num_columns(), 5);
 	EXPECT_EQ(ch3.size(), 115);
 	EXPECT_FALSE(ch3.empty());
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<double>(ch3.data(), ch3.size(), -0.23));
+
+	EXPECT_EQ(ch2.num_rows(), 0);
+	EXPECT_EQ(ch2.num_columns(), 0);
+	EXPECT_EQ(ch2.size(), 0);
+	EXPECT_EQ(ch2.data(), nullptr);
+	EXPECT_TRUE(ch2.empty());
+
+	// Self move assignment
+	ch3 = std::move(ch3);
+	EXPECT_EQ(ch3.num_rows(), 23);
+	EXPECT_EQ(ch3.num_columns(), 5);
+	EXPECT_EQ(ch3.size(), 115);
+	EXPECT_FALSE(ch3.empty());
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<double>(ch3.data(), ch3.size(), -0.23));
+
 }
 
 TEST(ChannelTests, SetAllPixelValues)
@@ -373,4 +396,41 @@ TEST(ChannelTests, Resize)
 	EXPECT_EQ(ch.size(), 25);
 	EXPECT_EQ(ch.end() - ch.begin(), 25);
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(ch.data(), ch.size(), 0));
+}
+
+TEST(ChannelTests, Copy_test1)
+{
+	auto ch1 = Channel<char>{ 17, 21, -1 };
+	auto ch2 = Channel<char>{ 17, 21, -3 };
+	ch2.copy(ch1);
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<char>(ch1.data(), ch1.size(), -1));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<char>(ch2.data(), ch2.size(), -1));
+
+	auto ch3 = Channel<unsigned char>{ 16, 8, 4 };
+	auto ch4 = Channel<unsigned char>{ 16, 8, 2 };
+	ch4.copy(ch3);
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<unsigned char>(ch3.data(), ch3.size(), 4));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<unsigned char>(ch4.data(), ch4.size(), 4));
+	
+	auto ch5 = Channel<int>{ 4, 4, 23 };
+	auto ch6 = Channel<int>{ 4, 4, 32 };
+	ch6.copy(ch5);
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(ch5.data(), ch5.size(), 23));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(ch6.data(), ch6.size(), 23));
+
+	auto ch7 = Channel<float>{ 10, 8, 1.34 };
+	auto ch8 = Channel<float>{ 10, 8, 4.56 };
+	ch8.copy(ch7);
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch7.data(), ch7.size(), 1.34));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch8.data(), ch8.size(), 1.34));
+}
+
+TEST(ChannelTests, Copy_test2) 
+{
+	auto ch1 = Channel<char>{ 3, 5, -1 };
+	auto ch2 = Channel<char>{ 3, 4, -3 };
+	EXPECT_THROW(ch2.copy(ch1), std::invalid_argument);
+
+	auto ch3 = Channel<char>{ 4, 5, -3 };
+	EXPECT_THROW(ch3.copy(ch1), std::invalid_argument);
 }
