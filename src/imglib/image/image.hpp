@@ -24,7 +24,7 @@ namespace imglib
             m_colorSpace{ colorSpace }, 
             m_numChannels{ numChannels } 
         {
-            if (m_height == 0 || m_width == 0 || m_numChannels == 0 || !IsValid(m_colorSpace, m_numChannels))
+            if (m_height < 1 || m_width < 1 || m_numChannels < 1 || !IsValid(m_colorSpace, m_numChannels))
                 throw std::invalid_argument("At least one of the arguments is invalid.");
 
             for (auto i = 0; i < m_numChannels; i++)
@@ -197,6 +197,23 @@ namespace imglib
             m_colorSpace = ColorSpace::Unspecified;
         }
 
+        bool resize(size_t height, size_t width) 
+        {
+            if (height == m_height && width == m_width)
+                return false;
+
+            try
+            {
+                Image<T> newImage{ height, width, m_colorSpace, m_numChannels };
+                *this = std::move(newImage);
+                return true;
+            }
+            catch (...)
+            {
+                return false;
+            }
+        }
+
     private:
 
         using ChannelPtr = typename std::unique_ptr<Channel<T>>;
@@ -207,26 +224,4 @@ namespace imglib
         ColorSpace m_colorSpace{ ColorSpace::Unspecified };
         std::vector<ChannelPtr> m_channels;
     };
-
-    // global functions:
-
-    template<typename T, template<typename> typename colorT>
-    inline void set_color(Image<T>& im, const colorT<T>& color)
-    {
-        do_set_color(im, color, typename color_traits<T, colorT>::color_space_category());
-    }
-
-    template<typename T, template<typename> typename colorT>
-    inline void do_set_color(Image<T>& im, const colorT<T>& color, color_rgb_tag)
-    {
-        im(0) = color.r;
-        im(1) = color.g;
-        im(2) = color.b;
-    }
-
-    template<typename T, template<typename> typename colorT>
-    inline void do_set_color(Image<T>& im, const colorT<T>& color, color_mono_tag)
-    {
-        im(0) = color.v;
-    }
 }

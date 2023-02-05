@@ -192,6 +192,7 @@ TEST(ImageTests, Data)
 			EXPECT_EQ(data3[i], 3);
 	}
 }
+
 TEST(ImageTests, Clear)
 {
 	auto img = Image<uint8_t>{ 4, 6, ColorSpace::RGB, 3, 19 };
@@ -325,6 +326,7 @@ TEST(ImageTests, ReplaceChannel_test2)
 	for (size_t i = 0; i < 3; i++)
 		EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(img(i).data(), img.size(), 0.8f));
 }
+
 TEST(ImageTests, ExchangeChannels_test1)
 {
 	auto img1 = Image<uint8_t>{ 4, 6, ColorSpace::RGB, 3 };
@@ -381,6 +383,7 @@ TEST(ImageTests, SetChannels)
 	EXPECT_THROW(img.set_channels(1,2), std::invalid_argument);
 	EXPECT_THROW(img.set_channels(1,2,3,4), std::invalid_argument);
 }
+
 TEST(ImageTests, SetPixel_test1) 
 {
 	auto img = Image<uint8_t>{ 10, 5, ColorSpace::GrayScale, 1 };
@@ -400,6 +403,7 @@ TEST(ImageTests, SetPixel_test1)
 	EXPECT_EQ(img(0)(4, 3), 101);
 	EXPECT_EQ(img(0)(9, 4), 102);
 }
+
 TEST(ImageTests, SetPixel_test2) 
 {
 	auto img = Image<float>{ 6, 10, ColorSpace::RGB, 3 };
@@ -451,3 +455,22 @@ TEST(ImageTests, SetPixel_test3)
 	EXPECT_EQ(img(5)(5, 6), 109);
 }
 
+TEST(ImageTests, Resize)
+{
+	Image<uint8_t> img{ 10, 20, ColorSpace::RGB, 3 };
+	img.resize(5, 8);
+	EXPECT_EQ(img.height(), 5);
+	EXPECT_EQ(img.width(), 8);
+	EXPECT_EQ(img.num_channels(), 3);
+	EXPECT_EQ(img.color_space(), ColorSpace::RGB);
+	EXPECT_EQ(img.size(), 40);
+	EXPECT_EQ(img.data_size(), 120);
+	
+	img.resize(15, 30);
+	EXPECT_EQ(img.height(), 15);
+	EXPECT_EQ(img.width(), 30);
+	EXPECT_EQ(img.num_channels(), 3);
+	EXPECT_EQ(img.color_space(), ColorSpace::RGB);
+	EXPECT_EQ(img.size(), 450);
+	EXPECT_EQ(img.data_size(), 1350);
+}

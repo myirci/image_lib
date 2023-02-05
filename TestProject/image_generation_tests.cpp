@@ -54,8 +54,8 @@ void GenerateBlocksInRGB()
     color_rgb<jpeg::data_type> boxColor(127, 0, 0);
 
     Image<jpeg::data_type> img(height, width, ColorSpace::RGB, 3);
-    color_rgb<jpeg::data_type> imgColor(100, 0, 0);
-    set_color(img, imgColor);
+    jpeg::data_type cl[3] = {100, 0, 0};
+    img.set_channels(cl[0], cl[1], cl[2]);
     algorithm::block(img, top, left, bottom, right, boxColor);
 
     std::string outImgPath{ output_img_path };

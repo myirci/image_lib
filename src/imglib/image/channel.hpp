@@ -324,7 +324,7 @@ namespace imglib
         const_iterator get_iterator(size_t row, size_t col) const noexcept { return get_const_iterator(row, col); }
         const_iterator get_const_iterator(size_t row, size_t col) const noexcept { return const_iterator{ m_data.get() + to_index(row, col) }; }
 
-        void clear() 
+        void clear() noexcept
         {
             m_data.reset();
             m_numRows = 0;
@@ -357,10 +357,8 @@ namespace imglib
                 return false;
             }
 
-            clear();
             m_numRows = numRows;
             m_numCols = numCols;
-
             m_data = std::move(buffer);
 
             return true;

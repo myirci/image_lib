@@ -35,6 +35,7 @@
     <ClInclude Include="..\src\imglib\image\channel.hpp" />
     <ClInclude Include="..\src\imglib\image\cimage.hpp" />
     <ClInclude Include="..\src\imglib\image\image.hpp" />
+    <ClInclude Include="..\src\imglib\image\pimage.hpp" />
     <ClInclude Include="..\src\imglib\utility\logger.hpp" />
     <ClInclude Include="..\src\imglib\utility\utility.hpp" />
   </ItemGroup>
