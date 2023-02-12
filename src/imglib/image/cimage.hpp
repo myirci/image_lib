@@ -93,7 +93,7 @@ namespace imglib
 
 		T const* data() const noexcept { return m_data.get(); }
 
-		void clear() 
+		void clear() noexcept
 		{
 			m_height = 0;
 			m_width = 0;

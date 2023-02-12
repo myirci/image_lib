@@ -24,8 +24,8 @@ TEST(CImageTests, Constructor_test1)
 	EXPECT_THROW((CImage<uint8_t, 2>(10, 10, ColorSpace::GrayScale, 0)), std::invalid_argument);
 	EXPECT_THROW((CImage<uint8_t, 2>(10, 10, ColorSpace::RGB, 0)), std::invalid_argument);
 	EXPECT_THROW((CImage<uint8_t, 4>(10, 10, ColorSpace::RGB, 0)), std::invalid_argument);
-	EXPECT_THROW((CImage<uint8_t, 2>(10, 10, ColorSpace::CMYK, 0)), std::invalid_argument);
-	EXPECT_THROW((CImage<uint8_t, 4>(10, 10, ColorSpace::CMYK, 0)), std::invalid_argument);
+	EXPECT_THROW((CImage<uint8_t, 3>(10, 10, ColorSpace::CMYK, 0)), std::invalid_argument);
+	EXPECT_THROW((CImage<uint8_t, 5>(10, 10, ColorSpace::CMYK, 0)), std::invalid_argument);
 	EXPECT_THROW((CImage<uint8_t, 2>(10, 10, ColorSpace::YCbCr, 0)), std::invalid_argument);
 	EXPECT_THROW((CImage<uint8_t, 4>(10, 10, ColorSpace::YCbCr, 0)), std::invalid_argument);
 	EXPECT_THROW((CImage<uint8_t, 2>(10, 10, ColorSpace::YCCK, 0)), std::invalid_argument);
@@ -33,7 +33,7 @@ TEST(CImageTests, Constructor_test1)
 
 	EXPECT_NO_THROW((CImage<uint8_t, 1>(10, 10, ColorSpace::GrayScale, 0)));
 	EXPECT_NO_THROW((CImage<uint8_t, 3>(10, 10, ColorSpace::RGB, 0)));
-	EXPECT_NO_THROW((CImage<uint8_t, 3>(10, 10, ColorSpace::CMYK, 0)));
+	EXPECT_NO_THROW((CImage<uint8_t, 4>(10, 10, ColorSpace::CMYK, 0)));
 	EXPECT_NO_THROW((CImage<uint8_t, 3>(10, 10, ColorSpace::YCbCr, 0)));
 	EXPECT_NO_THROW((CImage<uint8_t, 3>(10, 10, ColorSpace::YCCK, 0)));
 	EXPECT_NO_THROW((CImage<uint8_t, 5>(10, 10, ColorSpace::Unspecified, 0)));

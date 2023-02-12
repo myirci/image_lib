@@ -11,7 +11,7 @@
 namespace imglib
 {
     template <typename T>
-    class HorizontalValueIterator
+    class ValueIterator
     {
     public:
 
@@ -20,26 +20,27 @@ namespace imglib
         using pointer           = T*;
         using reference         = T&;
         using difference_type   = std::ptrdiff_t;
+        using self              = ValueIterator<T>;
 
         // Default constructible -> required by the std::forward_iterator concept
-        HorizontalValueIterator() noexcept = default;
+        ValueIterator() noexcept = default;
 
         // Constructor
-        explicit HorizontalValueIterator(T* ptr) noexcept : m_ptr{ ptr } { }
+        explicit ValueIterator(pointer ptr) noexcept : m_ptr{ ptr } { }
 
         // Dereferencable -> required by the std::input_or_output_iterator concept 
         // Note that although the pointee can be modified using the returned reference, m_ptr is not modified, therefore marked with const specifier. 
         reference operator*() const { return *m_ptr; }
 
         // Pre-incrementable -> required by the std::input_or_output_iterator concept 
-        HorizontalValueIterator<T>& operator++() noexcept
+        self& operator++() noexcept
         {
             ++m_ptr;
             return *this;
         }
 
         // Post-incrementable -> required by the std::input_or_output_iterator concept 
-        HorizontalValueIterator<T> operator++(int)
+        self operator++(int)
         {
             auto copy = *this;
             ++m_ptr;
@@ -47,14 +48,14 @@ namespace imglib
         }
 
         // Pre-decrementable -> required by the std::bidirectional_iterator concept 
-        HorizontalValueIterator<T>& operator--() noexcept
+        self& operator--() noexcept
         {
             --m_ptr;
             return *this;
         }
 
         // Post-decrementable -> required by the std::bidirectional_iterator concept 
-        HorizontalValueIterator<T> operator--(int)
+        self operator--(int)
         {
             auto copy = *this;
             --m_ptr;
@@ -62,40 +63,40 @@ namespace imglib
         }
 
         // Equality -> required by the std::input_iterator concept 
-        bool operator==(const HorizontalValueIterator<T>& other) const noexcept { return m_ptr == other.m_ptr; }
+        bool operator==(const self& other) const noexcept { return m_ptr == other.m_ptr; }
 
         // Inequality
-        bool operator!=(const HorizontalValueIterator<T>& other) const noexcept { return m_ptr != other.m_ptr; }
+        bool operator!=(const self& other) const noexcept { return m_ptr != other.m_ptr; }
 
         // Compound addition assignment -> required by the std::random_access_iterator concept
-        HorizontalValueIterator<T>& operator+=(const difference_type n) noexcept
+        self& operator+=(const difference_type n) noexcept
         {
             m_ptr += n;
             return *this;
         }
 
         // Compound substraction assignment -> required by the std::random_access_iterator concept
-        HorizontalValueIterator<T>& operator-=(const difference_type n) noexcept
+        self& operator-=(const difference_type n) noexcept
         {
             m_ptr -= n;
             return *this;
         }
 
         // Addition, substraction -> required by the std::random_access_iterator concept
-        HorizontalValueIterator<T> operator+(const difference_type n) const noexcept { return HorizontalValueIterator<T>{ m_ptr + n }; }
-        HorizontalValueIterator<T> operator-(const difference_type n) const noexcept { return HorizontalValueIterator<T>{ m_ptr - n }; }
+        self operator+(const difference_type n) const noexcept { return self{ m_ptr + n }; }
+        self operator-(const difference_type n) const noexcept { return self{ m_ptr - n }; }
 
-        friend HorizontalValueIterator<T> operator+(const difference_type n, const HorizontalValueIterator<T>& it) noexcept { return it + n; }
-        friend difference_type operator-(const HorizontalValueIterator<T>& it1, const HorizontalValueIterator<T>& it2) noexcept { return it1.m_ptr - it2.m_ptr; }
+        friend self operator+(const difference_type n, const self& it) noexcept { return it + n; }
+        friend difference_type operator-(const self& it1, const self& it2) noexcept { return it1.m_ptr - it2.m_ptr; }
 
         // Subscripting -> required by the std::random_access_iterator concept
         reference operator[](const difference_type n) const { return *(m_ptr + n); }
 
         // Less than, less than or equal to, greather than, greater than or equal to -> required by the std::random_access_iterator concept
-        bool operator<(const HorizontalValueIterator<T>& other) const noexcept { return m_ptr < other.m_ptr; }
-        bool operator<=(const HorizontalValueIterator<T>& other) const noexcept { return m_ptr <= other.m_ptr; }
-        bool operator>(const HorizontalValueIterator<T>& other) const noexcept { return m_ptr > other.m_ptr; }
-        bool operator>=(const HorizontalValueIterator<T>& other) const noexcept { return m_ptr >= other.m_ptr; }
+        bool operator<(const self& other) const noexcept { return m_ptr < other.m_ptr; }
+        bool operator<=(const self& other) const noexcept { return m_ptr <= other.m_ptr; }
+        bool operator>(const self& other) const noexcept { return m_ptr > other.m_ptr; }
+        bool operator>=(const self& other) const noexcept { return m_ptr >= other.m_ptr; }
 
         // required by the std::contiguous_iterator concept
         const pointer operator->() const noexcept { return m_ptr; }
@@ -104,97 +105,6 @@ namespace imglib
         pointer m_ptr{ nullptr };
     };
     
-    template <typename T>
-    class VerticalValueIterator
-    {
-    public:
-        using value_type        = T;
-        using pointer           = T*;
-        using reference         = T&;
-        using difference_type   = std::ptrdiff_t;
-        using iterator_category = std::random_access_iterator_tag;
-
-        // Default constructible -> required by the std::forward_iterator concept
-        VerticalValueIterator() noexcept = default;
-
-        // Constructor
-        explicit VerticalValueIterator(T* ptr, size_t numRows) noexcept : m_ptr{ ptr }, m_numRows{ numRows } { }
-
-        // Dereferencable -> required by the std::input_or_output_iterator concept 
-       // Note that although the pointee can be modified using the returned reference, m_ptr is not modified, therefore marked with const specifier. 
-        reference operator*() const { return *m_ptr; }
-
-        // Pre-incrementable -> required by the std::input_or_output_iterator concept 
-        VerticalValueIterator<T>& operator++() noexcept
-        {
-            m_ptr += m_numRows;
-            return *this;
-        }
-
-        // Post-incrementable -> required by the std::input_or_output_iterator concept 
-        VerticalValueIterator<T> operator++(int)
-        {
-            auto copy = *this;
-            m_ptr += m_numRows;
-            return copy;
-        }
-
-        // Pre-decrementable -> required by the std::bidirectional_iterator concept 
-        VerticalValueIterator<T>& operator--() noexcept
-        {
-            m_ptr -= m_numRows;
-            return *this;
-        }
-
-        // Post-decrementable -> required by the std::bidirectional_iterator concept 
-        VerticalValueIterator<T> operator--(int)
-        {
-            auto copy = *this;
-            m_ptr -= m_numRows;
-            return copy;
-        }
-
-        // Equality -> required by the std::input_iterator concept 
-        bool operator==(const VerticalValueIterator<T>& other) const noexcept { return m_ptr == other.m_ptr && m_numRows == other.m_numRows; }
-
-        // Inequality
-        bool operator!=(const VerticalValueIterator<T>& other) const noexcept { return m_ptr != other.m_ptr || m_numRows != other.m_numRows; }
-
-        // Compound addition assignment -> required by the std::random_access_iterator concept
-        VerticalValueIterator<T>& operator+=(const difference_type n) noexcept
-        {
-            m_ptr += (n * m_numRows);
-            return *this;
-        }
-
-        // Compound substraction assignment -> required by the std::random_access_iterator concept
-        VerticalValueIterator<T>& operator-=(const difference_type n) noexcept
-        {
-            m_ptr -= (n * m_numRows);
-            return *this;
-        }
-
-        // Addition, substraction -> required by the std::random_access_iterator concept
-        VerticalValueIterator<T> operator+(const difference_type n) const noexcept { return VerticalValueIterator<T>{ m_ptr + n * m_numRows, m_numRows }; }
-        VerticalValueIterator<T> operator-(const difference_type n) const noexcept { return VerticalValueIterator<T>{ m_ptr - n * m_numRows, m_numRows }; }
-
-        friend VerticalValueIterator<T> operator+(const difference_type n, const VerticalValueIterator<T>& it) noexcept { return it + n; }
-        friend difference_type operator-(const VerticalValueIterator<T>& it1, const VerticalValueIterator<T>& it2) noexcept { return (it1.m_ptr - it2.m_ptr) / it1.m_numRows; }
-
-        // Subscripting -> required by the std::random_access_iterator concept
-        reference operator[](const difference_type n) const { return *(m_ptr + n*m_numRows); }
-
-        // Less than, less than or equal to, greather than, greater than or equal to -> required by the std::random_access_iterator concept
-        bool operator<(const VerticalValueIterator<T>& other) const noexcept { return m_ptr < other.m_ptr; }
-        bool operator<=(const VerticalValueIterator<T>& other) const noexcept { return m_ptr <= other.m_ptr; }
-        bool operator>(const VerticalValueIterator<T>& other) const noexcept { return m_ptr > other.m_ptr; }
-        bool operator>=(const VerticalValueIterator<T>& other) const noexcept { return m_ptr >= other.m_ptr; }
-
-    private:
-        pointer m_ptr{ nullptr };
-        size_t m_numRows{ 0 };
-    };
-
     template<typename T>
     class Channel
     {
@@ -204,14 +114,10 @@ namespace imglib
         std::unique_ptr<T[]> m_data{ nullptr };
 
     public:
-        using iterator = typename HorizontalValueIterator<T>;
-        using const_iterator = typename HorizontalValueIterator<const T>;
-        using reverse_iterator = typename std::reverse_iterator<iterator>;
+        using iterator               = typename ValueIterator<T>;
+        using const_iterator         = typename ValueIterator<const T>;
+        using reverse_iterator       = typename std::reverse_iterator<iterator>;
         using const_reverse_iterator = typename std::reverse_iterator<const_iterator>;
-        using column_iterator = typename VerticalValueIterator<T>;
-        using const_column_iterator = typename VerticalValueIterator<const T>;
-        using reverse_column_iterator = typename std::reverse_iterator<column_iterator>;
-        using const_reverse_column_iterator = typename std::reverse_iterator<const_column_iterator>;
 
         Channel() noexcept = default;
 
@@ -225,7 +131,7 @@ namespace imglib
 
         Channel(const Channel<T>& other) : m_numRows{ other.m_numRows }, m_numCols{ other.m_numCols }, m_data{ std::make_unique<T[]>(other.size()) }
         {
-            memcpy(static_cast<void*>(m_data.get()), static_cast<void*>(other.m_data.get()), other.size() * sizeof(T));
+            memcpy(static_cast<void*>(m_data.get()), static_cast<void const*>(other.m_data.get()), other.size() * sizeof(T));
         }
 
         Channel(Channel<T>&& other) noexcept
@@ -265,11 +171,11 @@ namespace imglib
 
         void operator=(T value) { std::fill(m_data.get(), m_data.get() + size(), value); }
 
-        // Itearators
+        // Iterators
         iterator begin() noexcept { return iterator{ m_data.get() }; }
         const_iterator begin() const noexcept { return cbegin(); }
         const_iterator cbegin() const noexcept { return const_iterator{ m_data.get() }; }
-
+        
         iterator end() noexcept { return iterator{ m_data.get() + size() }; }
         const_iterator end() const noexcept { return cend(); }
         const_iterator cend() const noexcept { return const_iterator{ m_data.get() + size() }; }
@@ -283,46 +189,28 @@ namespace imglib
         const_reverse_iterator rend() const noexcept { return crend(); }
         const_reverse_iterator crend() const noexcept { return const_reverse_iterator{ cbegin() }; }
 
+        // Generic iterator 
+        iterator git(size_t row, size_t col) noexcept { return iterator{ m_data.get() + to_index(row, col) }; }
+        const_iterator git(size_t row, size_t col) const noexcept { return cgit(row, col); }
+        const_iterator cgit(size_t row, size_t col) const noexcept { return const_iterator{ m_data.get() + to_index(row, col) }; }
+
         // Row iterators
         iterator row_begin(size_t row) noexcept { return iterator{ m_data.get() + row * m_numCols }; }
-        const_iterator row_begin(size_t row) const noexcept { return const_row_begin(row); }
-        const_iterator const_row_begin(size_t row) const noexcept { return const_iterator{ m_data.get() + row * m_numCols }; }
+        const_iterator row_begin(size_t row) const noexcept { return crow_begin(row); }
+        const_iterator crow_begin(size_t row) const noexcept { return const_iterator{ m_data.get() + row * m_numCols }; }
 
         iterator row_end(size_t row) noexcept { return row_begin(row + 1); }
-        const_iterator row_end(size_t row) const noexcept { return const_row_begin(row + 1); }
-        const_iterator const_row_end(size_t row) const noexcept { return const_row_begin(row + 1); }
-        
+        const_iterator row_end(size_t row) const noexcept { return crow_begin(row + 1); }
+        const_iterator crow_end(size_t row) const noexcept { return crow_begin(row + 1); }
+
         // Reverse row iterators
         reverse_iterator rrow_begin(size_t row) noexcept { return reverse_iterator{ row_end(row) }; }
-        const_reverse_iterator rrow_begin(size_t row) const noexcept { return const_rrow_begin(row); }
-        const_reverse_iterator const_rrow_begin(size_t row) const noexcept { return const_reverse_iterator{ const_row_end(row) }; }
+        const_reverse_iterator rrow_begin(size_t row) const noexcept { return crrow_begin(row); }
+        const_reverse_iterator crrow_begin(size_t row) const noexcept { return const_reverse_iterator{ crow_end(row) }; }
 
         reverse_iterator rrow_end(size_t row) noexcept { return reverse_iterator{ row_begin(row) }; }
-        const_reverse_iterator rrow_end(size_t row) const noexcept { return const_rrow_end(row); }
-        const_reverse_iterator const_rrow_end(size_t row) const noexcept { return const_reverse_iterator{ const_row_begin(row) }; }
-
-        // Column iterators
-        column_iterator column_begin(size_t column) noexcept { return column_iterator{ m_data.get() + column, m_numRows }; }
-        const_column_iterator column_begin(size_t column) const noexcept { return const_column_begin(column); }
-        const_column_iterator const_column_begin(size_t column) const noexcept { return const_column_iterator{ m_data.get() + column, m_numRows }; }
-
-        column_iterator column_end(size_t column) noexcept { return (column_begin(column) += m_numCols); }
-        const_column_iterator column_end(size_t column) const noexcept { return const_column_end(column); }
-        const_column_iterator const_column_end(size_t column) const noexcept { return (const_column_begin(column) += m_numCols); }
-
-        // Reverse column iterators
-        reverse_column_iterator rcolumn_begin(size_t column) noexcept { return reverse_column_iterator{ column_end(column) }; }
-        const_reverse_column_iterator rcolumn_begin(size_t column) const noexcept { return const_rcolumn_begin(column); }
-        const_reverse_column_iterator const_rcolumn_begin(size_t column) const noexcept { return const_reverse_column_iterator{ const_column_end(column) }; }
-
-        reverse_column_iterator rcolumn_end(size_t column) noexcept { return reverse_column_iterator{ column_begin(column) }; }
-        const_reverse_column_iterator rcolumn_end(size_t column) const noexcept { return const_rcolumn_end(column); }
-        const_reverse_column_iterator const_rcolumn_end(size_t column) const noexcept { return const_reverse_column_iterator{ const_column_begin(column) }; }
-
-        // Index iterator 
-        iterator get_iterator(size_t row, size_t col) noexcept { return iterator{ m_data.get() + to_index(row, col) }; }
-        const_iterator get_iterator(size_t row, size_t col) const noexcept { return get_const_iterator(row, col); }
-        const_iterator get_const_iterator(size_t row, size_t col) const noexcept { return const_iterator{ m_data.get() + to_index(row, col) }; }
+        const_reverse_iterator rrow_end(size_t row) const noexcept { return crrow_end(row); }
+        const_reverse_iterator crrow_end(size_t row) const noexcept { return const_reverse_iterator{ crow_begin(row) }; }
 
         void clear() noexcept
         {

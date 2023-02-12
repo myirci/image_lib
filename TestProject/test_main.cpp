@@ -5,7 +5,6 @@
 #include "homogeneous_point_operations_tests.hpp"
 #include "shrink_tests.hpp"
 
-
 #include <imglib/image/channel.hpp>
 #include <iterator>
 #include <concepts>
@@ -18,7 +17,7 @@ int main(void)
 	log.WriteLine(1, 2);
 	log.WriteLine("Test", "Dost", 34);
 	
-	static_assert(std::contiguous_iterator<imglib::HorizontalValueIterator<int>>);
+	static_assert(std::contiguous_iterator<imglib::ValueIterator<int>>);
 
 	GenerateBarsInGrayscale();
 	GenerateBarsInRGB();

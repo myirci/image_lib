@@ -39,7 +39,7 @@ TEST(ImageTests, Constructor_test1)
 	EXPECT_NO_THROW(Image<uint8_t>(2, 4, ColorSpace::RGB, 3));
 	EXPECT_NO_THROW(Image<uint8_t>(2, 4, ColorSpace::YCbCr, 3));
 	EXPECT_NO_THROW(Image<uint8_t>(2, 4, ColorSpace::YCCK, 3));
-	EXPECT_NO_THROW(Image<uint8_t>(2, 4, ColorSpace::CMYK, 3));
+	EXPECT_NO_THROW(Image<uint8_t>(2, 4, ColorSpace::CMYK, 4));
 	EXPECT_NO_THROW(Image<uint8_t>(2, 4, ColorSpace::Unspecified, 15));
 }
 

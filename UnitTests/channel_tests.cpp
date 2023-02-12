@@ -290,7 +290,7 @@ TEST(ChannelTests, Iterator)
 		EXPECT_EQ(*it, count--);
 }
 
-TEST(ChannelTests, GetIterator) 
+TEST(ChannelTests, GenericIterator) 
 {
 	auto ch = Channel<int8_t>{ 5, 5, -1};
 	int8_t count{ 0 };
@@ -301,7 +301,7 @@ TEST(ChannelTests, GetIterator)
 	{
 		for (auto j = 0; j < ch.num_columns(); j++) 
 		{
-			auto it = ch.get_iterator(i, j);
+			auto it = ch.git(i, j);
 			EXPECT_EQ(*it, count++);
 		}
 	}
@@ -320,7 +320,7 @@ TEST(ChannelTests, RowIterator)
 
 	// iterate over the 5th row
 	count = 50;
-	for (auto it = ch.const_row_begin(5); it != ch.const_row_end(5); it++)
+	for (auto it = ch.crow_begin(5); it != ch.crow_end(5); it++)
 		EXPECT_EQ(*it, count++);
 
 	// reverse it over the 5th row
@@ -332,61 +332,9 @@ TEST(ChannelTests, RowIterator)
 	for (auto it = ch.row_begin(9); it != ch.row_end(9); it++)
 		EXPECT_EQ(*it, count++);
 
-	for (auto it = ch.const_rrow_begin(9); it != ch.const_rrow_end(9); it++)
+	for (auto it = ch.crrow_begin(9); it != ch.crrow_end(9); it++)
 		EXPECT_EQ(*it, --count);
 }
-
-TEST(ChannelTests, ColumnIterator)
-{
-	auto ch = Channel<int8_t>{ 10, 10, -1 };
-	int8_t count{ 0 };
-	std::generate(ch.begin(), ch.end(), [&count] { return count++; });
-
-	// iterate over the first column
-	count = 0;
-	for (auto it = ch.column_begin(0); it != ch.column_end(0); it++) 
-	{
-		EXPECT_EQ(*it, count);
-		count += static_cast<int8_t>(ch.num_columns());
-	}
-
-	EXPECT_EQ(ch.column_end(0) - ch.column_begin(0), ch.num_rows());
-		
-	// iterate over the 5th column
-	count = 5;
-	for (auto it = ch.const_column_begin(5); it != ch.const_column_end(5); it++) 
-	{
-		EXPECT_EQ(*it, count);
-		count += static_cast<int8_t>(ch.num_columns());
-	}
-
-	// reverse iterator over the 5th column
-	for (auto it = ch.rcolumn_begin(5); it != ch.rcolumn_end(5); it++) 
-	{
-		count -= static_cast<int8_t>(ch.num_columns());
-		EXPECT_EQ(*it, count);
-	}
-
-	EXPECT_EQ(ch.column_end(5) - ch.column_begin(5), ch.num_rows());
-		
-	// iterate over the last row
-	count = 9;
-	for (auto it = ch.column_begin(9); it != ch.column_end(9); it++) 
-	{
-		EXPECT_EQ(*it, count);
-		count += static_cast<int8_t>(ch.num_columns());
-	}
-
-	// reverse iterator over the 9th column
-	for (auto it = ch.const_rcolumn_begin(9); it != ch.const_rcolumn_end(9); it++)
-	{
-		count -= static_cast<int8_t>(ch.num_columns());
-		EXPECT_EQ(*it, count);
-	}
-
-	EXPECT_EQ(ch.column_end(9) - ch.column_begin(9), ch.num_rows());
-}
-
 TEST(ChannelTests, Resize)
 {
 	auto ch = Channel<int>{ 3, 3, 1 };
@@ -418,11 +366,11 @@ TEST(ChannelTests, Copy_test1)
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(ch5.data(), ch5.size(), 23));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(ch6.data(), ch6.size(), 23));
 
-	auto ch7 = Channel<float>{ 10, 8, 1.34 };
-	auto ch8 = Channel<float>{ 10, 8, 4.56 };
+	auto ch7 = Channel<float>{ 10, 8, 1.34f };
+	auto ch8 = Channel<float>{ 10, 8, 4.56f };
 	ch8.copy(ch7);
-	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch7.data(), ch7.size(), 1.34));
-	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch8.data(), ch8.size(), 1.34));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch7.data(), ch7.size(), 1.34f));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<float>(ch8.data(), ch8.size(), 1.34f));
 }
 
 TEST(ChannelTests, Copy_test2) 
