@@ -33,16 +33,17 @@ namespace imglib
         T p[NumChannels];
     };
 
-    template <typename T>
+    template <typename T, size_t NumChannels, typename PixelType>
+        requires std::same_as<typename std::remove_cvref_t<PixelType>, Pixel<T, NumChannels>>
     class Pixelterator
     {
     public:
         using iterator_category = std::contiguous_iterator_tag;
-        using value_type = T;
+        using value_type = PixelType;
         using pointer = value_type*;
         using reference = value_type&;
         using difference_type = std::ptrdiff_t;
-        using self = Pixelterator<T>;
+        using self = Pixelterator<T, NumChannels, PixelType>;
 
         // Default constructible -> required by the std::forward_iterator concept
         Pixelterator() noexcept = default;
@@ -132,8 +133,8 @@ namespace imglib
 	class PImage 
 	{
 	public:
-        using iterator = typename Pixelterator<Pixel<T, NumChannels>>;
-        using const_iterator = typename Pixelterator<const Pixel<T, NumChannels>>;
+        using iterator = typename Pixelterator<T, NumChannels, Pixel<T, NumChannels>>;
+        using const_iterator = typename Pixelterator<T, NumChannels, const Pixel<T, NumChannels>>;
         using reverse_iterator = typename std::reverse_iterator<iterator>;
         using const_reverse_iterator = typename std::reverse_iterator<const_iterator>;
     

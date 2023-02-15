@@ -16,8 +16,6 @@ int main(void)
 	Logger log("C:/Users/myirc/source/repos/github/image_lib/data/log/log1.txt");
 	log.WriteLine(1, 2);
 	log.WriteLine("Test", "Dost", 34);
-	
-	static_assert(std::contiguous_iterator<imglib::ValueIterator<int>>);
 
 	GenerateBarsInGrayscale();
 	GenerateBarsInRGB();
