@@ -73,5 +73,8 @@
     <ClInclude Include="..\src\imglib\image\pimage.hpp">
       <Filter>Image</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\imglib\utility\simple_geometry.hpp">
+      <Filter>Utility</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
