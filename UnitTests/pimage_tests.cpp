@@ -159,9 +159,9 @@ TEST(PImageTests, SetAllPixels)
 		EXPECT_TRUE(img(i) == px3);
 }
 
-TEST(PImageTests, Iterator)
+TEST(PImageTests, Iterator_test1)
 {
-	auto img = PImage<int, 3>{ 5, 10, ColorSpace::RGB};
+	auto img = PImage<int, 3>{ 5, 10, ColorSpace::RGB };
 	int x{ 0 }, y{ 1 }, z{ 2 };
 	std::vector<Pixel<int, 3>> pixels;
 	
@@ -175,21 +175,146 @@ TEST(PImageTests, Iterator)
 	for (auto it = img.begin(); it != img.end(); it++, i++)
 		EXPECT_TRUE(*it == pixels[i]);
 
+	i = pixels.size() - 1;
+	for (auto it = img.rbegin(); it != img.rend(); it++, i--)
+		EXPECT_TRUE(*it == pixels[i]);
+
 	i = 0;
 	for (auto it = img.cbegin(); it != img.cend(); it++, i++)
 		EXPECT_TRUE(*it == pixels[i]);
+
+	i = pixels.size() - 1;
+	for (auto it = img.crbegin(); it != img.crend(); it++, i--)
+		EXPECT_TRUE(*it == pixels[i]);
 }
 
-TEST(PImageTests, GenericIterator)
+TEST(PImageTests, Iterator_test2)
 {
-	
+	Pixel<int, 3> px{ 10, -23, 4 };
+	const auto img = PImage<int, 3>{ 5, 10, ColorSpace::RGB, px };
+
+	for (auto it = img.begin(); it != img.end(); it++)
+		EXPECT_TRUE(*it == px);
+
+	for (auto it = img.cbegin(); it != img.cend(); it++)
+		EXPECT_TRUE(*it == px);
+
+	for (auto it = img.rbegin(); it != img.rend(); it++)
+		EXPECT_TRUE(*it == px);
+
+	for (auto it = img.crbegin(); it != img.crend(); it++)
+		EXPECT_TRUE(*it == px);
 }
 
-TEST(PImageTests, RowIterator)
+TEST(PImageTests, GenericIterator_test1)
 {
-	
+	auto img = PImage<int, 3>{ 5, 10, ColorSpace::RGB };
+
+	int x{ 0 }, y{ 1 }, z{ 2 };
+	std::vector<Pixel<int, 3>> pixels;
+	for (size_t i = 0; i < img.size(); i++)
+	{
+		pixels.push_back(Pixel<int, 3>{ x++, y++, z++ });
+		img(i) = pixels.back();
+	}
+
+	size_t row1{ 2 }, col1{ 3 }, row2 { 4 }, col2 { 8 };
+	size_t idx1{ row1 * img.width() + col1 }, idx2{ row2 * img.width() + col2 };
+
+	EXPECT_EQ(idx2 - idx1, img.git(row2, col2) - img.git(row1, col1));
+	EXPECT_EQ(idx2 - idx1, img.cgit(row2, col2) - img.cgit(row1, col1));
+
+	size_t i = idx1;
+	for (auto it = img.git(row1, col1); it != img.git(row2, col2); it++, i++)
+		EXPECT_TRUE(*it == pixels[i]);
+
+	i = idx1;
+	for (auto it = img.cgit(row1, col1); it != img.cgit(row2, col2); it++, i++)
+		EXPECT_TRUE(*it == pixels[i]);
 }
 
+TEST(PImageTests, GenericIterator_test2)
+{
+	Pixel<int, 3> px{ 10, -23, 4 };
+	const auto img = PImage<int, 3>{ 5, 10, ColorSpace::RGB, px };
+
+	size_t row1{ 2 }, col1{ 3 }, row2{ 4 }, col2{ 8 };
+	size_t idx1{ row1 * img.width() + col1 }, idx2{ row2 * img.width() + col2 };
+
+	EXPECT_EQ(idx2 - idx1, img.git(row2, col2) - img.git(row1, col1));
+	EXPECT_EQ(idx2 - idx1, img.cgit(row2, col2) - img.cgit(row1, col1));
+
+	for (auto it = img.git(row1, col1); it != img.git(row2, col2); it++)
+		EXPECT_TRUE(*it == px);
+
+	for (auto it = img.cgit(row1, col1); it != img.cgit(row2, col2); it++)
+		EXPECT_TRUE(*it == px);
+}
+
+TEST(PImageTests, RowIterator_test1)
+{
+	auto img = PImage<int, 3>{ 5, 10, ColorSpace::RGB };
+
+	int x{ 0 }, y{ 1 }, z{ 2 };
+	std::vector<Pixel<int, 3>> pixels;
+	for (size_t i = 0; i < img.size(); i++)
+	{
+		pixels.push_back(Pixel<int, 3>{ x++, y++, z++ });
+		img(i) = pixels.back();
+	}
+
+	EXPECT_EQ(img.width(), img.row_end(0) - img.row_begin(0));
+	EXPECT_EQ(img.width(), img.crow_end(1) - img.crow_begin(1));
+	EXPECT_EQ(img.width(), img.rrow_end(2) - img.rrow_begin(2));
+	EXPECT_EQ(img.width(), img.crrow_end(3) - img.crrow_begin(3));
+
+	size_t row = 2;
+	size_t idx_first = row * img.width();
+	size_t idx_last = (row + 1) * img.width() - 1;
+
+	size_t i = idx_first;
+	for (auto it = img.row_begin(row); it != img.row_end(row); it++, i++)
+		EXPECT_TRUE(*it == pixels[i]);
+
+	i = idx_first;
+	for (auto it = img.crow_begin(row); it != img.crow_end(row); it++, i++)
+		EXPECT_TRUE(*it == pixels[i]);
+
+	i = idx_last;
+	for (auto it = img.rrow_begin(row); it != img.rrow_end(row); it++, i--)
+		EXPECT_TRUE(*it == pixels[i]);
+
+	i = idx_last;
+	for (auto it = img.crrow_begin(row); it != img.crrow_end(row); it++, i--)
+		EXPECT_TRUE(*it == pixels[i]);
+}
+
+TEST(PImageTests, RowIterator_test2)
+{
+	Pixel<int, 3> px{ 10, -23, 4 };
+	const auto img = PImage<int, 3>{ 5, 10, ColorSpace::RGB, px };
+
+	for (auto it = img.row_begin(3); it != img.row_end(3); it++)
+		EXPECT_TRUE(*it == px);
+
+	for (auto it = img.crow_begin(3); it != img.crow_end(3); it++)
+		EXPECT_TRUE(*it == px);
+
+	for (auto it = img.rrow_begin(3); it != img.rrow_end(3); it++)
+		EXPECT_TRUE(*it == px);
+
+	for (auto it = img.crow_begin(3); it != img.crow_end(3); it++)
+		EXPECT_TRUE(*it == px);
+}
+TEST(PImageTests, Clear)
+{
+	auto img = PImage<int, 3>{ 5, 10, ColorSpace::RGB };
+	img.clear();
+	EXPECT_EQ(img.height(), 0);
+	EXPECT_EQ(img.width(), 0);
+	EXPECT_EQ(img.size(), 0);
+	EXPECT_EQ(img.data_size(), 0);
+}
 TEST(PImageTests, Resize)
 {
 	
