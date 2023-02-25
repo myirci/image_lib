@@ -2,101 +2,88 @@
 
 #include <algorithm>
 #include <imglib/image/image.hpp>
+#include <imglib/image/cimage.hpp>
+#include <imglib/image/pimage.hpp>
+#include <imglib/utility/simple_geometry.hpp>
+#include <imglib/color/color.hpp>
 
 namespace imglib::algorithm
 {
-    template<typename T, template<typename> class colorT>
-    void do_block(Image<T>& image, int top, int left, int bottom, int right, colorT<T> color, color_rgb_tag)
+    template <typename T, std::convertible_to<T>... U>
+        requires (sizeof...(U) >= 1)
+    void block(Image<T>& img, const Rectangle2D<size_t>& box, U... vals)
     {
-        for (int i = top; i <= bottom; ++i)
+        if (img.num_channels() != sizeof...(U))
+            throw std::invalid_argument("Channel number mismatch.");
+
+        size_t i{ 0 };
+        for (auto val : { vals... }) 
         {
-            std::fill(image(0).git(i, left), image(0).git(i, right + 1), color.r);
-            std::fill(image(1).git(i, left), image(1).git(i, right + 1), color.b);
-            std::fill(image(2).git(i, left), image(2).git(i, right + 1), color.g);
+            for (size_t j = box.top_left()(0); j <= box.bottom_right()(0); j++)
+                std::fill(img(i).git(j, box.top_left()(1)), img(i).git(j, box.bottom_right()(1) + 1), val);
+
+            i++;
         }
     }
 
-    template<typename T, template<typename> class colorT>
-    void do_block(Image<T>& image, int top, int left, int bottom, int right, colorT<T> color, color_mono_tag)
+    template <typename T, std::convertible_to<T>... U>
+        requires (sizeof...(U) >= 1)
+    void bars(Image<T>& img, size_t width, T increment, U... vals)
     {
-        for (int i = top; i <= bottom; ++i)
-            std::fill(image(0).git(i, left), image(0).git(i, right), color.v);
-    }
+        if (img.num_channels() != sizeof...(U))
+            throw std::invalid_argument("Channel number mismatch.");
 
-    // Draw a rectangle on the image with the given color
-    template<typename T, template<typename> class colorT>
-    void block(Image<T>& image, int top, int left, int bottom, int right, colorT<T> color)
-    {
-        do_block(image, top, left, bottom, right, color, typename color_traits<T, colorT>::color_space_category());
-    }
+        if (width == 0)
+            throw std::invalid_argument("Bar width should be greater than 0.");
 
-    template<typename T, template<typename> class colorT>
-    void do_bars(Image<T>& image, colorT<T> first_color, T increment, int bar_width, color_mono_tag)
-    {
-        // compute the first row
-        T value = first_color.v - increment;
-        for (int i = 0; i < image.width(); ++i)
+        size_t i{ 0 };
+        for (auto val : { vals... })
         {
-            if (i % bar_width == 0)
+            // compute first row
+            T v = val;
+            for (size_t j = 0; j < img.width(); ++j) 
             {
-                value += increment;
-                if (value > std::numeric_limits<T>::max())
+                if (j != 0 && j % width == 0)
                 {
-                    value = first_color.v;
+                    if (std::numeric_limits<T>::max() - v > increment)
+                        v += increment;
+                    else
+                        v = val;
                 }
+
+                img(i)(0, j) = v;
             }
-            image(0)(0, i) = value;
-        }
-        // copy the top row into all the others
-        for (int i = 1; i < image.height(); ++i)
-        {
-            std::copy(image(0).row_begin(0), image(0).row_end(0), image(0).row_begin(i));
+
+            // copy first row to the other rows
+            for (size_t j = 1; j < img.height(); ++j)
+                std::copy(img(i).row_begin(0), img(i).row_end(0), img(i).row_begin(j));
+
+            i++;
         }
     }
 
-    template<typename T, template<typename> class colorT>
-    void do_bars(Image<T>& image, colorT<T> first_color, T increment, int bar_width, color_rgb_tag)
+    template <typename T, size_t NumChannels>
+    Image<T> horizontal_linear_gradient(size_t imgSize, size_t sectionSize, size_t numStops, const Color<T, NumChannels>& start, const Color<T, NumChannels>& end)
     {
-        // compute the first row
-        T value_r = first_color.r - increment;
-        T value_g = first_color.g - increment;
-        T value_b = first_color.b - increment;
-        for (int i = 0; i < image.width(); ++i)
-        {
-            if (i % bar_width == 0)
-            {
-                value_r += increment;
-                value_g += increment;
-                value_b += increment;
-                if (value_r > std::numeric_limits<T>::max())
-                {
-                    value_r = first_color.r;
-                }
-                if (value_g > std::numeric_limits<T>::max())
-                {
-                    value_g = first_color.g;
-                }
-                if (value_b > std::numeric_limits<T>::max())
-                {
-                    value_b = first_color.b;
-                }
-            }
-            image(0)(0, i) = value_r;
-            image(1)(0, i) = value_g;
-            image(2)(0, i) = value_b;
-        }
-        // copy the top row into all the others
-        for (int i = 1; i < image.height(); ++i)
-        {
-            std::copy(image(0).row_begin(0), image(0).row_end(0), image(0).row_begin(i));
-            std::copy(image(1).row_begin(0), image(1).row_end(0), image(1).row_begin(i));
-            std::copy(image(2).row_begin(0), image(2).row_end(0), image(2).row_begin(i));
-        }
-    }
+        if (start.color_space() != end.color_space())
+            throw std::invalid_argument("Color space mismatch");
+        
+        auto colors = GetColorStops(start, end, numStops);
 
-    template<typename T, template<typename> class colorT>
-    void bars(Image<T>& image, colorT<T> firstColor, T increment, int barWidth)
-    {
-        do_bars(image, firstColor, increment, barWidth, typename color_traits<T, colorT>::color_space_category());
+        size_t width = sectionSize * numStops;
+        auto img = Image<T>{ imgSize, width, start.color_space(), NumChannels };
+
+        // set the initial row
+        size_t k{ 0 };
+        for (size_t i = 0; i < numStops; i++)
+            for (size_t j = 0; j < sectionSize; j++)
+                img.set_pixel(k++, colors[i]);
+
+        // set the rest of the rows
+        for (size_t i = 0; i < NumChannels; i++)
+            for (size_t j = 1; j < imgSize; j++)
+                std::copy(img(i).row_begin(0), img(i).row_end(0), img(i).row_begin(j));
+
+        return img;
     }
 }

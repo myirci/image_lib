@@ -28,13 +28,13 @@
     <ClCompile Include="..\src\imglib\utility\utility.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\imglib\adaptors\png_adaptor.cpp">
+      <Filter>Adaptor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\imglib\adaptors\jpeg_adaptor.hpp">
       <Filter>Adaptor</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\imglib\algorithms\color_space_conversion.hpp">
-      <Filter>Algorithms</Filter>
     </ClInclude>
     <ClInclude Include="..\src\imglib\algorithms\convolution.hpp">
       <Filter>Algorithms</Filter>
@@ -49,9 +49,6 @@
       <Filter>Algorithms</Filter>
     </ClInclude>
     <ClInclude Include="..\src\imglib\color\color.hpp">
-      <Filter>Color</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\imglib\color\color_traits.hpp">
       <Filter>Color</Filter>
     </ClInclude>
     <ClInclude Include="..\src\imglib\image\channel.hpp">
@@ -75,6 +72,9 @@
     </ClInclude>
     <ClInclude Include="..\src\imglib\utility\simple_geometry.hpp">
       <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\imglib\adaptors\png_adaptor.hpp">
+      <Filter>Adaptor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

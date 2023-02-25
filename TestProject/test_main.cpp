@@ -1,6 +1,3 @@
-
-#include "image_generation_tests.hpp"
-#include "color_space_conversion_tests.hpp"
 #include "convolution_tests.hpp"
 #include "homogeneous_point_operations_tests.hpp"
 #include "shrink_tests.hpp"
@@ -16,13 +13,6 @@ int main(void)
 	Logger log("C:/Users/myirc/source/repos/github/image_lib/data/log/log1.txt");
 	log.WriteLine(1, 2);
 	log.WriteLine("Test", "Dost", 34);
-
-	GenerateBarsInGrayscale();
-	GenerateBarsInRGB();
-	GenerateBlocksInGrayscale();
-	GenerateBlocksInRGB();
-
-	GenerateGrayscaleImageFromRGBImage();
 
 	GenerateAveragedImages();
 	GenerateEdgeDetectedImages();

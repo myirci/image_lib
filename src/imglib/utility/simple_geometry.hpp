@@ -4,6 +4,12 @@
 
 namespace imglib 
 {
+	enum class Orientation2D 
+	{
+		Horizontal,
+		Vertical
+	};
+
 	template <typename T = size_t, size_t Dimension = 2u>
 	class Point
 	{
@@ -14,7 +20,7 @@ namespace imglib
 				coord[i] = T();
 		}
 
-		template < std::same_as<T> ... U>
+		template < std::convertible_to<T> ... U>
 			requires (sizeof...(U) == Dimension)
 		Point(U... args)
 		{
@@ -44,8 +50,11 @@ namespace imglib
 			m_topLeft{ std::forward<PointType>(topLeft) },
 			m_bottomRight{ std::forward<PointType>(bottomRight) }
 		{
-			m_height = m_bottomRight(0) - m_topLeft(0);
-			m_width = m_bottomRight(1) - m_topLeft(1);
+			m_height = m_bottomRight(0) - m_topLeft(0) + 1;
+			m_width = m_bottomRight(1) - m_topLeft(1) + 1;
+
+			if (m_height <= 0 || m_width <= 0)
+				throw std::invalid_argument();
 		}
 
 		template <typename PointType>
@@ -55,7 +64,7 @@ namespace imglib
 			m_height{ height },
 			m_width{ width }
 		{
-			m_bottomRight = Point2D{ m_topLeft(0) + m_height, m_topLeft(1) + m_width };
+			m_bottomRight = Point2D{ m_topLeft(0) + m_height - 1, m_topLeft(1) + m_width - 1};
 		}
 
 		T height() const noexcept { return m_height; }

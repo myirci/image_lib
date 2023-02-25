@@ -120,6 +120,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\image_lib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,18 +136,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="color_space_conversion_tests.hpp" />
     <ClInclude Include="convolution_tests.hpp" />
     <ClInclude Include="homogeneous_point_operations_tests.hpp" />
-    <ClInclude Include="image_generation_tests.hpp" />
     <ClInclude Include="shrink_tests.hpp" />
     <ClInclude Include="test_config.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="color_space_conversion_tests.cpp" />
     <ClCompile Include="convolution_tests.cpp" />
     <ClCompile Include="homogeneous_point_operations_tests.cpp" />
-    <ClCompile Include="image_generation_tests.cpp" />
     <ClCompile Include="shrink_tests.cpp" />
     <ClCompile Include="test_main.cpp" />
   </ItemGroup>

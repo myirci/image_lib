@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="algorithm_tests.cpp" />
+    <ClCompile Include="algorithm_tests_io.cpp" />
     <ClCompile Include="channel_tests.cpp" />
     <ClCompile Include="cimage_tests.cpp" />
     <ClCompile Include="image_tests.cpp" />
@@ -118,6 +119,8 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\image_lib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

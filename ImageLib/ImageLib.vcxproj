@@ -20,17 +20,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\imglib\adaptors\jpeg_adaptor.cpp" />
+    <ClCompile Include="..\src\imglib\adaptors\png_adaptor.cpp" />
     <ClCompile Include="..\src\imglib\utility\utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\imglib\adaptors\jpeg_adaptor.hpp" />
-    <ClInclude Include="..\src\imglib\algorithms\color_space_conversion.hpp" />
+    <ClInclude Include="..\src\imglib\adaptors\png_adaptor.hpp" />
     <ClInclude Include="..\src\imglib\algorithms\convolution.hpp" />
     <ClInclude Include="..\src\imglib\algorithms\homogeneous_point_operations.hpp" />
     <ClInclude Include="..\src\imglib\algorithms\image_generation.hpp" />
     <ClInclude Include="..\src\imglib\algorithms\shrink.hpp" />
     <ClInclude Include="..\src\imglib\color\color.hpp" />
-    <ClInclude Include="..\src\imglib\color\color_traits.hpp" />
     <ClInclude Include="..\src\imglib\config.hpp" />
     <ClInclude Include="..\src\imglib\image\channel.hpp" />
     <ClInclude Include="..\src\imglib\image\cimage.hpp" />
@@ -68,7 +68,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -142,6 +142,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\image_lib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

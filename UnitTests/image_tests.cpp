@@ -75,6 +75,44 @@ TEST(ImageTests, Constructor_test3)
 		EXPECT_TRUE(helpers::AllPixelsEqualTo<char>(img2(i).data(), img2.size(), 19));
 }
 
+TEST(ImageTests, Constructor_test4) 
+{
+	Channel<int> ch1{ 8, 10, 5 };
+	Channel<int> ch2{ 8, 10, -34 };
+	Channel<int> ch3{ 8, 10, 23 };
+
+	Image<int> img1{ ColorSpace::GrayScale, ch1 };
+	EXPECT_EQ(img1.height(), 8);
+	EXPECT_EQ(img1.width(), 10);
+	EXPECT_EQ(img1.color_space(), ColorSpace::GrayScale);
+	EXPECT_EQ(img1.num_channels(), 1);
+	EXPECT_EQ(img1.size(), 80);
+	EXPECT_EQ(img1.data_size(), 80);
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img1(0).data(), img1.size(), 5));
+
+	Image<int> img2{ ColorSpace::RGB, ch1, ch2, ch3 };
+	EXPECT_EQ(img2.height(), 8);
+	EXPECT_EQ(img2.width(), 10);
+	EXPECT_EQ(img2.color_space(), ColorSpace::RGB);
+	EXPECT_EQ(img2.num_channels(), 3);
+	EXPECT_EQ(img2.size(), 80);
+	EXPECT_EQ(img2.data_size(), 240);
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img2(0).data(), img2.size(), 5));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img2(1).data(), img2.size(), -34));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img2(2).data(), img2.size(), 23));
+
+	Image<int> img3{ ColorSpace::RGB, std::move(ch1), ch2, std::move(ch3) };
+	EXPECT_EQ(img3.height(), 8);
+	EXPECT_EQ(img3.width(), 10);
+	EXPECT_EQ(img3.color_space(), ColorSpace::RGB);
+	EXPECT_EQ(img3.num_channels(), 3);
+	EXPECT_EQ(img3.size(), 80);
+	EXPECT_EQ(img3.data_size(), 240);
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img3(0).data(), img3.size(), 5));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img3(1).data(), img3.size(), -34));
+	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img3(2).data(), img3.size(), 23));
+}
+
 TEST(ImageTests, CopyConstructor_and_CopyAssignment)
 {
 	auto img1 = Image<char>(5, 2, ColorSpace::RGB, 3, 23);
@@ -206,11 +244,11 @@ TEST(ImageTests, Clear)
 	EXPECT_EQ(img.data(), nullptr);
 }
 
-TEST(ImageTests, AppendChannel)
+TEST(ImageTests, AppendChannel_test1)
 {
 	// Append fails - color space must be unspecified
 	auto img1 = Image<uint8_t>{ 4, 6, ColorSpace::GrayScale, 1, 19 };
-	Channel<uint8_t> ch1{ 2, 6 };
+	Channel<uint8_t> ch1{ 4, 6 };
 	EXPECT_THROW(img1.append_channel(ch1), std::invalid_argument);
 
 	// Append fails - height mismatch
@@ -238,6 +276,77 @@ TEST(ImageTests, AppendChannel)
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(img2(0).data(), img2.size(), 19));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(img2(1).data(), img2.size(), 43));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(img2(2).data(), img2.size(), 32));
+}
+
+TEST(ImageTests, AppendChannel_test2)
+{
+	auto img = Image<uint8_t>{ 4, 6, ColorSpace::Unspecified, 1 };
+
+	Channel<uint8_t> ch1{ 4, 6, 1 };
+	Channel<uint8_t> ch2{ 4, 6, 2 };
+	Channel<uint8_t> ch3{ 4, 6, 3 };
+	Channel<uint8_t> ch4{ 4, 6, 4 };
+	Channel<uint8_t> ch5{ 4, 6, 5 };
+
+	// Append channels with lvalue references
+	img.append_channel(ch1, ch2, ch3, ch4, ch5);
+
+	EXPECT_EQ(img.num_channels(), 6);
+	EXPECT_EQ(img.data_size(), 144);
+	for (size_t i = 0; i < 6; i++)
+		EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(img(i).data(), img.size(), i));
+
+	// Append channels with lvalue and rvalue references
+	Channel<uint8_t> ch6{ 4, 6, 6 };
+	Channel<uint8_t> ch7{ 4, 6, 7 };
+	Channel<uint8_t> ch8{ 4, 6, 8 };
+	Channel<uint8_t> ch9{ 4, 6, 9 };
+
+	img.append_channel(ch6, std::move(ch7), ch8, std::move(ch9));
+	EXPECT_EQ(img.num_channels(), 10);
+	EXPECT_EQ(img.data_size(), 240);
+	for (size_t i = 0; i < 10; i++)
+		EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(img(i).data(), img.size(), i));
+
+	// Append with rvalue reference
+	Channel<uint8_t> ch10{ 4, 6, 10 };
+	Channel<uint8_t> ch11{ 4, 6, 11 };
+	Channel<uint8_t> ch12{ 4, 6, 12 };
+
+	img.append_channel(std::move(ch10), std::move(ch11), std::move(ch12));
+	EXPECT_EQ(img.num_channels(), 13);
+	EXPECT_EQ(img.data_size(), 312);
+	for (size_t i = 0; i < 13; i++)
+		EXPECT_TRUE(helpers::AllPixelsEqualTo<uint8_t>(img(i).data(), img.size(), i));
+}
+
+TEST(ImageTests, AppendChannel_test3) 
+{
+	// Invalid channels for the created images
+	Channel<uint8_t> ch1{ 3, 6, 1 };
+	Channel<uint8_t> ch2{ 4, 7, 2 };
+
+	// Valid Channels
+	Channel<uint8_t> ch3{ 4, 6, 3 };
+	Channel<uint8_t> ch4{ 4, 6, 4 };
+	Channel<uint8_t> ch5{ 4, 6, 5 };
+
+	// Color space mismatch
+	auto img1 = Image<uint8_t>{ 4, 6, ColorSpace::RGB, 3};
+	img1.set_channels(0, 1, 2);
+	EXPECT_THROW(img1.append_channel(ch3, ch4), std::invalid_argument);
+
+	auto img2 = Image<uint8_t>{ 4, 6, ColorSpace::Unspecified, 1 };
+	EXPECT_THROW(img2.append_channel(ch1, ch3, ch4), std::invalid_argument);
+
+	auto img3 = Image<uint8_t>{ 4, 6, ColorSpace::Unspecified, 1 };
+	EXPECT_THROW(img3.append_channel(ch3, ch1, ch4), std::invalid_argument);
+
+	auto img4 = Image<uint8_t>{ 4, 6, ColorSpace::Unspecified, 1 };
+	EXPECT_THROW(img4.append_channel(ch3, ch4, ch1), std::invalid_argument);
+
+	auto img5 = Image<uint8_t>{ 4, 6, ColorSpace::Unspecified, 1 };
+	EXPECT_NO_THROW(img5.append_channel(ch3, ch4));
 }
 
 TEST(ImageTests, DeleteChannel_test1)
@@ -395,9 +504,9 @@ TEST(ImageTests, SetPixel_test1)
 	for (auto it = img(0).begin(); it != img(0).end(); ++it)
 		EXPECT_FLOAT_EQ(*it, start++);
 
-	img.set_pixel(0, 0, static_cast<uint8_t>(100));
-	img.set_pixel(4, 3, static_cast<uint8_t>(101));
-	img.set_pixel(9, 4, static_cast<uint8_t>(102));
+	img.set_pixel(0, 0, (uint8_t)100);
+	img.set_pixel(4, 3, (uint8_t)101);
+	img.set_pixel(9, 4, (uint8_t)102);
 
 	EXPECT_EQ(img(0)(0, 0), 100);
 	EXPECT_EQ(img(0)(4, 3), 101);
@@ -455,6 +564,49 @@ TEST(ImageTests, SetPixel_test3)
 	EXPECT_EQ(img(5)(5, 6), 109);
 }
 
+TEST(ImageTests, SetPixel_test4) 
+{
+	auto img = Image<uint8_t>{ 8, 6, ColorSpace::GrayScale, 1 };
+	uint8_t start = 0;
+	for (size_t i = 0; i < img.size(); i++)
+		img.set_pixel(i, Color<uint8_t, 1>{ ColorSpace::GrayScale, start++ });
+
+	start = 0;
+	for (auto it = img(0).begin(); it != img(0).end(); ++it)
+		EXPECT_FLOAT_EQ(*it, start++);
+
+	img.set_pixel(0, 0, Color<uint8_t, 1>{ ColorSpace::GrayScale, 100 });
+	img.set_pixel(4, 3, Color<uint8_t, 1>{ ColorSpace::GrayScale, 101 });
+	img.set_pixel(7, 4, Color<uint8_t, 1>{ ColorSpace::GrayScale, 102 });
+
+	EXPECT_EQ(img(0)(0, 0), 100);
+	EXPECT_EQ(img(0)(4, 3), 101);
+	EXPECT_EQ(img(0)(7, 4), 102);
+}
+
+TEST(ImageTests, SetPixel_test5)
+{
+	auto img = Image<float>{ 7, 11, ColorSpace::RGB, 3 };
+	float start = 0.0f;
+	for (size_t i = 0; i < img.size(); i++)
+	{
+		img.set_pixel(i, Color<float, 3>{ ColorSpace::RGB, start, start + 0.1f, start + 0.2f });
+		start += 0.3f;
+	}
+
+	for (size_t i = 0; i < img.num_channels(); i++)
+	{
+		start = (i * 0.1f);
+		for (auto it = img(i).begin(); it != img(i).end(); ++it, start += 0.3f)
+			EXPECT_FLOAT_EQ(*it, start);
+	}
+
+	img = 0.0f;
+	img.set_pixel(3, 4, Color<float, 3>{ ColorSpace::RGB, 0.1f, 0.2f, 0.3f });
+	EXPECT_FLOAT_EQ(img(0)(3, 4), 0.1f);
+	EXPECT_FLOAT_EQ(img(1)(3, 4), 0.2f);
+	EXPECT_FLOAT_EQ(img(2)(3, 4), 0.3f);
+}
 TEST(ImageTests, Resize)
 {
 	Image<uint8_t> img{ 10, 20, ColorSpace::RGB, 3 };

@@ -31,6 +31,18 @@ namespace imglib
                 m_channels.emplace_back(std::make_unique<Channel<T>>(height, width, val));
         }
 
+        template <typename... ChannelType>
+            requires std::same_as<typename std::remove_cvref_t<ChannelType>, Channel<T>> && (sizeof...(ChannelType) >= 1)
+        Image(ColorSpace colorSpace, ChannelType&&... channels)
+        {
+            // Forwarding the parameter pack
+            append_channel(std::forward<ChannelType>(channels)...);
+            m_colorSpace = colorSpace;
+
+            if (m_height < 1 || m_width < 1 || m_numChannels < 1 || !IsValid(m_colorSpace, m_numChannels))
+                throw std::invalid_argument("At least one of the arguments is invalid.");
+        }
+
         // Copy constructor
         Image(const Image<T>& other) :
             m_height{ other.m_height },
@@ -81,7 +93,7 @@ namespace imglib
                 *ch = value;
         }
 
-        template <std::same_as<T> ...U>
+        template <std::convertible_to<T> ...U>
             requires (sizeof...(U) >= 1)
         void set_channels(U... args) 
         {
@@ -100,6 +112,12 @@ namespace imglib
             set_pixel(row * m_width + col, args...);
         }
 
+        template <size_t NumChannels>
+        void set_pixel(size_t row, size_t col, const Color<T, NumChannels>& clr)
+        {
+            set_pixel(row * m_width + col, clr);
+        }
+
         template <std::same_as<T> ...U>
             requires (sizeof...(U) >= 1)
         void set_pixel(size_t index, U... args)
@@ -112,6 +130,16 @@ namespace imglib
                 (*m_channels[i++])(index) = arg;
         }
 
+        template <size_t NumChannels>
+        void set_pixel(size_t index, const Color<T, NumChannels>& clr)
+        {
+            if (NumChannels != m_numChannels)
+                throw std::invalid_argument("Numbe of channels mismatch.");
+
+            for (size_t i = 0; i < NumChannels; i++)
+                (*m_channels[i])(index) = clr(i);
+        }
+
         size_t width() const noexcept { return m_width; }
 
         size_t height() const noexcept { return m_height; }
@@ -119,6 +147,8 @@ namespace imglib
         size_t num_channels() const noexcept { return m_numChannels; }
 
         ColorSpace color_space() const noexcept { return m_colorSpace; }
+
+        void set_color_space(ColorSpace cs) { m_colorSpace = cs; }
 
         size_t size() const noexcept { return m_width * m_height; }
 
@@ -148,11 +178,40 @@ namespace imglib
             requires std::same_as<typename std::remove_cvref_t<ChannelType>, Channel<T>>
         void append_channel(ChannelType&& ch)
         {
+            if (m_numChannels == 0)
+            {
+                m_height = ch.num_rows();
+                m_width = ch.num_columns();
+            }
+
             if (ch.num_rows() != m_height || ch.num_columns() != m_width || m_colorSpace != ColorSpace::Unspecified)
                 throw std::invalid_argument("Image - channel property mismatch.");
 
             m_channels.emplace_back(std::make_unique<Channel<T>>(std::forward<ChannelType>(ch)));
             m_numChannels++;
+        }
+
+        template <typename FirstChannel, typename... ChannelType>
+            requires std::same_as<typename std::remove_cvref_t<FirstChannel>, Channel<T>>&&
+                     std::same_as<typename std::remove_cvref_t<ChannelType>, Channel<T>>
+        void append_channel(FirstChannel&& ch, ChannelType&&... channels)
+        {
+            if (m_numChannels == 0) 
+            {
+                m_height = ch.num_rows();
+                m_width = ch.num_columns();
+            }
+            else 
+            {
+                if (ch.num_rows() != m_height || ch.num_columns() != m_width || m_colorSpace != ColorSpace::Unspecified)
+                    throw std::invalid_argument("Image - channel property mismatch.");
+            }
+
+            m_channels.emplace_back(std::make_unique<Channel<T>>(std::forward<FirstChannel>(ch)));
+            m_numChannels++;
+
+            // Forwarding the parameter pack
+            append_channel(std::forward<ChannelType>(channels)...);
         }
 
         void delete_channel(size_t pos) 
