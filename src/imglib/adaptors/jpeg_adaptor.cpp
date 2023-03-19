@@ -50,7 +50,7 @@ namespace imglib::jpeg
         }
     }
     
-    void Export(const std::string& fileName, int quality, const Image<data_type>& img)
+    void Write(const std::string& fileName, int quality, const Image<data_type>& img)
     {
         // Open the file
         FILE* outFile{ nullptr };
@@ -104,11 +104,11 @@ namespace imglib::jpeg
                 jpeg_destroy_compress(&cinfo);
             }
 
-            throw std::runtime_error("Something went wrong while exporting the image to a jpeg file.");
+            throw std::runtime_error("Something went wrong while writing the image to a jpeg file.");
         }
     }
 
-    Image<data_type> Import(const std::string& fileName)
+    Image<data_type> Read(const std::string& fileName)
     {
         // Open the file
         FILE* inFile;
@@ -167,7 +167,7 @@ namespace imglib::jpeg
                 jpeg_finish_decompress(&cinfo);
             }
 
-            throw std::runtime_error("Something went wrong while importing the image from a jpeg file.");
+            throw std::runtime_error("Something went wrong while reading the image from a jpeg file.");
         }
     }
 }

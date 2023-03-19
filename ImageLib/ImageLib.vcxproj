@@ -29,7 +29,7 @@
     <ClInclude Include="..\src\imglib\algorithms\convolution.hpp" />
     <ClInclude Include="..\src\imglib\algorithms\homogeneous_point_operations.hpp" />
     <ClInclude Include="..\src\imglib\algorithms\image_generation.hpp" />
-    <ClInclude Include="..\src\imglib\algorithms\shrink.hpp" />
+    <ClInclude Include="..\src\imglib\algorithms\geometric_modifications.hpp" />
     <ClInclude Include="..\src\imglib\color\color.hpp" />
     <ClInclude Include="..\src\imglib\config.hpp" />
     <ClInclude Include="..\src\imglib\image\channel.hpp" />

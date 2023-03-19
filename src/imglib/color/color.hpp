@@ -9,9 +9,11 @@ namespace imglib
     {
         Unspecified,
         GrayScale,
-        RGB,        // Additive color model, 3 channels - Red, Green, Blue    
+        GrayScaleAlpha, // Grayscale with alpha channel 
+        RGB,            // Additive color model, 3 channels - Red, Green, Blue
+        RGBA,           // RGB with alpha channel
         YCbCr,
-        CMYK,       // Substractive color model, 4 channels - Cyan, Magenta, Yellow, Key (black)
+        CMYK,           // Substractive color model, 4 channels - Cyan, Magenta, Yellow, Key (black)
         YCCK
     };
 

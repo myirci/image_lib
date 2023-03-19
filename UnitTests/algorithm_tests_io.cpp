@@ -12,18 +12,18 @@ using namespace imglib;
 using JpegImage = Image<jpeg::data_type>;
 using Point2D = Point<size_t, 2u>;
 
-void export_jpeg(const JpegImage& img, std::string_view name, int quality = 60)
+void write_jpeg(const JpegImage& img, std::string_view name, int quality = 60)
 {
     std::string outImgPath{ helpers::output_img_path };
     outImgPath += name;
-    jpeg::Export(outImgPath, 60, img);
+    jpeg::Write(outImgPath, 60, img);
 }
 
 JpegImage import_jpeg(std::string_view name)
 {
     std::string inputImgPath{ helpers::input_img_path };
     inputImgPath += name;
-    return jpeg::Import(inputImgPath);
+    return jpeg::Read(inputImgPath);
 }
 
 TEST(AlgorithmTestsIO, image_block_grayscale)
@@ -35,7 +35,7 @@ TEST(AlgorithmTestsIO, image_block_grayscale)
     Rectangle2D<size_t> box{ Point2D{ oneThird, oneThird },  oneThird, oneThird };
 
     algorithm::block(img, box, 127);
-    export_jpeg(img, "block_grayscale.jpg");
+    write_jpeg(img, "block_grayscale.jpg");
 }
 
 TEST(AlgorithmTestsIO, image_block_rgb)
@@ -48,10 +48,10 @@ TEST(AlgorithmTestsIO, image_block_rgb)
     Rectangle2D<size_t> box{ Point2D{ oneThird, oneThird },  oneThird, oneThird };
 
     algorithm::block(img, box, 127, 0, 0);
-    export_jpeg(img, "block_rgb.jpg");
-    export_jpeg(JpegImage{ ColorSpace::GrayScale, img(0) }, "block_new_rgb_RedChannel.jpg");
-    export_jpeg(JpegImage{ ColorSpace::GrayScale, img(1) }, "block_new_rgb_GreenChanel.jpg");
-    export_jpeg(JpegImage{ ColorSpace::GrayScale, img(2) }, "block_new_rgb_BlueChannel.jpg");
+    write_jpeg(img, "block_rgb.jpg");
+    write_jpeg(JpegImage{ ColorSpace::GrayScale, img(0) }, "block_new_rgb_RedChannel.jpg");
+    write_jpeg(JpegImage{ ColorSpace::GrayScale, img(1) }, "block_new_rgb_GreenChanel.jpg");
+    write_jpeg(JpegImage{ ColorSpace::GrayScale, img(2) }, "block_new_rgb_BlueChannel.jpg");
 }
 
 TEST(AlgorithmTestsIO, image_bars_grayscale)
@@ -60,7 +60,7 @@ TEST(AlgorithmTestsIO, image_bars_grayscale)
     jpeg::data_type increment = 24;
     size_t width = 64;
     algorithm::bars(img, width, increment, 0);
-    export_jpeg(img, "bars_grayscale.jpg");
+    write_jpeg(img, "bars_grayscale.jpg");
 }
 
 TEST(AlgorithmTestsIO, image_bars_rgb)
@@ -69,7 +69,7 @@ TEST(AlgorithmTestsIO, image_bars_rgb)
     jpeg::data_type increment = 20;
     size_t width = 20;
     algorithm::bars(img, width, increment, 50, 100, 150);
-    export_jpeg(img, "bars_rgb.jpg");
+    write_jpeg(img, "bars_rgb.jpg");
 }
 
 TEST(AlgorithmTestsIO, image_horizontal_linear_gradient_grayscale) 
@@ -77,7 +77,7 @@ TEST(AlgorithmTestsIO, image_horizontal_linear_gradient_grayscale)
     Color<jpeg::data_type, 1> start{ ColorSpace::GrayScale, 0 };
     Color<jpeg::data_type, 1> end{ ColorSpace::GrayScale, 255 };
     auto img = algorithm::horizontal_linear_gradient(600, 30, 20, start, end);
-    export_jpeg(img, "horizontal_linear_gradient_grayscale_1.jpg");
+    write_jpeg(img, "horizontal_linear_gradient_grayscale_1.jpg");
 }
 
 TEST(AlgorithmTestsIO, image_horizontal_linear_gradient_rgb1)
@@ -85,7 +85,7 @@ TEST(AlgorithmTestsIO, image_horizontal_linear_gradient_rgb1)
     Color<jpeg::data_type, 3> start{ ColorSpace::RGB, 255, 0, 0 };
     Color<jpeg::data_type, 3> end{ ColorSpace::RGB, 255, 255, 255 };
     auto img = algorithm::horizontal_linear_gradient(600, 1, 600, start, end);
-    export_jpeg(img, "horizontal_linear_gradient_rgb_1.jpg");
+    write_jpeg(img, "horizontal_linear_gradient_rgb_1.jpg");
 }
 
 TEST(AlgorithmTestsIO, image_horizontal_linear_gradient_rgb2)
@@ -93,7 +93,7 @@ TEST(AlgorithmTestsIO, image_horizontal_linear_gradient_rgb2)
     Color<jpeg::data_type, 3> start{ ColorSpace::RGB, 123, 12, 89 };
     Color<jpeg::data_type, 3> end{ ColorSpace::RGB, 45, 155, 17 };
     auto img = algorithm::horizontal_linear_gradient(600, 20, 30, start, end);
-    export_jpeg(img, "horizontal_linear_gradient_rgb_2.jpg");
+    write_jpeg(img, "horizontal_linear_gradient_rgb_2.jpg");
 }
 
 TEST(AlgorithmTestsIO, image_horizontal_linear_gradient_rgb3)
@@ -101,12 +101,12 @@ TEST(AlgorithmTestsIO, image_horizontal_linear_gradient_rgb3)
     Color<jpeg::data_type, 3> start{ ColorSpace::RGB, 123, 12, 89 };
     Color<jpeg::data_type, 3> end{ ColorSpace::RGB, 45, 155, 17 };
     auto img = algorithm::horizontal_linear_gradient(600, 2, 300, start, end);
-    export_jpeg(img, "horizontal_linear_gradient_rgb_3.jpg");
+    write_jpeg(img, "horizontal_linear_gradient_rgb_3.jpg");
 }
 
 TEST(AlgorithmTestsIO, image_rgb_to_grayscale_conversion)
 {
     auto imgRgb = import_jpeg("petit_prince.jpg");
     auto imgGray = rgb_to_grayscale(imgRgb);
-    export_jpeg(imgGray, "petit_prince_grayscale.jpg");
+    write_jpeg(imgGray, "petit_prince_grayscale.jpg");
 }

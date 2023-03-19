@@ -45,7 +45,7 @@
     <ClInclude Include="..\src\imglib\algorithms\image_generation.hpp">
       <Filter>Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\imglib\algorithms\shrink.hpp">
+    <ClInclude Include="..\src\imglib\algorithms\geometric_modifications.hpp">
       <Filter>Algorithms</Filter>
     </ClInclude>
     <ClInclude Include="..\src\imglib\color\color.hpp">

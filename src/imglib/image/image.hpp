@@ -152,7 +152,7 @@ namespace imglib
 
         size_t size() const noexcept { return m_width * m_height; }
 
-        size_t data_size() const noexcept { return size() * m_numChannels; }
+        size_t data_size() const noexcept { return size() * m_numChannels * sizeof(T); }
 
         std::unique_ptr<T[]> data() const
         {

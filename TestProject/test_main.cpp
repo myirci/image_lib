@@ -8,13 +8,19 @@
 
 #include <imglib/utility/logger.hpp>
 
+#include <imglib/adaptors/png_adaptor.hpp>
+#include <imglib/adaptors/jpeg_adaptor.hpp>
+
 int main(void) 
 {
-	Logger log("C:/Users/myirc/source/repos/github/image_lib/data/log/log1.txt");
-	log.WriteLine(1, 2);
-	log.WriteLine("Test", "Dost", 34);
+	auto img = imglib::png::Read(L"C:/Users/myirc/source/repos/github/image_lib/data/output/bgyn6a16_copy.png");
+	imglib::png::Write(img, L"C:/Users/myirc/source/repos/github/image_lib/data/output/bgyn6a16_copy2.png");
 
-	GenerateAveragedImages();
+	/*Logger log("C:/Users/myirc/source/repos/github/image_lib/data/log/log1.txt");
+	log.WriteLine(1, 2);
+	log.WriteLine("Test", "Dost", 34);*/
+
+	/*GenerateAveragedImages();
 	GenerateEdgeDetectedImages();
 	GenerateGradientImages();
 
@@ -25,7 +31,7 @@ int main(void)
 	GenerateInvertedImages();
 	
 	GenerateShrinkedImageGrayscale();
-	GenerateShrinkedImageRGB();
+	GenerateShrinkedImageRGB();*/
 
 	return 0;
 }
