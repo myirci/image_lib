@@ -87,7 +87,7 @@ TEST(ImageTests, Constructor_test4)
 	EXPECT_EQ(img1.color_space(), ColorSpace::GrayScale);
 	EXPECT_EQ(img1.num_channels(), 1);
 	EXPECT_EQ(img1.size(), 80);
-	EXPECT_EQ(img1.data_size(), 80);
+	EXPECT_EQ(img1.data_size(), 80 * sizeof(int));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img1(0).data(), img1.size(), 5));
 
 	Image<int> img2{ ColorSpace::RGB, ch1, ch2, ch3 };
@@ -96,7 +96,7 @@ TEST(ImageTests, Constructor_test4)
 	EXPECT_EQ(img2.color_space(), ColorSpace::RGB);
 	EXPECT_EQ(img2.num_channels(), 3);
 	EXPECT_EQ(img2.size(), 80);
-	EXPECT_EQ(img2.data_size(), 240);
+	EXPECT_EQ(img2.data_size(), 240 * sizeof(int));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img2(0).data(), img2.size(), 5));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img2(1).data(), img2.size(), -34));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img2(2).data(), img2.size(), 23));
@@ -107,7 +107,7 @@ TEST(ImageTests, Constructor_test4)
 	EXPECT_EQ(img3.color_space(), ColorSpace::RGB);
 	EXPECT_EQ(img3.num_channels(), 3);
 	EXPECT_EQ(img3.size(), 80);
-	EXPECT_EQ(img3.data_size(), 240);
+	EXPECT_EQ(img3.data_size(), 240 * sizeof(int));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img3(0).data(), img3.size(), 5));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img3(1).data(), img3.size(), -34));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img3(2).data(), img3.size(), 23));
@@ -162,7 +162,7 @@ TEST(ImageTests, MoveConstructor_and_MoveAssignment)
 	EXPECT_EQ(img3.height(), 4);
 	EXPECT_EQ(img3.width(), 6);
 	EXPECT_EQ(img3.size(), 24);
-	EXPECT_EQ(img3.data_size(), 72);
+	EXPECT_EQ(img3.data_size(), 72 * sizeof(int));
 	EXPECT_EQ(img3.num_channels(), 3);
 	EXPECT_EQ(img3.color_space(), ColorSpace::RGB);
 	for (size_t i = 0; i < img3.num_channels(); i++)
@@ -180,7 +180,7 @@ TEST(ImageTests, MoveConstructor_and_MoveAssignment)
 	EXPECT_EQ(img3.height(), 8);
 	EXPECT_EQ(img3.width(), 8);
 	EXPECT_EQ(img3.size(), 64);
-	EXPECT_EQ(img3.data_size(), 192);
+	EXPECT_EQ(img3.data_size(), 192 * sizeof(int));
 	EXPECT_EQ(img3.num_channels(), 3);
 	EXPECT_EQ(img3.color_space(), ColorSpace::RGB);
 	for (size_t i = 0; i < img3.num_channels(); i++)
@@ -198,7 +198,7 @@ TEST(ImageTests, MoveConstructor_and_MoveAssignment)
 	EXPECT_EQ(img3.height(), 8);
 	EXPECT_EQ(img3.width(), 8);
 	EXPECT_EQ(img3.size(), 64);
-	EXPECT_EQ(img3.data_size(), 192);
+	EXPECT_EQ(img3.data_size(), 192 * sizeof(int));
 	EXPECT_EQ(img3.num_channels(), 3);
 	EXPECT_EQ(img3.color_space(), ColorSpace::RGB);
 	for (size_t i = 0; i < img3.num_channels(); i++)
@@ -212,7 +212,8 @@ TEST(ImageTests, Data)
 
 	auto img2 = Image<double>{ 6, 4, ColorSpace::GrayScale, 1, 3.14 };
 	auto data2 = img2.data();
-	for (auto i = 0; i < img2.data_size(); i++)
+	auto sz2 = img2.size() * img2.num_channels();
+	for (auto i = 0; i < sz2; i++)
 		EXPECT_EQ(data2[i], 3.14);
 
 	auto img3 = Image<int8_t>{ 3, 2, ColorSpace::RGB, 3, 0 };
@@ -220,7 +221,8 @@ TEST(ImageTests, Data)
 	img3(1) = 2;
 	img3(2) = 3;
 	auto data3 = img3.data();
-	for (auto i = 0; i < img3.data_size(); i++) 
+	auto sz3 = img3.size() * img3.num_channels();
+	for (auto i = 0; i < sz3; i++) 
 	{
 		if (i % 3 == 0)
 			EXPECT_EQ(data3[i], 1);
@@ -362,7 +364,7 @@ TEST(ImageTests, DeleteChannel_test1)
 
 	img.delete_channel(2);
 	EXPECT_EQ(img.num_channels(), 4);
-	EXPECT_EQ(img.data_size(), 100);
+	EXPECT_EQ(img.data_size(), 100 * sizeof(int));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img(0).data(), img.size(), 103));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img(1).data(), img.size(), -123));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img(2).data(), img.size(), 12));
@@ -371,7 +373,7 @@ TEST(ImageTests, DeleteChannel_test1)
 	
 	img.delete_channel(0);
 	EXPECT_EQ(img.num_channels(), 3);
-	EXPECT_EQ(img.data_size(), 75);
+	EXPECT_EQ(img.data_size(), 75 * sizeof(int));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img(0).data(), img.size(), -123));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img(1).data(), img.size(), 12));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img(2).data(), img.size(), 42));
@@ -379,7 +381,7 @@ TEST(ImageTests, DeleteChannel_test1)
 
 	img.delete_channel(2);
 	EXPECT_EQ(img.num_channels(), 2);
-	EXPECT_EQ(img.data_size(), 50);
+	EXPECT_EQ(img.data_size(), 50 * sizeof(int));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img(0).data(), img.size(), -123));
 	EXPECT_TRUE(helpers::AllPixelsEqualTo<int>(img(1).data(), img.size(), 12));
 	EXPECT_THROW(img.delete_channel(2), std::invalid_argument);

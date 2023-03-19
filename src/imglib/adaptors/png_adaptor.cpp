@@ -1,32 +1,11 @@
-#include <imglib/adaptors/png_adaptor.hpp>
 
+#include <imglib/adaptors/png_adaptor.hpp>
+#include <imglib/utility/utility.hpp>
 
 namespace imglib::png
 {
 	namespace 
 	{
-		enum class Mode 
-		{
-			Read,
-			Write
-		};
-
-		FILE* OpenFile(std::wstring_view fileName, Mode mode)
-		{
-			FILE* pFile{ nullptr };
-			errno_t ecode{ 1 };
-
-			if (mode == Mode::Read)
-				ecode = _wfopen_s(&pFile, fileName.data(), L"rb");
-			else if (mode == Mode::Write)
-				ecode = _wfopen_s(&pFile, fileName.data(), L"wb");
-
-			if (ecode != 0 || !pFile)
-				throw std::runtime_error("File cannot be opened");
-
-			return pFile;
-		}
-
 		bool IsPng(FILE* pFile, int numBytesToRead) 
 		{
 			auto buf = std::make_unique<unsigned char[]>(numBytesToRead);

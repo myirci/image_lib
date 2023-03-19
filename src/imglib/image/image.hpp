@@ -156,7 +156,7 @@ namespace imglib
 
         std::unique_ptr<T[]> data() const
         {
-            auto bufferSize{ data_size() };
+            auto bufferSize{ size() * m_numChannels };
             if (bufferSize == 0)
                 return nullptr;
 

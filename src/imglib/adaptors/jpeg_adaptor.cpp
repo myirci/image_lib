@@ -50,12 +50,10 @@ namespace imglib::jpeg
         }
     }
     
-    void Write(const std::string& fileName, int quality, const Image<data_type>& img)
+    void Write(std::wstring_view fileName, int quality, const Image<data_type>& img)
     {
-        // Open the file
-        FILE* outFile{ nullptr };
-        if (outFile = fopen(fileName.c_str(), "wb"); outFile == nullptr)
-            throw std::runtime_error(std::format("File cannot be opened: {}", fileName));
+        // Open the file for writing the jpeg image.
+        FILE* outFile = OpenFile(fileName, Mode::Write);
 
         bool success{ false };
         jpeg_compress_struct cinfo{};
@@ -108,15 +106,12 @@ namespace imglib::jpeg
         }
     }
 
-    Image<data_type> Read(const std::string& fileName)
+    Image<data_type> Read(std::wstring_view fileName)
     {
-        // Open the file
-        FILE* inFile;
-        if (inFile = fopen(fileName.c_str(), "rb"); inFile == nullptr)
-            throw std::runtime_error(std::format("File cannot be opened: {}", fileName));
+        // Open the jpeg file for reading.
+        FILE* inFile = OpenFile(fileName, Mode::Read);
 
         bool success{ false };
-
         jpeg_decompress_struct cinfo{};
 
         try 
