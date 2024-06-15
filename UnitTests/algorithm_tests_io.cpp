@@ -6,6 +6,8 @@
 #include <imglib/adaptors/jpeg_adaptor.hpp>
 #include <imglib/adaptors/png_adaptor.hpp>
 #include <imglib/algorithms/image_generation.hpp>
+#include <imglib/algorithms/geometric_modifications.hpp>
+#include <imglib/algorithms/homogeneous_point_operations.hpp>
 #include <imglib/image/image.hpp>
 
 using namespace imglib;
@@ -136,4 +138,68 @@ TEST(AlgorithmTestsIO, image_rgb_to_grayscale_conversion)
     auto imgGray = rgb_to_grayscale(imgRgb);
     write_jpeg(imgGray, L"petit_prince_grayscale.jpg");
     write_png(imgGray, L"petit_prince_grayscale.png");
+}
+
+TEST(AlgorithmTestsIO, image_shrink_grayscale)
+{
+    auto imgGrayscale = read_jpeg(L"petit_prince_grayscale.jpg");
+    Image<jpeg::data_type> imgShrinkedGrayscale = algorithm::Shrink(imgGrayscale, 2);
+    write_jpeg(imgShrinkedGrayscale, L"petit_prince_grayscale_shrinked.jpg");
+    write_png(imgShrinkedGrayscale, L"petit_prince_grayscale_shrinked.png");
+}
+
+TEST(AlgorithmTestsIO, image_shrink_rgb)
+{
+    auto imgRgb = read_jpeg(L"petit_prince.jpg");
+    Image<jpeg::data_type> imgShrinkedRgb = algorithm::Shrink(imgRgb, 8);
+    write_jpeg(imgShrinkedRgb, L"petit_prince_rgb_shrinked.jpg");
+    write_png(imgShrinkedRgb, L"petit_prince_rgb_shrinked.png");
+}
+
+TEST(AlgorithmTestsIO, image_increase_contrast_grayscale) 
+{
+    auto img = read_jpeg(L"petit_prince_grayscale.jpg");
+    algorithm::contrast(img, 1.5);
+    write_jpeg(img, L"petit_prince_grayscale_increased_contrast.jpg");
+    write_png(img, L"petit_prince_grayscale_increased_contrast.png");
+}
+
+TEST(AlgorithmTestsIO, image_increase_contrast_rgb) 
+{
+    auto img = read_jpeg(L"petit_prince.jpg");
+    algorithm::contrast(img, 1.5);
+    write_jpeg(img, L"petit_prince_rgb_increased_contrast.jpg");
+    write_png(img, L"petit_prince_rgb_increased_contrast.png");
+}
+
+TEST(AlgorithmTestsIO, image_decrease_contrast_grayscale)
+{
+    auto img = read_jpeg(L"petit_prince_grayscale.jpg");
+    algorithm::contrast(img, 0.5);
+    write_jpeg(img, L"petit_prince_grayscale_decreased_contrast.jpg");
+    write_png(img, L"petit_prince_grayscale_decreased_contrast.png");
+}
+
+TEST(AlgorithmTestsIO, image_decrease_contrast_rgb)
+{
+    auto img = read_jpeg(L"petit_prince.jpg");
+    algorithm::contrast(img, 0.5);
+    write_jpeg(img, L"petit_prince_rgb_decreased_contrast.jpg");
+    write_png(img, L"petit_prince_rgb_decreased_contrast.png");
+}
+
+TEST(AlgorithmTestsIO, image_invert_grayscale) 
+{
+    auto img = read_jpeg(L"petit_prince_grayscale.jpg");
+    algorithm::invert(img);
+    write_jpeg(img, L"petit_prince_grayscale_inverted.jpg");
+    write_png(img, L"petit_prince_grayscale_inverted.png");
+}
+
+TEST(AlgorithmTestsIO, image_invert_rgb)
+{
+    auto img = read_jpeg(L"petit_prince.jpg");
+    algorithm::invert(img);
+    write_jpeg(img, L"petit_prince_rgb_inverted.jpg");
+    write_png(img, L"petit_prince_rgb_inverted.png");
 }

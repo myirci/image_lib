@@ -352,9 +352,7 @@ namespace imglib::png
 					{
 						std::uint16_t val = (*pImg16)(k)(i, j);
 						row_pointers[i][byte_index++] = (val >> 8);
-						row_pointers[i][byte_index++] = val;
-						// row_pointers[i][byte_index++] = val;
-						// row_pointers[i][byte_index++] = (val >> 8);
+						row_pointers[i][byte_index++] = static_cast<uint8_t>(val);
 					}
 				}
 			}

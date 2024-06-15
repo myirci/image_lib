@@ -87,10 +87,22 @@ namespace imglib
             return *this;
         }
         
-        void operator=(T value) 
+        Image<T>& operator=(T value) 
         { 
             for (auto& ch : m_channels)
                 *ch = value;
+
+            return *this;
+        }
+
+        template <size_t NumChannels>
+        Image<T>& operator=(const Color<T, NumChannels>& clr)
+        {
+            if (NumChannels != m_numChannels)
+                throw std::invalid_argument("Number of channels mismatch.");
+
+            for (size_t i = 0; i < NumChannels; i++) 
+                *m_channels[i] = clr(i);
         }
 
         template <std::convertible_to<T> ...U>
@@ -134,7 +146,7 @@ namespace imglib
         void set_pixel(size_t index, const Color<T, NumChannels>& clr)
         {
             if (NumChannels != m_numChannels)
-                throw std::invalid_argument("Numbe of channels mismatch.");
+                throw std::invalid_argument("Number of channels mismatch.");
 
             for (size_t i = 0; i < NumChannels; i++)
                 (*m_channels[i])(index) = clr(i);

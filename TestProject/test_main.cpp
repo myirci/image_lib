@@ -1,6 +1,4 @@
 #include "convolution_tests.hpp"
-#include "homogeneous_point_operations_tests.hpp"
-#include "shrink_tests.hpp"
 
 #include <imglib/image/channel.hpp>
 #include <iterator>
@@ -10,29 +8,26 @@
 
 #include <imglib/adaptors/png_adaptor.hpp>
 #include <imglib/adaptors/jpeg_adaptor.hpp>
+#include <imglib/algorithms/histogram.hpp>
 
 int main(void) 
 {
-	auto img = imglib::png::Read(L"C:/Users/myirc/source/repos/github/image_lib/data/output/bgyn6a16_copy.png");
-	imglib::png::Write(img, L"C:/Users/myirc/source/repos/github/image_lib/data/output/bgyn6a16_copy2.png");
-
-	/*Logger log("C:/Users/myirc/source/repos/github/image_lib/data/log/log1.txt");
-	log.WriteLine(1, 2);
-	log.WriteLine("Test", "Dost", 34);*/
-
-	/*GenerateAveragedImages();
-	GenerateEdgeDetectedImages();
-	GenerateGradientImages();
-
-	GenerateIncreasedContrastImages();
-	GenerateDecreasedContrastImages();
-	GenerateAutoContrastImages();
-	GenerateModifiedAutoContrastImages();
-	GenerateInvertedImages();
+	auto img = imglib::jpeg::Read(L"C:/Users/myirc/source/repos/github/image_lib/data/input/petit_prince_grayscale.jpg");
 	
-	GenerateShrinkedImageGrayscale();
-	GenerateShrinkedImageRGB();*/
+	imglib::algorithm::HistogramImageSettings<std::uint8_t, 1> histogramSettings{};
+	histogramSettings.back = imglib::Color<std::uint8_t, 1>{ imglib::ColorSpace::GrayScale, 255 };
+	histogramSettings.front = imglib::Color<std::uint8_t, 1>{ imglib::ColorSpace::GrayScale, 0 };
+	histogramSettings.bin_width = 30;
+	histogramSettings.padding = 20;
+	histogramSettings.num_bins = 15;
+	histogramSettings.max_bin_height = 512;
 
+	auto histogramImg = imglib::algorithm::get_histogram_image<imglib::jpeg::data_type, std::uint8_t, 1>(img(0), histogramSettings);
+	imglib::png::Write(histogramImg, L"C:/Users/myirc/source/repos/github/image_lib/data/output/petit_prince_graysacele_histogram1.png");
+
+	// GenerateAveragedImages();
+	// GenerateEdgeDetectedImages();
+	// GenerateGradientImages();
 	return 0;
 }
 

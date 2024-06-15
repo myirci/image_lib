@@ -169,7 +169,11 @@ namespace imglib
 
         T const& operator()(size_t index) const { return m_data[index]; }
 
-        void operator=(T value) { std::fill(m_data.get(), m_data.get() + size(), value); }
+        Channel<T>& operator=(T value) 
+        { 
+            std::fill(m_data.get(), m_data.get() + size(), value);
+            return *this;
+        }
 
         // Iterators
         iterator begin() noexcept { return iterator{ m_data.get() }; }

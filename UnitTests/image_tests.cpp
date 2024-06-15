@@ -609,6 +609,7 @@ TEST(ImageTests, SetPixel_test5)
 	EXPECT_FLOAT_EQ(img(1)(3, 4), 0.2f);
 	EXPECT_FLOAT_EQ(img(2)(3, 4), 0.3f);
 }
+
 TEST(ImageTests, Resize)
 {
 	Image<uint8_t> img{ 10, 20, ColorSpace::RGB, 3 };

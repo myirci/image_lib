@@ -6,6 +6,7 @@
 
 #include <imglib/adaptors/jpeg_adaptor.hpp>
 #include <imglib/algorithms/image_generation.hpp>
+#include <imglib/algorithms/histogram.hpp>
 #include <imglib/image/image.hpp>
 
 using namespace imglib;
@@ -115,4 +116,77 @@ TEST(AlgorithmTests, image_bars_rgb)
         for (auto it = img(2).row_begin(i); it != img(2).row_end(i); it++)
             EXPECT_EQ(b[j++], *it);
     }
+}
+
+TEST(AlgorithmTests, histogram_test1) 
+{
+    auto img1 = Image<std::uint8_t>(5, 10, ColorSpace::GrayScale, 1, 0);
+    img1(0)(0) = 25;
+    img1(0)(1) = 50;
+    img1(0)(2) = 75;
+    img1(0)(3) = 100;
+    img1(0)(4) = 125;
+    img1(0)(5) = 150;
+    img1(0)(6) = 175;
+    img1(0)(7) = 200;
+    img1(0)(8) = 225;
+    img1(0)(9) = 250;
+
+    auto histVec = algorithm::get_histogram(img1(0), 10);
+    EXPECT_EQ(histVec[0], 41);
+    for (size_t i = 1; i < 10; i++)
+        EXPECT_EQ(histVec[i], 1);
+}
+
+TEST(AlgorithmTests, histogram_test2) 
+{
+    algorithm::HistogramImageSettings<std::uint8_t, 1> settings;
+    settings.bin_width = 30;
+    settings.num_bins = 10;
+    settings.max_bin_height = 300;
+    settings.padding = 10;
+    settings.front = Color<std::uint8_t, 1>{ColorSpace::GrayScale, 0 };
+    settings.back = Color<std::uint8_t, 1>{ ColorSpace::GrayScale, 255 };
+
+    auto img1 = Image<std::uint8_t>(2, 3, ColorSpace::GrayScale, 1, 0);
+    img1(0)(0) = 53;
+    img1(0)(1) = 45;
+    img1(0)(2) = 125;
+    img1(0)(3) = 34;
+    img1(0)(4) = 67;
+    img1(0)(5) = 2;
+
+    auto histVec = algorithm::get_histogram(img1(0), 10);
+    EXPECT_EQ(histVec[0], 1);
+    EXPECT_EQ(histVec[1], 2);
+    EXPECT_EQ(histVec[2], 2);
+    EXPECT_EQ(histVec[3], 0);
+    EXPECT_EQ(histVec[4], 1);
+    EXPECT_EQ(histVec[5], 0);
+    EXPECT_EQ(histVec[6], 0);
+    EXPECT_EQ(histVec[7], 0);
+    EXPECT_EQ(histVec[8], 0);
+    EXPECT_EQ(histVec[9], 0);
+    
+    auto histImg = algorithm::get_histogram_image(img1(0), settings);
+
+    EXPECT_EQ(histImg.height(), settings.max_bin_height + 2 * settings.padding);
+    EXPECT_EQ(histImg.width(), settings.num_bins * settings.bin_width + 2 * settings.padding);
+
+    // Verify that image padding is all back color
+    for (size_t i = 0; i < settings.padding; i++)
+        for (size_t j = 0; j < histImg.width(); j++)
+            EXPECT_EQ(histImg(0)(i, j), settings.back(0));
+
+    for (size_t i = histImg.height() - 1; i > histImg.height() - 1 - settings.padding; i--)
+        for (size_t j = 0; j < histImg.width(); j++)
+            EXPECT_EQ(histImg(0)(i, j), settings.back(0));
+
+    for (size_t j = 0; j < settings.padding; j++)
+        for (size_t i = 0; i < histImg.height(); i++)
+            EXPECT_EQ(histImg(0)(i, j), settings.back(0));
+
+    for (size_t j = histImg.width() - 1; j > histImg.width() - 1 - settings.padding; j--)
+        for (size_t i = 0; i < histImg.height(); i++)
+            EXPECT_EQ(histImg(0)(i, j), settings.back(0));
 }

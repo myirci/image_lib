@@ -178,6 +178,8 @@ namespace imglib
 
 			auto temp = other;
 			*this = std::move(temp);
+
+            return *this;
 		}
 
 		// Move assignment operator

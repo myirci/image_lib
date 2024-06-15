@@ -76,5 +76,8 @@
     <ClInclude Include="..\src\imglib\adaptors\png_adaptor.hpp">
       <Filter>Adaptor</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\imglib\algorithms\histogram.hpp">
+      <Filter>Algorithms</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

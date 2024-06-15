@@ -46,10 +46,12 @@ namespace imglib
         }
 
     private:
+
         int convert(int i, int j) const // i: column (horizontal) index, j: row (vertical) index
         { 
             return (j + (m_rows - 1) / 2) * m_columns + i + (m_columns - 1) / 2;
         }
+
         int m_rows;
         int m_columns;
         double m_scaleFactor;

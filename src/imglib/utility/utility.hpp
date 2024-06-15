@@ -14,4 +14,6 @@ namespace imglib
 	};
 
 	FILE* OpenFile(std::wstring_view fileName, Mode mode);
+
+	std::vector<double> normalize(const std::vector<size_t>& histogram);
 }

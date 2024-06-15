@@ -27,6 +27,7 @@
     <ClInclude Include="..\src\imglib\adaptors\jpeg_adaptor.hpp" />
     <ClInclude Include="..\src\imglib\adaptors\png_adaptor.hpp" />
     <ClInclude Include="..\src\imglib\algorithms\convolution.hpp" />
+    <ClInclude Include="..\src\imglib\algorithms\histogram.hpp" />
     <ClInclude Include="..\src\imglib\algorithms\homogeneous_point_operations.hpp" />
     <ClInclude Include="..\src\imglib\algorithms\image_generation.hpp" />
     <ClInclude Include="..\src\imglib\algorithms\geometric_modifications.hpp" />

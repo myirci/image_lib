@@ -1,5 +1,6 @@
 
 #include <stdexcept>
+#include <algorithm>
 
 #include <imglib/utility/utility.hpp>
 
@@ -41,5 +42,17 @@ namespace imglib
             throw std::runtime_error("File cannot be opened");
 
         return pFile;
+    }
+
+    std::vector<double> normalize(const std::vector<size_t>& histogram) 
+    {
+        auto it = std::max_element(histogram.begin(), histogram.end());
+        double maxVal = static_cast<double>(*it);
+
+        std::vector<double> normalized(histogram.size());
+        
+        std::transform(histogram.begin(), histogram.end(), normalized.begin(), [maxVal](size_t elem) { return static_cast<double>(elem) / maxVal; });
+
+        return normalized;
     }
 }

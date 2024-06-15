@@ -18,24 +18,12 @@
     <ClInclude Include="convolution_tests.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="homogeneous_point_operations_tests.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="shrink_tests.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="test_config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="convolution_tests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="homogeneous_point_operations_tests.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="shrink_tests.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="test_main.cpp">

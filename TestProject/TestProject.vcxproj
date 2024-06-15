@@ -122,6 +122,7 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\myirc\source\repos\github\image_lib\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,14 +138,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="convolution_tests.hpp" />
-    <ClInclude Include="homogeneous_point_operations_tests.hpp" />
-    <ClInclude Include="shrink_tests.hpp" />
     <ClInclude Include="test_config.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="convolution_tests.cpp" />
-    <ClCompile Include="homogeneous_point_operations_tests.cpp" />
-    <ClCompile Include="shrink_tests.cpp" />
     <ClCompile Include="test_main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
